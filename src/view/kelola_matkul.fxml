@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" fx:id="kelolaMataKuliahPane" prefHeight="422.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.KelolaMatkul">
+    <children>
+        <AnchorPane id="AnchorPane" fx:id="pane" layoutX="10.0" layoutY="10.0" prefHeight="422.0" prefWidth="668.0">
+            <children>
+                <Text layoutX="234.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kelola Mata Kuliah">
+                    <font>
+                        <Font size="39.0" />
+                    </font>
+                </Text>
+                <TextField fx:id="namaField" layoutX="14.0" layoutY="76.0" prefHeight="25.0" prefWidth="192.0" promptText="Nama" />
+                <TextField fx:id="dosenField" layoutX="14.0" layoutY="108.0" prefHeight="25.0" prefWidth="192.0" promptText="Dosen" />
+                <TextField fx:id="sksField" layoutX="14.0" layoutY="140.0" prefHeight="25.0" prefWidth="192.0" promptText="SKS" />
+                <TextField fx:id="kelasField" layoutX="14.0" layoutY="173.0" prefHeight="25.0" prefWidth="192.0" promptText="Kelas" />
+                <Button fx:id="btnTambah" layoutX="17.0" layoutY="211.0" mnemonicParsing="false" onAction="#tambahMataKuliahAction" text="Tambah" />
+                <Button fx:id="btnUpdate" layoutX="86.0" layoutY="211.0" mnemonicParsing="false" onAction="#updateMataKuliahAction" text="Update" />
+                <Button fx:id="btnHapus" layoutX="154.0" layoutY="211.0" mnemonicParsing="false" onAction="#hapusMataKuliahAction" text="Hapus" />
+                <TableView fx:id="tblDataMataKuliah" layoutX="234.0" layoutY="72.0" prefHeight="338.0" prefWidth="422.0">
+                    <columns>
+                        <TableColumn fx:id="tblKolomNama" prefWidth="114.0" text="Nama" />
+                        <TableColumn fx:id="tblKolomDosen" minWidth="3.0" prefWidth="83.0" text="Dosen" />
+                        <TableColumn fx:id="tblKolomSKS" prefWidth="101.0" text="SKS" />
+                        <TableColumn fx:id="tblKolomKelas" prefWidth="123.0" text="Kelas" />
+                    </columns>
+                </TableView>
+                <Button fx:id="btnDashboard" defaultButton="true" layoutX="14.0" layoutY="365.0" mnemonicParsing="false" onAction="#toDashboard" prefHeight="43.0" prefWidth="89.0" text="Dashboard" textFill="RED">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>
