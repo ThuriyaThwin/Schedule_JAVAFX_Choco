@@ -43,10 +43,11 @@ public class KelolaKelas implements Initializable {
     private ObservableList<Kelas> ol;
     private Connection connec;
     private PreparedStatement prs;
-    private ResultSet rs;
+    private ResultSet rs_kelas;
     private Statement stmt;
     private SQLHelper sqlHelper = new SQLHelper();
     private String id_kelas = null;
+    private String nama_prodi = null;
 
     /**
      * Initializes the controller class.
@@ -147,11 +148,11 @@ public class KelolaKelas implements Initializable {
     private void loadDataFromDatabase() {
         ol.clear();
         try {
-            String sql = "SELECT * FROM kelas";
-            rs = connec.createStatement().executeQuery(sql);
+            String sql_kelas = "SELECT kelas.id_kelas, kelas.nama, kelas.jumlah, prodi.nama AS prodi FROM kelas INNER JOIN prodi ON kelas.prodi = prodi.id_prodi";
+            rs_kelas = connec.createStatement().executeQuery(sql_kelas);
 
-            while (rs.next()) {
-                ol.add(new Kelas(rs.getString("id_kelas"), rs.getString("nama"), rs.getString("prodi"), rs.getString("jumlah")));
+            while (rs_kelas.next()) {
+                ol.add(new Kelas(rs_kelas.getString("id_kelas"), rs_kelas.getString("nama"), rs_kelas.getString("prodi"), rs_kelas.getString("jumlah")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(KelolaKelas.class.getName()).log(Level.SEVERE, null, ex);

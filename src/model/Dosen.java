@@ -2,13 +2,15 @@ package model;
 
 public class Dosen {
     private String nip;
+    private String inisial;
     private String nama;
 
     public Dosen() {
     }
 
-    public Dosen(String nip, String nama) {
+    public Dosen(String nip, String inisial, String nama) {
         this.nip = nip;
+        this.inisial = inisial;
         this.nama = nama;
     }
 
@@ -18,6 +20,14 @@ public class Dosen {
 
     public void setNip(String nip) {
         this.nip = nip;
+    }
+
+    public String getInisial() {
+        return inisial;
+    }
+
+    public void setInisial(String inisial) {
+        this.inisial = inisial;
     }
 
     public String getNama() {
@@ -31,7 +41,8 @@ public class Dosen {
     @Override
     public String toString() {
         return "Dosen{" +
-                "nip=" + nip +
+                "nip='" + nip + '\'' +
+                ", inisial='" + inisial + '\'' +
                 ", nama='" + nama + '\'' +
                 '}';
     }

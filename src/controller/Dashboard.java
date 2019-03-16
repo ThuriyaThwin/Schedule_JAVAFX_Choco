@@ -4,10 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
@@ -48,6 +44,22 @@ public class Dashboard implements Initializable {
     private void kelolaMatkulAction(ActionEvent event) {
         try{
             AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/kelola_matkul.fxml"));
+            pane.getChildren().setAll(ap);
+        }catch(Exception e){ e.printStackTrace(); }
+    }
+
+    @FXML
+    private void kelolaRuanganAction(ActionEvent event) {
+        try{
+            AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/kelola_ruangan.fxml"));
+            pane.getChildren().setAll(ap);
+        }catch(Exception e){ e.printStackTrace(); }
+    }
+
+    @FXML
+    private void kelolaJadwalAction(ActionEvent event) {
+        try{
+            AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/generate_jadwal.fxml"));
             pane.getChildren().setAll(ap);
         }catch(Exception e){ e.printStackTrace(); }
     }

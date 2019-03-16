@@ -12,31 +12,34 @@
     <children>
         <AnchorPane id="AnchorPane" fx:id="pane" layoutX="10.0" layoutY="10.0" prefHeight="422.0" prefWidth="668.0">
             <children>
-                <Text layoutX="234.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kelola Mata Kuliah">
+                <Text layoutX="6.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Mata Kuliah" underline="true">
                     <font>
-                        <Font size="39.0" />
+                        <Font size="28.0" />
                     </font>
                 </Text>
-                <TextField fx:id="namaField" layoutX="14.0" layoutY="76.0" prefHeight="25.0" prefWidth="192.0" promptText="Nama" />
-                <TextField fx:id="dosenField" layoutX="14.0" layoutY="108.0" prefHeight="25.0" prefWidth="192.0" promptText="Dosen" />
-                <TextField fx:id="sksField" layoutX="14.0" layoutY="140.0" prefHeight="25.0" prefWidth="192.0" promptText="SKS" />
-                <TextField fx:id="kelasField" layoutX="14.0" layoutY="173.0" prefHeight="25.0" prefWidth="192.0" promptText="Kelas" />
-                <Button fx:id="btnTambah" layoutX="17.0" layoutY="211.0" mnemonicParsing="false" onAction="#tambahMataKuliahAction" text="Tambah" />
-                <Button fx:id="btnUpdate" layoutX="86.0" layoutY="211.0" mnemonicParsing="false" onAction="#updateMataKuliahAction" text="Update" />
-                <Button fx:id="btnHapus" layoutX="154.0" layoutY="211.0" mnemonicParsing="false" onAction="#hapusMataKuliahAction" text="Hapus" />
-                <TableView fx:id="tblDataMataKuliah" layoutX="234.0" layoutY="72.0" prefHeight="338.0" prefWidth="422.0">
+                <TextField fx:id="namaField" layoutX="16.0" layoutY="163.0" prefHeight="25.0" prefWidth="192.0" promptText="Nama" />
+                <TextField fx:id="kodeField" layoutX="16.0" layoutY="194.0" prefHeight="25.0" prefWidth="192.0" promptText="Kode" />
+                <TextField fx:id="sksField" layoutX="16.0" layoutY="225.0" prefHeight="25.0" prefWidth="192.0" promptText="SKS" />
+                <Button fx:id="btnTambah" layoutX="19.0" layoutY="261.0" mnemonicParsing="false" onAction="#tambahMataKuliahAction" text="Tambah" />
+                <Button fx:id="btnUpdate" layoutX="88.0" layoutY="261.0" mnemonicParsing="false" onAction="#updateMataKuliahAction" text="Update" />
+                <Button fx:id="btnHapus" layoutX="156.0" layoutY="261.0" mnemonicParsing="false" onAction="#hapusMataKuliahAction" text="Hapus" />
+                <TableView fx:id="tblDataMataKuliah" layoutX="233.0" layoutY="109.0" prefHeight="386.0" prefWidth="533.0">
                     <columns>
-                        <TableColumn fx:id="tblKolomNama" prefWidth="114.0" text="Nama" />
-                        <TableColumn fx:id="tblKolomDosen" minWidth="3.0" prefWidth="83.0" text="Dosen" />
-                        <TableColumn fx:id="tblKolomSKS" prefWidth="101.0" text="SKS" />
-                        <TableColumn fx:id="tblKolomKelas" prefWidth="123.0" text="Kelas" />
+                        <TableColumn fx:id="tblKolomNama" prefWidth="238.0" text="Nama" />
+                        <TableColumn fx:id="tblKolomKode" minWidth="3.0" prefWidth="209.0" text="Kode" />
+                        <TableColumn fx:id="tblKolomSKS" prefWidth="85.0" text="SKS" />
                     </columns>
                 </TableView>
-                <Button fx:id="btnDashboard" defaultButton="true" layoutX="14.0" layoutY="365.0" mnemonicParsing="false" onAction="#toDashboard" prefHeight="43.0" prefWidth="89.0" text="Dashboard" textFill="RED">
+                <Button fx:id="btnDashboard" defaultButton="true" layoutX="16.0" layoutY="35.0" mnemonicParsing="false" onAction="#toDashboard" prefHeight="43.0" prefWidth="192.0" text="MAIN MENU" textFill="RED">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
+                <Text fill="#e13434" layoutX="233.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aplikasi Jadwal Perkuliahan" textAlignment="CENTER" wrappingWidth="533.000002861023">
+                    <font>
+                        <Font name="System Bold" size="35.0" />
+                    </font>
+                </Text>
             </children>
         </AnchorPane>
     </children>

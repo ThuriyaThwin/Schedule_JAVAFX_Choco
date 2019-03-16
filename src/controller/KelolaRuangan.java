@@ -11,8 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import model.Kelas;
-import model.MataKuliah;
+import model.Ruangan;
 
 import java.net.URL;
 import java.sql.*;
@@ -20,34 +19,35 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class KelolaMatkul implements Initializable {
+public class KelolaRuangan implements Initializable {
 
     @FXML
-    private AnchorPane kelolaMataKuliahPane;
+    private AnchorPane kelolaRuanganPane;
     @FXML
     private AnchorPane pane;
     @FXML
     private TextField namaField;
     @FXML
-    private TextField kodeField;
+    private TextField jenisField;
     @FXML
-    private TextField sksField;
+    private TextField kapasitasField;
     @FXML
-    private TableView<MataKuliah> tblDataMataKuliah;
+    private TableView<Ruangan> tblDataRuangan;
     @FXML
-    private TableColumn<MataKuliah, String> tblKolomNama;
+    private TableColumn<Ruangan, String> tblKolomNama;
     @FXML
-    private TableColumn<MataKuliah, String> tblKolomKode;
+    private TableColumn<Ruangan, String> tblKolomJenis;
     @FXML
-    private TableColumn<MataKuliah, String> tblKolomSKS;
+    private TableColumn<Ruangan, String> tblKolomKapasitas;
 
-    private ObservableList<MataKuliah> ol;
+    private ObservableList<Ruangan> ol;
     private Connection connec;
     private PreparedStatement prs;
-    private ResultSet rs;
+    private ResultSet rs_ruangan;
     private Statement stmt;
     private SQLHelper sqlHelper = new SQLHelper();
-    private String id_mata_kuliah = null;
+    private String id_ruangan = null;
+    private String nama_jenis = null;
 
     /**
      * Initializes the controller class.
@@ -62,36 +62,36 @@ public class KelolaMatkul implements Initializable {
     }
 
     @FXML
-    private void tambahMataKuliahAction(ActionEvent event) {
+    private void tambahRuanganAction(ActionEvent event) {
         String nama = namaField.getText();
-        String kode = kodeField.getText();
-        String sks = sksField.getText();
+        String jenis = jenisField.getText();
+        String kapasitas = kapasitasField.getText();
 
         try {
             stmt = (Statement) connec.createStatement();
 
-            String sql = "INSERT INTO mata_kuliah (nama, kode, sks)"
-                    + "VALUES('" + nama + "', '" + kode + "', '" + sks + "')";
+            String sql = "INSERT INTO ruangan (nama, jenis, kapasitas)"
+                    + "VALUES('" + nama + "', '" + jenis + "', '" + kapasitas + "')";
             int exec = stmt.executeUpdate(sql);
             stmt.close();
 
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/kelola_matkul.fxml"));
-            kelolaMataKuliahPane.getChildren().setAll(pane);
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/kelola_ruangan.fxml"));
+            kelolaRuanganPane.getChildren().setAll(pane);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void updateMataKuliahAction(ActionEvent event) {
-        String sql = "UPDATE mata_kuliah SET nama=?, kode=?, sks=? WHERE id_mata_kuliah=?";
+    private void updateRuanganAction(ActionEvent event) {
+        String sql = "UPDATE ruangan SET nama=?, jenis=?, kapasitas=? WHERE id_ruangan=?";
 
         try {
             prs = connec.prepareStatement(sql);
             prs.setString(1, namaField.getText());
-            prs.setString(2, kodeField.getText());
-            prs.setString(3, sksField.getText());
-            prs.setString(4, id_mata_kuliah);
+            prs.setString(2, jenisField.getText());
+            prs.setString(3, kapasitasField.getText());
+            prs.setString(4, id_ruangan);
             int exec = prs.executeUpdate();
 
             if(exec == 1){
@@ -104,17 +104,17 @@ public class KelolaMatkul implements Initializable {
 
             prs.close();
         } catch (SQLException ex) {
-            Logger.getLogger(KelolaMatkul.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KelolaRuangan.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @FXML
-    private void hapusMataKuliahAction(ActionEvent event) {
-        String sql = "DELETE FROM mata_kuliah WHERE id_mata_kuliah = ?";
+    private void hapusRuanganAction(ActionEvent event) {
+        String sql = "DELETE FROM ruangan WHERE id_ruangan = ?";
 
         try {
             prs = connec.prepareStatement(sql);
-            prs.setString(1, id_mata_kuliah);
+            prs.setString(1, id_ruangan);
             int exec = prs.executeUpdate();
 
             if(exec == 1){
@@ -125,7 +125,7 @@ public class KelolaMatkul implements Initializable {
                 clearText();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(KelolaMatkul.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KelolaRuangan.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -133,7 +133,7 @@ public class KelolaMatkul implements Initializable {
     private void toDashboard(ActionEvent event) {
         try{
             AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/dashboard.fxml"));
-            kelolaMataKuliahPane.getChildren().setAll(ap);
+            kelolaRuanganPane.getChildren().setAll(ap);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -141,41 +141,41 @@ public class KelolaMatkul implements Initializable {
 
     private void setCellValue() {
         tblKolomNama.setCellValueFactory(new PropertyValueFactory<>("nama"));
-        tblKolomKode.setCellValueFactory(new PropertyValueFactory<>("kode"));
-        tblKolomSKS.setCellValueFactory(new PropertyValueFactory<>("sks"));
+        tblKolomJenis.setCellValueFactory(new PropertyValueFactory<>("jenis"));
+        tblKolomKapasitas.setCellValueFactory(new PropertyValueFactory<>("kapasitas"));
     }
 
     private void loadDataFromDatabase() {
         ol.clear();
         try {
-            String sql = "SELECT * FROM mata_kuliah";
-            rs = connec.createStatement().executeQuery(sql);
+            String sql_ruangan = "SELECT ruangan.id_ruangan, ruangan.nama, ruangan.jenis AS jenis_id, ruangan.kapasitas, jenis_ruangan.nama AS jenis FROM ruangan INNER JOIN jenis_ruangan ON ruangan.jenis = jenis_ruangan.id_jenis_ruangan";
+            rs_ruangan = connec.createStatement().executeQuery(sql_ruangan);
 
-            while (rs.next()) {
-                ol.add(new MataKuliah(rs.getString("id_mata_kuliah"), rs.getString("nama"), rs.getString("kode"), rs.getString("sks")));
+            while (rs_ruangan.next()) {
+                ol.add(new Ruangan(rs_ruangan.getString("id_ruangan"), rs_ruangan.getString("nama"), rs_ruangan.getString("jenis"), rs_ruangan.getString("kapasitas")));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(KelolaMatkul.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KelolaRuangan.class.getName()).log(Level.SEVERE, null, ex);
         }
-        tblDataMataKuliah.setItems(ol);
+        tblDataRuangan.setItems(ol);
     }
 
     private void fromTableToTextField() {
-        tblDataMataKuliah.setOnMouseClicked((MouseEvent event) -> {
-            MataKuliah mataKuliah = tblDataMataKuliah.getItems().get(tblDataMataKuliah.getSelectionModel().getSelectedIndex());
-            if (mataKuliah != null){
-                id_mata_kuliah = mataKuliah.getId_mata_kuliah();
-                namaField.setText(mataKuliah.getNama());
-                kodeField.setText(mataKuliah.getKode());
-                sksField.setText(mataKuliah.getSks());
+        tblDataRuangan.setOnMouseClicked((MouseEvent event) -> {
+            Ruangan ruangan = tblDataRuangan.getItems().get(tblDataRuangan.getSelectionModel().getSelectedIndex());
+            if (ruangan != null){
+                id_ruangan = ruangan.getId_ruangan();
+                namaField.setText(ruangan.getNama());
+                jenisField.setText(ruangan.getJenis());
+                kapasitasField.setText(ruangan.getKapasitas());
             }
         });
     }
 
     private void clearText(){
         namaField.clear();
-        kodeField.clear();
-        sksField.clear();
+        jenisField.clear();
+        kapasitasField.clear();
     }
 
 }

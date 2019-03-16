@@ -26,9 +26,17 @@ public class KelolaDosen implements Initializable {
     @FXML
     private TextField namaField;
     @FXML
+    private TextField inisialField;
+    @FXML
+    private TextField nipField;
+    @FXML
     private TableView<Dosen> tblDataDosen;
     @FXML
     private TableColumn<Dosen, String> tblKolomNama;
+    @FXML
+    private TableColumn<Dosen, String> tblKolomInisial;
+    @FXML
+    private TableColumn<Dosen, String> tblKolomNIP;
 
     private ObservableList<Dosen> ol;
     private Connection connec;
@@ -36,7 +44,7 @@ public class KelolaDosen implements Initializable {
     private ResultSet rs;
     private Statement stmt;
     private SQLHelper sqlHelper = new SQLHelper();
-    private String nip = null;
+    String nip_temp = null;
 
     /**
      * Initializes the controller class.
@@ -53,12 +61,13 @@ public class KelolaDosen implements Initializable {
     @FXML
     private void tambahDosenAction(ActionEvent event) {
         String nama = namaField.getText();
+        String nip = nipField.getText();
+        String inisial = inisialField.getText();
 
         try {
             stmt = (Statement) connec.createStatement();
 
-            String sql = "INSERT INTO dosen (nama)"
-                    + "VALUES('" + nama + "')";
+            String sql = "INSERT INTO dosen (nip, inisial, nama)" + "VALUES('" + nip + "', '" +  inisial + "', '" +  nama + "')";
             int exec = stmt.executeUpdate(sql);
             stmt.close();
 
@@ -71,12 +80,14 @@ public class KelolaDosen implements Initializable {
 
     @FXML
     private void updateDosenAction(ActionEvent event) {
-        String sql = "UPDATE dosen SET nama=? WHERE nip=?";
+        String sql = "UPDATE dosen SET nip=?, inisial=?, nama=? WHERE nip=?";
 
         try {
             prs = connec.prepareStatement(sql);
-            prs.setString(1, namaField.getText());
-            prs.setString(2, nip);
+            prs.setString(1, nipField.getText());
+            prs.setString(2, inisialField.getText());
+            prs.setString(3, namaField.getText());
+            prs.setString(4, nip_temp);
             int exec = prs.executeUpdate();
 
             if(exec == 1){
@@ -99,7 +110,7 @@ public class KelolaDosen implements Initializable {
 
         try {
             prs = connec.prepareStatement(sql);
-            prs.setString(1, nip);
+            prs.setString(1, nipField.getText());
             int exec = prs.executeUpdate();
 
             if(exec == 1){
@@ -125,6 +136,8 @@ public class KelolaDosen implements Initializable {
     }
 
     private void setCellValue() {
+        tblKolomNIP.setCellValueFactory(new PropertyValueFactory<>("nip"));
+        tblKolomInisial.setCellValueFactory(new PropertyValueFactory<>("inisial"));
         tblKolomNama.setCellValueFactory(new PropertyValueFactory<>("nama"));
     }
 
@@ -135,7 +148,7 @@ public class KelolaDosen implements Initializable {
             rs = connec.createStatement().executeQuery(sql);
 
             while (rs.next()) {
-                ol.add(new Dosen(rs.getString("nip"), rs.getString("nama")));
+                ol.add(new Dosen(rs.getString("nip"), rs.getString("inisial"), rs.getString("nama")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(KelolaDosen.class.getName()).log(Level.SEVERE, null, ex);
@@ -147,13 +160,17 @@ public class KelolaDosen implements Initializable {
         tblDataDosen.setOnMouseClicked((MouseEvent event) -> {
             Dosen dosen = tblDataDosen.getItems().get(tblDataDosen.getSelectionModel().getSelectedIndex());
             if (dosen != null){
-                nip = dosen.getNip();
+                nipField.setText(dosen.getNip());
+                nip_temp = dosen.getNip();
                 namaField.setText(dosen.getNama());
+                inisialField.setText(dosen.getInisial());
             }
         });
     }
 
     private void clearText(){
+        nipField.clear();
+        inisialField.clear();
         namaField.clear();
     }
 

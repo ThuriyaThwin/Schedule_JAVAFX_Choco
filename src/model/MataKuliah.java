@@ -3,19 +3,17 @@ package model;
 public class MataKuliah {
     private String id_mata_kuliah;
     private String nama;
-    private String dosen;
+    private String kode;
     private String sks;
-    private String kelas;
 
     public MataKuliah() {
     }
 
-    public MataKuliah(String id_mata_kuliah, String nama, String dosen, String sks, String kelas) {
+    public MataKuliah(String id_mata_kuliah, String nama, String kode, String sks) {
         this.id_mata_kuliah = id_mata_kuliah;
         this.nama = nama;
-        this.dosen = dosen;
+        this.kode = kode;
         this.sks = sks;
-        this.kelas = kelas;
     }
 
     public String getId_mata_kuliah() {
@@ -34,12 +32,12 @@ public class MataKuliah {
         this.nama = nama;
     }
 
-    public String getDosen() {
-        return dosen;
+    public String getKode() {
+        return kode;
     }
 
-    public void setDosen(String dosen) {
-        this.dosen = dosen;
+    public void setKode(String kode) {
+        this.kode = kode;
     }
 
     public String getSks() {
@@ -50,22 +48,13 @@ public class MataKuliah {
         this.sks = sks;
     }
 
-    public String getKelas() {
-        return kelas;
-    }
-
-    public void setKelas(String kelas) {
-        this.kelas = kelas;
-    }
-
     @Override
     public String toString() {
         return "MataKuliah{" +
                 "id_mata_kuliah='" + id_mata_kuliah + '\'' +
                 ", nama='" + nama + '\'' +
-                ", dosen='" + dosen + '\'' +
+                ", kode='" + kode + '\'' +
                 ", sks='" + sks + '\'' +
-                ", kelas='" + kelas + '\'' +
                 '}';
     }
 }
