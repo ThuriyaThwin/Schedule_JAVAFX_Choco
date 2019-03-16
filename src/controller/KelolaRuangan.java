@@ -28,7 +28,7 @@ public class KelolaRuangan implements Initializable {
     @FXML
     private TextField namaField;
     @FXML
-    private TextField jenisField;
+    private ComboBox<String> jenisCombo;
     @FXML
     private TextField kapasitasField;
     @FXML
@@ -41,13 +41,14 @@ public class KelolaRuangan implements Initializable {
     private TableColumn<Ruangan, String> tblKolomKapasitas;
 
     private ObservableList<Ruangan> ol;
+    private ObservableList<String> jenis;
     private Connection connec;
     private PreparedStatement prs;
     private ResultSet rs_ruangan;
     private Statement stmt;
     private SQLHelper sqlHelper = new SQLHelper();
     private String id_ruangan = null;
-    private String nama_jenis = null;
+    private int id_jenis;
 
     /**
      * Initializes the controller class.
@@ -56,22 +57,37 @@ public class KelolaRuangan implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         connec = sqlHelper.getConnection();
         ol = FXCollections.observableArrayList();
+        jenis = FXCollections.observableArrayList();
+
         loadDataFromDatabase();
         fromTableToTextField();
         setCellValue();
+        fillComboBox();
     }
 
     @FXML
     private void tambahRuanganAction(ActionEvent event) {
         String nama = namaField.getText();
-        String jenis = jenisField.getText();
         String kapasitas = kapasitasField.getText();
+
+        try {
+            String sql = "SELECT * FROM jenis_ruangan WHERE nama=?";
+            prs = connec.prepareStatement(sql);
+            prs.setString(1, (String)jenisCombo.getSelectionModel().getSelectedItem());
+            rs_ruangan = prs.executeQuery();
+
+            while (rs_ruangan.next()){
+                id_jenis = Integer.valueOf(rs_ruangan.getString("id_jenis_ruangan"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erorr");
+        }
 
         try {
             stmt = (Statement) connec.createStatement();
 
             String sql = "INSERT INTO ruangan (nama, jenis, kapasitas)"
-                    + "VALUES('" + nama + "', '" + jenis + "', '" + kapasitas + "')";
+                    + "VALUES('" + nama + "', '" + id_jenis + "', '" + kapasitas + "')";
             int exec = stmt.executeUpdate(sql);
             stmt.close();
 
@@ -84,12 +100,24 @@ public class KelolaRuangan implements Initializable {
 
     @FXML
     private void updateRuanganAction(ActionEvent event) {
-        String sql = "UPDATE ruangan SET nama=?, jenis=?, kapasitas=? WHERE id_ruangan=?";
+        try {
+            String sql = "SELECT * FROM jenis_ruangan WHERE nama=?";
+            prs = connec.prepareStatement(sql);
+            prs.setString(1, (String)jenisCombo.getSelectionModel().getSelectedItem());
+            rs_ruangan = prs.executeQuery();
+
+            while (rs_ruangan.next()){
+                id_jenis = Integer.valueOf(rs_ruangan.getString("id_jenis_ruangan"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         try {
+            String sql = "UPDATE ruangan SET nama=?, jenis=?, kapasitas=? WHERE id_ruangan=?";
             prs = connec.prepareStatement(sql);
             prs.setString(1, namaField.getText());
-            prs.setString(2, jenisField.getText());
+            prs.setInt(2, id_jenis);
             prs.setString(3, kapasitasField.getText());
             prs.setString(4, id_ruangan);
             int exec = prs.executeUpdate();
@@ -166,7 +194,7 @@ public class KelolaRuangan implements Initializable {
             if (ruangan != null){
                 id_ruangan = ruangan.getId_ruangan();
                 namaField.setText(ruangan.getNama());
-                jenisField.setText(ruangan.getJenis());
+//                jenisField.setSelectionModel("");
                 kapasitasField.setText(ruangan.getKapasitas());
             }
         });
@@ -174,8 +202,38 @@ public class KelolaRuangan implements Initializable {
 
     private void clearText(){
         namaField.clear();
-        jenisField.clear();
+//        jenisField.clear();
         kapasitasField.clear();
     }
 
+    public void fillComboBox(){
+        try {
+            String sql = "SELECT * FROM jenis_ruangan";
+            prs = connec.prepareStatement(sql);
+            rs_ruangan = prs.executeQuery();
+
+            while (rs_ruangan.next()){
+                jenis.add(rs_ruangan.getString("nama"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        jenisCombo.setItems(jenis);
+    }
+
+    public void onClickCombo(ActionEvent actionEvent) {
+        String sql = "SELECT * FROM dosen WHERE nama=?";
+        try {
+            prs = connec.prepareStatement(sql);
+            prs.setString(1, (String)jenisCombo.getSelectionModel().getSelectedItem());
+            rs_ruangan = prs.executeQuery();
+
+            while (rs_ruangan.next()){
+                id_jenis = Integer.valueOf(rs_ruangan.getString("id_jenis_ruangan"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

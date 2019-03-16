@@ -1,7 +1,7 @@
 package model;
 
 public class Kelas {
-    private String id_kelas;
+    private int id_kelas;
     private String nama;
     private String prodi;
     private String jumlah;
@@ -9,18 +9,18 @@ public class Kelas {
     public Kelas() {
     }
 
-    public Kelas(String id_kelas, String nama, String prodi, String jumlah) {
+    public Kelas(int id_kelas, String nama, String prodi, String jumlah) {
         this.id_kelas = id_kelas;
         this.nama = nama;
         this.prodi = prodi;
         this.jumlah = jumlah;
     }
 
-    public String getId_kelas() {
+    public int getId_kelas() {
         return id_kelas;
     }
 
-    public void setId_kelas(String id_kelas) {
+    public void setId_kelas(int id_kelas) {
         this.id_kelas = id_kelas;
     }
 
@@ -51,7 +51,7 @@ public class Kelas {
     @Override
     public String toString() {
         return "Kelas{" +
-                "id_kelas='" + id_kelas + '\'' +
+                "id_kelas=" + id_kelas +
                 ", nama='" + nama + '\'' +
                 ", prodi='" + prodi + '\'' +
                 ", jumlah='" + jumlah + '\'' +

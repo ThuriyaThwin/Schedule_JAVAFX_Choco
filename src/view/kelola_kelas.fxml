@@ -8,6 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.ComboBox?>
 <AnchorPane id="AnchorPane" fx:id="kelolaKelasPane" prefHeight="422.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.KelolaKelas">
     <children>
         <AnchorPane id="AnchorPane" fx:id="pane" layoutX="10.0" layoutY="10.0" prefHeight="422.0" prefWidth="668.0">
@@ -19,7 +20,7 @@
                 </Text>
                 <TextField fx:id="namaField" layoutX="16.0" layoutY="163.0" prefHeight="25.0" prefWidth="192.0" promptText="Nama" />
                 <TextField fx:id="jumlahField" layoutX="16.0" layoutY="194.0" prefHeight="25.0" prefWidth="192.0" promptText="Jumlah" />
-                <TextField fx:id="prodiField" layoutX="16.0" layoutY="225.0" prefHeight="25.0" prefWidth="192.0" promptText="Prodi" />
+                <ComboBox fx:id="prodiCombo" layoutX="16.0" layoutY="225.0" onAction="#onClickCombo" prefHeight="25.0" prefWidth="192.0" promptText="Prodi" />
                 <Button fx:id="btnTambah" layoutX="19.0" layoutY="261.0" mnemonicParsing="false" onAction="#tambahKelasAction" text="Tambah" />
                 <Button fx:id="btnUpdate" layoutX="88.0" layoutY="261.0" mnemonicParsing="false" onAction="#updateKelasAction" text="Update" />
                 <Button fx:id="btnHapus" layoutX="156.0" layoutY="261.0" mnemonicParsing="false" onAction="#hapusKelasAction" text="Hapus" />
