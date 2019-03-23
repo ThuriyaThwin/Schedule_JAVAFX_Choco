@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import model.Kelas;
 
 import java.net.URL;
@@ -30,6 +31,8 @@ public class KelolaKelas implements Initializable {
     private TextField namaField;
     @FXML
     private TextField jumlahField;
+    @FXML
+    private Text totalData;
     @FXML
     private TableView<Kelas> tblDataKelas;
     @FXML
@@ -154,6 +157,7 @@ public class KelolaKelas implements Initializable {
             }
 
             next_id = i+1;
+            totalData.setText("Total Data : " + ol.size());
         } catch (SQLException ex) {
             Logger.getLogger(KelolaKelas.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -175,37 +179,4 @@ public class KelolaKelas implements Initializable {
         namaField.clear();
         jumlahField.clear();
     }
-
-//    public void fillComboBox(){
-////        prodiCombo.setEditable(true);
-//        try {
-//            String sql = "SELECT * FROM prodi";
-//            prs = connec.prepareStatement(sql);
-//            rs_kelas = prs.executeQuery();
-//
-//            while (rs_kelas.next()){
-//                prodi.add(rs_kelas.getString("nama"));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        prodiCombo.setItems(prodi);
-////        new AutoCompleteBoxHelper<>(prodiCombo);
-//    }
-//
-//    public void onClickCombo(ActionEvent actionEvent) {
-//        String sql = "SELECT * FROM prodi WHERE nama=?";
-//        try {
-//            prs = connec.prepareStatement(sql);
-//            prs.setString(1, (String)prodiCombo.getSelectionModel().getSelectedItem());
-//            rs_kelas = prs.executeQuery();
-//
-//            while (rs_kelas.next()){
-//                id_prodi = Integer.valueOf(rs_kelas.getString("id_prodi"));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

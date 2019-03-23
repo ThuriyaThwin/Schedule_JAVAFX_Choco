@@ -40,6 +40,11 @@
                         <Font name="System Bold" size="35.0" />
                     </font>
                 </Text>
+                <Text fx:id="totalData" layoutX="14.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Data">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Text>
             </children>
         </AnchorPane>
     </children>

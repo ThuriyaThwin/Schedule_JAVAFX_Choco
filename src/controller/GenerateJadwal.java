@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import model.Jadwal;
 
 import java.net.URL;
@@ -33,6 +34,8 @@ public class GenerateJadwal implements Initializable {
     @FXML
     private ComboBox<String> kelasCombo;
     @FXML
+    private Text totalData;
+    @FXML
     private TableView<Jadwal> tblDataJadwal;
     @FXML
     private TableColumn<Jadwal, String> tblKolomDosen;
@@ -48,6 +51,7 @@ public class GenerateJadwal implements Initializable {
     private Connection connec;
     private PreparedStatement prs;
     private ResultSet rs_jadwal;
+    private ResultSet rs_temp;
     private Statement stmt;
     private SQLHelper sqlHelper = new SQLHelper();
     private String id_dosen = null;
@@ -241,11 +245,22 @@ public class GenerateJadwal implements Initializable {
                     "INNER JOIN kelas ON matkul_kelas.no_kelas = kelas.no " +
                     "WHERE dosen_matkul.nilai=1 AND matkul_kelas.nilai=1";
 
+            String sql = "SELECT * FROM jadwal_temp";
+
             rs_jadwal = connec.createStatement().executeQuery(sql_jadwal);
+            rs_temp = connec.createStatement().executeQuery(sql);
 
             while (rs_jadwal.next()) {
                 ol.add(new Jadwal(rs_jadwal.getString("dosen"), rs_jadwal.getString("dosen_id"), rs_jadwal.getString("matkul"), rs_jadwal.getString("matkul_id"), rs_jadwal.getString("kelas"), rs_jadwal.getString("kelas_id")));
+
+                if (rs_temp != null){
+                    String query = "INSERT INTO jadwal_temp (dosen, matkul, kelas, no_dosen, no_matkul, no_kelas)"
+                            + "VALUES('" + rs_jadwal.getString("dosen") + "', '" + rs_jadwal.getString("matkul") + "', '" + rs_jadwal.getString("kelas") + "', '" + rs_jadwal.getString("dosen_id") + "', '" + rs_jadwal.getString("matkul_id") + "', '" + rs_jadwal.getString("kelas_id") + "')";
+                    connec.createStatement().executeUpdate(query);
+                }
             }
+
+            totalData.setText("Total Data : " + ol.size());
         } catch (SQLException ex) {
             Logger.getLogger(GenerateJadwal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -280,7 +295,7 @@ public class GenerateJadwal implements Initializable {
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
-                id_kelas = rs_jadwal.getString("no_kelas");
+                id_kelas = rs_jadwal.getString("no");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -295,7 +310,7 @@ public class GenerateJadwal implements Initializable {
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
-                id_mata_kuliah = rs_jadwal.getString("no_matkul");
+                id_mata_kuliah = rs_jadwal.getString("no");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -310,7 +325,7 @@ public class GenerateJadwal implements Initializable {
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
-                id_dosen = rs_jadwal.getString("no_dosen");
+                id_dosen = rs_jadwal.getString("no");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -365,4 +380,8 @@ public class GenerateJadwal implements Initializable {
         new AutoCompleteBoxHelper<>(matkulCombo);
         new AutoCompleteBoxHelper<>(kelasCombo);
     }
+
+//    public void updateTotal(){
+//        totalData.setText("Total Data : " + );
+//    }
 }

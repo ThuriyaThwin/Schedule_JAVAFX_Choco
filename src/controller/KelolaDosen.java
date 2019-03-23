@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import model.Dosen;
 
 import java.net.URL;
@@ -25,6 +26,8 @@ public class KelolaDosen implements Initializable {
     private AnchorPane kelolaDosenPane;
     @FXML
     private TextField namaField;
+    @FXML
+    private Text totalData;
     @FXML
     private TableView<Dosen> tblDataDosen;
     @FXML
@@ -141,6 +144,7 @@ public class KelolaDosen implements Initializable {
             }
 
             next_id = i+1;
+            totalData.setText("Total Data : " + ol.size());
         } catch (SQLException ex) {
             Logger.getLogger(KelolaDosen.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -31,11 +31,16 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-            <Text fill="#e13434" layoutX="233.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aplikasi Jadwal Perkuliahan" textAlignment="CENTER" wrappingWidth="533.000002861023">
-               <font>
-                  <Font name="System Bold" size="35.0" />
-               </font>
-            </Text>
+                <Text fill="#e13434" layoutX="233.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aplikasi Jadwal Perkuliahan" textAlignment="CENTER" wrappingWidth="533.000002861023">
+                   <font>
+                      <Font name="System Bold" size="35.0" />
+                   </font>
+                </Text>
+                <Text fx:id="totalData" layoutX="14.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Data">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Text>
             </children>
         </AnchorPane>
     </children>

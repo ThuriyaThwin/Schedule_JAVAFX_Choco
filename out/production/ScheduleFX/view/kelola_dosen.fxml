@@ -17,17 +17,13 @@
                         <Font size="28.0" />
                     </font>
                 </Text>
-                <TextField fx:id="nipField" layoutX="16.0" layoutY="163.0" prefHeight="25.0" prefWidth="192.0" promptText="NIP" />
-                <TextField fx:id="inisialField" layoutX="16.0" layoutY="194.0" prefHeight="25.0" prefWidth="192.0" promptText="Inisial" />
-                <TextField fx:id="namaField" layoutX="16.0" layoutY="225.0" prefHeight="25.0" prefWidth="192.0" promptText="Nama" />
-                <Button fx:id="btnTambah" layoutX="19.0" layoutY="261.0" mnemonicParsing="false" onAction="#tambahDosenAction" text="Tambah" />
-                <Button fx:id="btnUpdate" layoutX="88.0" layoutY="261.0" mnemonicParsing="false" onAction="#updateDosenAction" text="Update" />
-                <Button fx:id="btnHapus" layoutX="156.0" layoutY="261.0" mnemonicParsing="false" onAction="#hapusDosenAction" text="Hapus" />
+                <TextField fx:id="namaField" layoutX="16.0" layoutY="161.0" prefHeight="25.0" prefWidth="192.0" promptText="Nama" />
+                <Button fx:id="btnTambah" layoutX="19.0" layoutY="197.0" mnemonicParsing="false" onAction="#tambahDosenAction" text="Tambah" />
+                <Button fx:id="btnUpdate" layoutX="88.0" layoutY="197.0" mnemonicParsing="false" onAction="#updateDosenAction" text="Update" />
+                <Button fx:id="btnHapus" layoutX="156.0" layoutY="197.0" mnemonicParsing="false" onAction="#hapusDosenAction" text="Hapus" />
                 <TableView fx:id="tblDataDosen" layoutX="233.0" layoutY="109.0" prefHeight="386.0" prefWidth="533.0">
                     <columns>
-                        <TableColumn fx:id="tblKolomNIP" prefWidth="118.0" text="NIP" />
-                        <TableColumn fx:id="tblKolomInisial" minWidth="0.0" prefWidth="93.0" text="Inisial" />
-                        <TableColumn fx:id="tblKolomNama" prefWidth="321.0" text="Nama" />
+                        <TableColumn fx:id="tblKolomNama" prefWidth="532.0" text="Nama" />
                     </columns>
                 </TableView>
                 <Button fx:id="btnDashboard" defaultButton="true" layoutX="16.0" layoutY="35.0" mnemonicParsing="false" onAction="#toDashboard" prefHeight="43.0" prefWidth="192.0" text="MAIN MENU" textFill="RED">
@@ -35,11 +31,16 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-            <Text fill="#e13434" layoutX="233.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aplikasi Jadwal Perkuliahan" textAlignment="CENTER" wrappingWidth="533.000002861023">
-               <font>
-                  <Font name="System Bold" size="35.0" />
-               </font>
-            </Text>
+                <Text fill="#e13434" layoutX="233.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aplikasi Jadwal Perkuliahan" textAlignment="CENTER" wrappingWidth="533.000002861023">
+                   <font>
+                      <Font name="System Bold" size="35.0" />
+                   </font>
+                </Text>
+                <Text fx:id="totalData" layoutX="14.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Data">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Text>
             </children>
         </AnchorPane>
     </children>

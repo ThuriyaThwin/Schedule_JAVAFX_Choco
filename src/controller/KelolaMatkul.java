@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import model.Kelas;
 import model.MataKuliah;
 
@@ -32,6 +33,8 @@ public class KelolaMatkul implements Initializable {
     private TextField jumlahField;
     @FXML
     private TextField sksField;
+    @FXML
+    private Text totalData;
     @FXML
     private TableView<MataKuliah> tblDataMataKuliah;
     @FXML
@@ -159,6 +162,7 @@ public class KelolaMatkul implements Initializable {
             }
 
             next_id = i + 1;
+            totalData.setText("Total Data : " + ol.size());
         } catch (SQLException ex) {
             Logger.getLogger(KelolaMatkul.class.getName()).log(Level.SEVERE, null, ex);
         }
