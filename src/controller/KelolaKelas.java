@@ -1,5 +1,6 @@
 package controller;
 
+import helper.AutoCompleteBoxHelper;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,15 +29,11 @@ public class KelolaKelas implements Initializable {
     @FXML
     private TextField namaField;
     @FXML
-    private ComboBox<String> prodiCombo;
-    @FXML
     private TextField jumlahField;
     @FXML
     private TableView<Kelas> tblDataKelas;
     @FXML
     private TableColumn<Kelas, String> tblKolomNama;
-    @FXML
-    private TableColumn<Kelas, String> tblKolomProdi;
     @FXML
     private TableColumn<Kelas, String> tblKolomJumlah;
 
@@ -48,7 +45,7 @@ public class KelolaKelas implements Initializable {
     private Statement stmt;
     private SQLHelper sqlHelper = new SQLHelper();
     private int id_kelas;
-    private int id_prodi;
+    private int next_id = 0;
 
     /**
      * Initializes the controller class.
@@ -61,7 +58,7 @@ public class KelolaKelas implements Initializable {
         loadDataFromDatabase();
         fromTableToTextField();
         setCellValue();
-        fillComboBox();
+//        fillComboBox();
     }
 
     @FXML
@@ -70,23 +67,10 @@ public class KelolaKelas implements Initializable {
         String jumlah = jumlahField.getText();
 
         try {
-            String sql = "SELECT * FROM prodi WHERE nama=?";
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, (String)prodiCombo.getSelectionModel().getSelectedItem());
-            rs_kelas = prs.executeQuery();
-
-            while (rs_kelas.next()){
-                id_prodi = Integer.valueOf(rs_kelas.getString("id_prodi"));
-            }
-        } catch (SQLException e) {
-            System.out.println("Erorr");
-        }
-
-        try {
             stmt = (Statement) connec.createStatement();
 
-            String sql = "INSERT INTO kelas (nama, prodi, jumlah)"
-                    + "VALUES('" + nama + "', '" + id_prodi + "', '" + jumlah + "')";
+            String sql = "INSERT INTO kelas (no, nama, jumlah)"
+                    + "VALUES('" + next_id + "', '" + nama + "', '" + jumlah + "')";
             int exec = stmt.executeUpdate(sql);
             stmt.close();
 
@@ -100,25 +84,11 @@ public class KelolaKelas implements Initializable {
     @FXML
     private void updateKelasAction(ActionEvent event) {
         try {
-            String sql = "SELECT * FROM prodi WHERE nama=?";
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, (String)prodiCombo.getSelectionModel().getSelectedItem());
-            rs_kelas = prs.executeQuery();
-
-            while (rs_kelas.next()){
-                id_prodi = Integer.valueOf(rs_kelas.getString("id_prodi"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            String sql = "UPDATE kelas SET nama=?, prodi=?, jumlah=? WHERE id_kelas=?";
+            String sql = "UPDATE kelas SET nama=?, jumlah=? WHERE no=?";
             prs = connec.prepareStatement(sql);
             prs.setString(1, namaField.getText());
-            prs.setInt(2, id_prodi);
-            prs.setInt(3, Integer.valueOf(jumlahField.getText()));
-            prs.setInt(4, id_kelas);
+            prs.setInt(2, Integer.valueOf(jumlahField.getText()));
+            prs.setInt(3, id_kelas);
             int exec = prs.executeUpdate();
 
             if(exec == 1){
@@ -137,7 +107,7 @@ public class KelolaKelas implements Initializable {
 
     @FXML
     private void hapusKelasAction(ActionEvent event) {
-        String sql = "DELETE FROM kelas WHERE id_kelas = ?";
+        String sql = "DELETE FROM kelas WHERE no = ?";
 
         try {
             prs = connec.prepareStatement(sql);
@@ -168,19 +138,22 @@ public class KelolaKelas implements Initializable {
 
     private void setCellValue() {
         tblKolomNama.setCellValueFactory(new PropertyValueFactory<>("nama"));
-        tblKolomProdi.setCellValueFactory(new PropertyValueFactory<>("prodi"));
         tblKolomJumlah.setCellValueFactory(new PropertyValueFactory<>("jumlah"));
     }
 
     private void loadDataFromDatabase() {
         ol.clear();
         try {
-            String sql_kelas = "SELECT kelas.id_kelas, kelas.nama, kelas.jumlah, prodi.nama AS prodi FROM kelas INNER JOIN prodi ON kelas.prodi = prodi.id_prodi";
+            String sql_kelas = "SELECT * FROM kelas";
             rs_kelas = connec.createStatement().executeQuery(sql_kelas);
+            int i=0;
 
             while (rs_kelas.next()) {
-                ol.add(new Kelas(rs_kelas.getInt("id_kelas"), rs_kelas.getString("nama"), rs_kelas.getString("prodi"), rs_kelas.getString("jumlah")));
+                ol.add(new Kelas(rs_kelas.getInt("no"), rs_kelas.getString("nama"), rs_kelas.getString("jumlah")));
+                i++;
             }
+
+            next_id = i+1;
         } catch (SQLException ex) {
             Logger.getLogger(KelolaKelas.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -191,9 +164,8 @@ public class KelolaKelas implements Initializable {
         tblDataKelas.setOnMouseClicked((MouseEvent event) -> {
             Kelas kelas = tblDataKelas.getItems().get(tblDataKelas.getSelectionModel().getSelectedIndex());
             if (kelas != null){
-                id_kelas = kelas.getId_kelas();
+                id_kelas = kelas.getNo();
                 namaField.setText(kelas.getNama());
-//                prodiCombo.setText(kelas.getProdi());
                 jumlahField.setText(kelas.getJumlah());
             }
         });
@@ -201,38 +173,39 @@ public class KelolaKelas implements Initializable {
 
     private void clearText(){
         namaField.clear();
-//        prodiField.clear();
         jumlahField.clear();
     }
 
-    public void fillComboBox(){
-        try {
-            String sql = "SELECT * FROM prodi";
-            prs = connec.prepareStatement(sql);
-            rs_kelas = prs.executeQuery();
-
-            while (rs_kelas.next()){
-                prodi.add(rs_kelas.getString("nama"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        prodiCombo.setItems(prodi);
-    }
-
-    public void onClickCombo(ActionEvent actionEvent) {
-        String sql = "SELECT * FROM prodi WHERE nama=?";
-        try {
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, (String)prodiCombo.getSelectionModel().getSelectedItem());
-            rs_kelas = prs.executeQuery();
-
-            while (rs_kelas.next()){
-                id_prodi = Integer.valueOf(rs_kelas.getString("id_prodi"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void fillComboBox(){
+////        prodiCombo.setEditable(true);
+//        try {
+//            String sql = "SELECT * FROM prodi";
+//            prs = connec.prepareStatement(sql);
+//            rs_kelas = prs.executeQuery();
+//
+//            while (rs_kelas.next()){
+//                prodi.add(rs_kelas.getString("nama"));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        prodiCombo.setItems(prodi);
+////        new AutoCompleteBoxHelper<>(prodiCombo);
+//    }
+//
+//    public void onClickCombo(ActionEvent actionEvent) {
+//        String sql = "SELECT * FROM prodi WHERE nama=?";
+//        try {
+//            prs = connec.prepareStatement(sql);
+//            prs.setString(1, (String)prodiCombo.getSelectionModel().getSelectedItem());
+//            rs_kelas = prs.executeQuery();
+//
+//            while (rs_kelas.next()){
+//                id_prodi = Integer.valueOf(rs_kelas.getString("id_prodi"));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

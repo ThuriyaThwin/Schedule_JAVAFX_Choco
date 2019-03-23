@@ -1,33 +1,23 @@
 package model;
 
 public class Dosen {
-    private String nip;
-    private String inisial;
+    private String no;
     private String nama;
 
     public Dosen() {
     }
 
-    public Dosen(String nip, String inisial, String nama) {
-        this.nip = nip;
-        this.inisial = inisial;
+    public Dosen(String no, String nama) {
+        this.no = no;
         this.nama = nama;
     }
 
-    public String getNip() {
-        return nip;
+    public String getNo() {
+        return no;
     }
 
-    public void setNip(String nip) {
-        this.nip = nip;
-    }
-
-    public String getInisial() {
-        return inisial;
-    }
-
-    public void setInisial(String inisial) {
-        this.inisial = inisial;
+    public void setNo(String no) {
+        this.no = no;
     }
 
     public String getNama() {
@@ -41,8 +31,7 @@ public class Dosen {
     @Override
     public String toString() {
         return "Dosen{" +
-                "nip='" + nip + '\'' +
-                ", inisial='" + inisial + '\'' +
+                "no='" + no + '\'' +
                 ", nama='" + nama + '\'' +
                 '}';
     }

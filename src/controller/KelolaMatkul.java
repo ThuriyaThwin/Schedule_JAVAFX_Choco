@@ -29,7 +29,7 @@ public class KelolaMatkul implements Initializable {
     @FXML
     private TextField namaField;
     @FXML
-    private TextField kodeField;
+    private TextField jumlahField;
     @FXML
     private TextField sksField;
     @FXML
@@ -37,7 +37,7 @@ public class KelolaMatkul implements Initializable {
     @FXML
     private TableColumn<MataKuliah, String> tblKolomNama;
     @FXML
-    private TableColumn<MataKuliah, String> tblKolomKode;
+    private TableColumn<MataKuliah, String> tblKolomJumlah;
     @FXML
     private TableColumn<MataKuliah, String> tblKolomSKS;
 
@@ -48,6 +48,7 @@ public class KelolaMatkul implements Initializable {
     private Statement stmt;
     private SQLHelper sqlHelper = new SQLHelper();
     private String id_mata_kuliah = null;
+    private int next_id = 0;
 
     /**
      * Initializes the controller class.
@@ -64,15 +65,15 @@ public class KelolaMatkul implements Initializable {
     @FXML
     private void tambahMataKuliahAction(ActionEvent event) {
         String nama = namaField.getText();
-        String kode = kodeField.getText();
+        String jumlah = jumlahField.getText();
         String sks = sksField.getText();
 
         try {
             stmt = (Statement) connec.createStatement();
 
-            String sql = "INSERT INTO mata_kuliah (nama, kode, sks)"
-                    + "VALUES('" + nama + "', '" + kode + "', '" + sks + "')";
-            int exec = stmt.executeUpdate(sql);
+            String sql = "INSERT INTO matkul (no, nama, sks, jumlah)"
+                    + "VALUES('" + next_id + "', '" + nama + "', '" + sks + "', '" + jumlah + "')";
+            stmt.executeUpdate(sql);
             stmt.close();
 
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/kelola_matkul.fxml"));
@@ -84,13 +85,13 @@ public class KelolaMatkul implements Initializable {
 
     @FXML
     private void updateMataKuliahAction(ActionEvent event) {
-        String sql = "UPDATE mata_kuliah SET nama=?, kode=?, sks=? WHERE id_mata_kuliah=?";
+        String sql = "UPDATE matkul SET nama=?, sks=?, jumlah=? WHERE no=?";
 
         try {
             prs = connec.prepareStatement(sql);
             prs.setString(1, namaField.getText());
-            prs.setString(2, kodeField.getText());
-            prs.setString(3, sksField.getText());
+            prs.setString(2, sksField.getText());
+            prs.setString(3, jumlahField.getText());
             prs.setString(4, id_mata_kuliah);
             int exec = prs.executeUpdate();
 
@@ -110,7 +111,7 @@ public class KelolaMatkul implements Initializable {
 
     @FXML
     private void hapusMataKuliahAction(ActionEvent event) {
-        String sql = "DELETE FROM mata_kuliah WHERE id_mata_kuliah = ?";
+        String sql = "DELETE FROM matkul WHERE no = ?";
 
         try {
             prs = connec.prepareStatement(sql);
@@ -141,19 +142,23 @@ public class KelolaMatkul implements Initializable {
 
     private void setCellValue() {
         tblKolomNama.setCellValueFactory(new PropertyValueFactory<>("nama"));
-        tblKolomKode.setCellValueFactory(new PropertyValueFactory<>("kode"));
+        tblKolomJumlah.setCellValueFactory(new PropertyValueFactory<>("jumlah"));
         tblKolomSKS.setCellValueFactory(new PropertyValueFactory<>("sks"));
     }
 
     private void loadDataFromDatabase() {
         ol.clear();
         try {
-            String sql = "SELECT * FROM mata_kuliah";
+            String sql = "SELECT * FROM matkul";
             rs = connec.createStatement().executeQuery(sql);
+            int i =0;
 
             while (rs.next()) {
-                ol.add(new MataKuliah(rs.getString("id_mata_kuliah"), rs.getString("nama"), rs.getString("kode"), rs.getString("sks")));
+                ol.add(new MataKuliah(rs.getString("no"), rs.getString("nama"), rs.getString("sks"), rs.getString("jumlah")));
+                i++;
             }
+
+            next_id = i + 1;
         } catch (SQLException ex) {
             Logger.getLogger(KelolaMatkul.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -164,9 +169,9 @@ public class KelolaMatkul implements Initializable {
         tblDataMataKuliah.setOnMouseClicked((MouseEvent event) -> {
             MataKuliah mataKuliah = tblDataMataKuliah.getItems().get(tblDataMataKuliah.getSelectionModel().getSelectedIndex());
             if (mataKuliah != null){
-                id_mata_kuliah = mataKuliah.getId_mata_kuliah();
+                id_mata_kuliah = mataKuliah.getNo();
                 namaField.setText(mataKuliah.getNama());
-                kodeField.setText(mataKuliah.getKode());
+                jumlahField.setText(mataKuliah.getJumlah());
                 sksField.setText(mataKuliah.getSks());
             }
         });
@@ -174,7 +179,7 @@ public class KelolaMatkul implements Initializable {
 
     private void clearText(){
         namaField.clear();
-        kodeField.clear();
+        jumlahField.clear();
         sksField.clear();
     }
 

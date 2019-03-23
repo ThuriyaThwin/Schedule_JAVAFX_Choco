@@ -1,27 +1,27 @@
 package model;
 
 public class MataKuliah {
-    private String id_mata_kuliah;
+    private String no;
     private String nama;
-    private String kode;
     private String sks;
+    private String jumlah;
 
     public MataKuliah() {
     }
 
-    public MataKuliah(String id_mata_kuliah, String nama, String kode, String sks) {
-        this.id_mata_kuliah = id_mata_kuliah;
+    public MataKuliah(String no, String nama, String sks, String jumlah) {
+        this.no = no;
         this.nama = nama;
-        this.kode = kode;
         this.sks = sks;
+        this.jumlah = jumlah;
     }
 
-    public String getId_mata_kuliah() {
-        return id_mata_kuliah;
+    public String getNo() {
+        return no;
     }
 
-    public void setId_mata_kuliah(String id_mata_kuliah) {
-        this.id_mata_kuliah = id_mata_kuliah;
+    public void setNo(String no) {
+        this.no = no;
     }
 
     public String getNama() {
@@ -32,14 +32,6 @@ public class MataKuliah {
         this.nama = nama;
     }
 
-    public String getKode() {
-        return kode;
-    }
-
-    public void setKode(String kode) {
-        this.kode = kode;
-    }
-
     public String getSks() {
         return sks;
     }
@@ -48,13 +40,21 @@ public class MataKuliah {
         this.sks = sks;
     }
 
+    public String getJumlah() {
+        return jumlah;
+    }
+
+    public void setJumlah(String jumlah) {
+        this.jumlah = jumlah;
+    }
+
     @Override
     public String toString() {
         return "MataKuliah{" +
-                "id_mata_kuliah='" + id_mata_kuliah + '\'' +
+                "no='" + no + '\'' +
                 ", nama='" + nama + '\'' +
-                ", kode='" + kode + '\'' +
                 ", sks='" + sks + '\'' +
+                ", jumlah='" + jumlah + '\'' +
                 '}';
     }
 }

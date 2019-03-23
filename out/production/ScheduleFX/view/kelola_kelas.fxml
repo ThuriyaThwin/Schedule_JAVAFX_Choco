@@ -19,15 +19,13 @@
                 </Text>
                 <TextField fx:id="namaField" layoutX="16.0" layoutY="163.0" prefHeight="25.0" prefWidth="192.0" promptText="Nama" />
                 <TextField fx:id="jumlahField" layoutX="16.0" layoutY="194.0" prefHeight="25.0" prefWidth="192.0" promptText="Jumlah" />
-                <TextField fx:id="prodiField" layoutX="16.0" layoutY="225.0" prefHeight="25.0" prefWidth="192.0" promptText="Prodi" />
-                <Button fx:id="btnTambah" layoutX="19.0" layoutY="261.0" mnemonicParsing="false" onAction="#tambahKelasAction" text="Tambah" />
-                <Button fx:id="btnUpdate" layoutX="88.0" layoutY="261.0" mnemonicParsing="false" onAction="#updateKelasAction" text="Update" />
-                <Button fx:id="btnHapus" layoutX="156.0" layoutY="261.0" mnemonicParsing="false" onAction="#hapusKelasAction" text="Hapus" />
+                <Button fx:id="btnTambah" layoutX="19.0" layoutY="223.0" mnemonicParsing="false" onAction="#tambahKelasAction" text="Tambah" />
+                <Button fx:id="btnUpdate" layoutX="88.0" layoutY="223.0" mnemonicParsing="false" onAction="#updateKelasAction" text="Update" />
+                <Button fx:id="btnHapus" layoutX="156.0" layoutY="223.0" mnemonicParsing="false" onAction="#hapusKelasAction" text="Hapus" />
                 <TableView fx:id="tblDataKelas" layoutX="233.0" layoutY="109.0" prefHeight="386.0" prefWidth="533.0">
                     <columns>
-                        <TableColumn fx:id="tblKolomNama" prefWidth="175.0" text="Nama" />
-                        <TableColumn fx:id="tblKolomProdi" minWidth="3.0" prefWidth="201.0" text="Prodi" />
-                        <TableColumn fx:id="tblKolomJumlah" prefWidth="156.0" text="Jumlah" />
+                        <TableColumn fx:id="tblKolomNama" prefWidth="411.0" text="Nama" />
+                        <TableColumn fx:id="tblKolomJumlah" prefWidth="121.0" text="Jumlah" />
                     </columns>
                 </TableView>
                 <Button fx:id="btnDashboard" defaultButton="true" layoutX="16.0" layoutY="35.0" mnemonicParsing="false" onAction="#toDashboard" prefHeight="43.0" prefWidth="192.0" text="MAIN MENU" textFill="RED">

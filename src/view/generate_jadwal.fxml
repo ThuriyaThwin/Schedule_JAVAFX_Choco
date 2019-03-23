@@ -8,6 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.ComboBox?>
 <AnchorPane id="AnchorPane" fx:id="kelolaJadwalPane" prefHeight="422.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GenerateJadwal">
     <children>
         <AnchorPane id="AnchorPane" fx:id="pane" layoutX="10.0" layoutY="10.0" prefHeight="422.0" prefWidth="668.0">
@@ -17,9 +18,9 @@
                         <Font size="28.0" />
                     </font>
                 </Text>
-                <TextField fx:id="dosenField" layoutX="16.0" layoutY="163.0" prefHeight="25.0" prefWidth="192.0" promptText="Dosen" />
-                <TextField fx:id="matkulField" layoutX="16.0" layoutY="194.0" prefHeight="25.0" prefWidth="192.0" promptText="Mata Kuliah" />
-                <TextField fx:id="kelasField" layoutX="16.0" layoutY="225.0" prefHeight="25.0" prefWidth="192.0" promptText="Kelas" />
+                <ComboBox fx:id="dosenCombo" layoutX="16.0" layoutY="163.0" onAction="#onClickDosenCombo" prefHeight="25.0" prefWidth="192.0" promptText="Dosen" />
+                <ComboBox fx:id="matkulCombo" layoutX="16.0" layoutY="194.0" onAction="#onClickMatkulCombo" prefHeight="25.0" prefWidth="192.0" promptText="Mata Kuliah" />
+                <ComboBox fx:id="kelasCombo" layoutX="16.0" layoutY="225.0" onAction="#onClickKelasCombo" prefHeight="25.0" prefWidth="192.0" promptText="Kelas" />
                 <Button fx:id="btnTambah" layoutX="19.0" layoutY="261.0" mnemonicParsing="false" onAction="#tambahJadwalAction" text="Tambah" />
                 <Button fx:id="btnUpdate" layoutX="88.0" layoutY="261.0" mnemonicParsing="false" onAction="#updateJadwalAction" text="Update" />
                 <Button fx:id="btnHapus" layoutX="156.0" layoutY="261.0" mnemonicParsing="false" onAction="#hapusJadwalAction" text="Hapus" />

@@ -2,7 +2,6 @@ package model;
 
 public class Jadwal {
 
-    private String id_jadwal;
     private String dosen;
     private String dosenId;
     private String mataKuliah;
@@ -13,22 +12,13 @@ public class Jadwal {
     public Jadwal() {
     }
 
-    public Jadwal(String id_jadwal, String dosen, String dosenId, String mataKuliah, String mataKuliahId, String kelas, String kelasId) {
-        this.id_jadwal = id_jadwal;
+    public Jadwal(String dosen, String dosenId, String mataKuliah, String mataKuliahId, String kelas, String kelasId) {
         this.dosen = dosen;
         this.dosenId = dosenId;
         this.mataKuliah = mataKuliah;
         this.mataKuliahId = mataKuliahId;
         this.kelas = kelas;
         this.kelasId = kelasId;
-    }
-
-    public String getId_jadwal() {
-        return id_jadwal;
-    }
-
-    public void setId_jadwal(String id_jadwal) {
-        this.id_jadwal = id_jadwal;
     }
 
     public String getDosen() {
@@ -82,8 +72,7 @@ public class Jadwal {
     @Override
     public String toString() {
         return "Jadwal{" +
-                "id_jadwal='" + id_jadwal + '\'' +
-                ", dosen='" + dosen + '\'' +
+                "dosen='" + dosen + '\'' +
                 ", dosenId='" + dosenId + '\'' +
                 ", mataKuliah='" + mataKuliah + '\'' +
                 ", mataKuliahId='" + mataKuliahId + '\'' +

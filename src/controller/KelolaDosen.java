@@ -26,17 +26,9 @@ public class KelolaDosen implements Initializable {
     @FXML
     private TextField namaField;
     @FXML
-    private TextField inisialField;
-    @FXML
-    private TextField nipField;
-    @FXML
     private TableView<Dosen> tblDataDosen;
     @FXML
     private TableColumn<Dosen, String> tblKolomNama;
-    @FXML
-    private TableColumn<Dosen, String> tblKolomInisial;
-    @FXML
-    private TableColumn<Dosen, String> tblKolomNIP;
 
     private ObservableList<Dosen> ol;
     private Connection connec;
@@ -44,7 +36,8 @@ public class KelolaDosen implements Initializable {
     private ResultSet rs;
     private Statement stmt;
     private SQLHelper sqlHelper = new SQLHelper();
-    String nip_temp = null;
+    private int next_id=0;
+    private String id_dosen = null;
 
     /**
      * Initializes the controller class.
@@ -61,14 +54,12 @@ public class KelolaDosen implements Initializable {
     @FXML
     private void tambahDosenAction(ActionEvent event) {
         String nama = namaField.getText();
-        String nip = nipField.getText();
-        String inisial = inisialField.getText();
 
         try {
             stmt = (Statement) connec.createStatement();
 
-            String sql = "INSERT INTO dosen (nip, inisial, nama)" + "VALUES('" + nip + "', '" +  inisial + "', '" +  nama + "')";
-            int exec = stmt.executeUpdate(sql);
+            String sql = "INSERT INTO dosen (no, nama)" + "VALUES('" + next_id + "', '" + nama + "')";
+            stmt.executeUpdate(sql);
             stmt.close();
 
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/kelola_dosen.fxml"));
@@ -80,14 +71,12 @@ public class KelolaDosen implements Initializable {
 
     @FXML
     private void updateDosenAction(ActionEvent event) {
-        String sql = "UPDATE dosen SET nip=?, inisial=?, nama=? WHERE nip=?";
+        String sql = "UPDATE dosen SET nama=? WHERE no=?";
 
         try {
             prs = connec.prepareStatement(sql);
-            prs.setString(1, nipField.getText());
-            prs.setString(2, inisialField.getText());
-            prs.setString(3, namaField.getText());
-            prs.setString(4, nip_temp);
+            prs.setString(1, namaField.getText());
+            prs.setString(2, id_dosen);
             int exec = prs.executeUpdate();
 
             if(exec == 1){
@@ -106,11 +95,11 @@ public class KelolaDosen implements Initializable {
 
     @FXML
     private void hapusDosenAction(ActionEvent event) {
-        String sql = "DELETE FROM dosen WHERE nip = ?";
+        String sql = "DELETE FROM dosen WHERE no = ?";
 
         try {
             prs = connec.prepareStatement(sql);
-            prs.setString(1, nipField.getText());
+            prs.setString(1, id_dosen);
             int exec = prs.executeUpdate();
 
             if(exec == 1){
@@ -136,8 +125,6 @@ public class KelolaDosen implements Initializable {
     }
 
     private void setCellValue() {
-        tblKolomNIP.setCellValueFactory(new PropertyValueFactory<>("nip"));
-        tblKolomInisial.setCellValueFactory(new PropertyValueFactory<>("inisial"));
         tblKolomNama.setCellValueFactory(new PropertyValueFactory<>("nama"));
     }
 
@@ -146,10 +133,14 @@ public class KelolaDosen implements Initializable {
         try {
             String sql = "SELECT * FROM dosen";
             rs = connec.createStatement().executeQuery(sql);
+            int i = 0;
 
             while (rs.next()) {
-                ol.add(new Dosen(rs.getString("nip"), rs.getString("inisial"), rs.getString("nama")));
+                ol.add(new Dosen(rs.getString("no"), rs.getString("nama")));
+                i++;
             }
+
+            next_id = i+1;
         } catch (SQLException ex) {
             Logger.getLogger(KelolaDosen.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -160,17 +151,13 @@ public class KelolaDosen implements Initializable {
         tblDataDosen.setOnMouseClicked((MouseEvent event) -> {
             Dosen dosen = tblDataDosen.getItems().get(tblDataDosen.getSelectionModel().getSelectedIndex());
             if (dosen != null){
-                nipField.setText(dosen.getNip());
-                nip_temp = dosen.getNip();
+                id_dosen = dosen.getNo();
                 namaField.setText(dosen.getNama());
-                inisialField.setText(dosen.getInisial());
             }
         });
     }
 
     private void clearText(){
-        nipField.clear();
-        inisialField.clear();
         namaField.clear();
     }
 

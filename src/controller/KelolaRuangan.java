@@ -194,7 +194,7 @@ public class KelolaRuangan implements Initializable {
             if (ruangan != null){
                 id_ruangan = ruangan.getId_ruangan();
                 namaField.setText(ruangan.getNama());
-//                jenisField.setSelectionModel("");
+                jenisCombo.setValue(ruangan.getJenis());
                 kapasitasField.setText(ruangan.getKapasitas());
             }
         });

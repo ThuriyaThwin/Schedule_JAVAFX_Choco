@@ -1,27 +1,25 @@
 package model;
 
 public class Kelas {
-    private int id_kelas;
+    private int no;
     private String nama;
-    private String prodi;
     private String jumlah;
 
     public Kelas() {
     }
 
-    public Kelas(int id_kelas, String nama, String prodi, String jumlah) {
-        this.id_kelas = id_kelas;
+    public Kelas(int no, String nama, String jumlah) {
+        this.no = no;
         this.nama = nama;
-        this.prodi = prodi;
         this.jumlah = jumlah;
     }
 
-    public int getId_kelas() {
-        return id_kelas;
+    public int getNo() {
+        return no;
     }
 
-    public void setId_kelas(int id_kelas) {
-        this.id_kelas = id_kelas;
+    public void setNo(int no) {
+        this.no = no;
     }
 
     public String getNama() {
@@ -32,29 +30,11 @@ public class Kelas {
         this.nama = nama;
     }
 
-    public String getProdi() {
-        return prodi;
-    }
-
-    public void setProdi(String prodi) {
-        this.prodi = prodi;
-    }
-
     public String getJumlah() {
         return jumlah;
     }
 
     public void setJumlah(String jumlah) {
         this.jumlah = jumlah;
-    }
-
-    @Override
-    public String toString() {
-        return "Kelas{" +
-                "id_kelas=" + id_kelas +
-                ", nama='" + nama + '\'' +
-                ", prodi='" + prodi + '\'' +
-                ", jumlah='" + jumlah + '\'' +
-                '}';
     }
 }
