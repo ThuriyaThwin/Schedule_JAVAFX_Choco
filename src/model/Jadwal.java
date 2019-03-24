@@ -25,48 +25,25 @@ public class Jadwal {
         return dosen;
     }
 
-    public void setDosen(String dosen) {
-        this.dosen = dosen;
-    }
-
     public String getDosenId() {
         return dosenId;
     }
 
-    public void setDosenId(String dosenId) {
-        this.dosenId = dosenId;
-    }
 
     public String getMataKuliah() {
         return mataKuliah;
-    }
-
-    public void setMataKuliah(String mataKuliah) {
-        this.mataKuliah = mataKuliah;
     }
 
     public String getMataKuliahId() {
         return mataKuliahId;
     }
 
-    public void setMataKuliahId(String mataKuliahId) {
-        this.mataKuliahId = mataKuliahId;
-    }
-
     public String getKelas() {
         return kelas;
     }
 
-    public void setKelas(String kelas) {
-        this.kelas = kelas;
-    }
-
     public String getKelasId() {
         return kelasId;
-    }
-
-    public void setKelasId(String kelasId) {
-        this.kelasId = kelasId;
     }
 
     @Override

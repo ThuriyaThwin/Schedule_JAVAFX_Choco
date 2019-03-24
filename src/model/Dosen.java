@@ -1,37 +1,29 @@
 package model;
 
 public class Dosen {
-    private String no;
+    private int no;
     private String nama;
 
     public Dosen() {
     }
 
-    public Dosen(String no, String nama) {
+    public Dosen(int no, String nama) {
         this.no = no;
         this.nama = nama;
     }
 
-    public String getNo() {
+    public int getNo() {
         return no;
-    }
-
-    public void setNo(String no) {
-        this.no = no;
     }
 
     public String getNama() {
         return nama;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
-    }
-
     @Override
     public String toString() {
         return "Dosen{" +
-                "no='" + no + '\'' +
+                "no=" + no +
                 ", nama='" + nama + '\'' +
                 '}';
     }

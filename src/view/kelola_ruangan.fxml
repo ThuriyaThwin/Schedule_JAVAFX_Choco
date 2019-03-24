@@ -9,39 +9,46 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" fx:id="kelolaRuanganPane" prefHeight="422.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.KelolaRuangan">
-    <children>
-        <AnchorPane id="AnchorPane" fx:id="pane" layoutX="10.0" layoutY="10.0" prefHeight="422.0" prefWidth="668.0">
-            <children>
-                <Text layoutX="25.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Ruangan" underline="true">
-                    <font>
-                        <Font size="28.0" />
-                    </font>
-                </Text>
-                <TextField fx:id="namaField" layoutX="16.0" layoutY="163.0" prefHeight="25.0" prefWidth="192.0" promptText="Nama" />
-                <TextField fx:id="kapasitasField" layoutX="16.0" layoutY="194.0" prefHeight="25.0" prefWidth="192.0" promptText="Kapasitas (Kelas)" />
-                <ComboBox fx:id="jenisCombo" layoutX="16.0" layoutY="225.0" onAction="#onClickCombo" prefHeight="25.0" prefWidth="192.0" promptText="Jenis Ruangan" />
-                <Button fx:id="btnTambah" layoutX="19.0" layoutY="261.0" mnemonicParsing="false" onAction="#tambahRuanganAction" text="Tambah" />
-                <Button fx:id="btnUpdate" layoutX="88.0" layoutY="261.0" mnemonicParsing="false" onAction="#updateRuanganAction" text="Update" />
-                <Button fx:id="btnHapus" layoutX="156.0" layoutY="261.0" mnemonicParsing="false" onAction="#hapusRuanganAction" text="Hapus" />
-                <TableView fx:id="tblDataRuangan" layoutX="233.0" layoutY="109.0" prefHeight="386.0" prefWidth="533.0">
-                    <columns>
-                        <TableColumn fx:id="tblKolomNama" prefWidth="186.0" text="Nama" />
-                        <TableColumn fx:id="tblKolomJenis" minWidth="3.0" prefWidth="176.0" text="Jenis" />
-                        <TableColumn fx:id="tblKolomKapasitas" prefWidth="170.0" text="Kapasitas (Kelas)" />
-                    </columns>
-                </TableView>
-                <Button fx:id="btnDashboard" defaultButton="true" layoutX="16.0" layoutY="35.0" mnemonicParsing="false" onAction="#toDashboard" prefHeight="43.0" prefWidth="192.0" text="MAIN MENU" textFill="RED">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Button>
-                <Text fill="#e13434" layoutX="233.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aplikasi Jadwal Perkuliahan" textAlignment="CENTER" wrappingWidth="533.000002861023">
-                    <font>
-                        <Font name="System Bold" size="35.0" />
-                    </font>
-                </Text>
-            </children>
-        </AnchorPane>
-    </children>
+<AnchorPane id="AnchorPane" fx:id="kelolaRuanganPane" prefHeight="422.0" prefWidth="668.0"
+            xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.KelolaRuangan">
+    <AnchorPane id="AnchorPane" fx:id="pane" layoutX="10.0" layoutY="10.0" prefHeight="422.0" prefWidth="668.0">
+        <Text layoutX="25.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Ruangan"
+              underline="true">
+            <font>
+                <Font size="28.0"/>
+            </font>
+        </Text>
+        <TextField fx:id="namaField" layoutX="16.0" layoutY="163.0" prefHeight="25.0" prefWidth="192.0"
+                   promptText="Nama"/>
+        <TextField fx:id="kapasitasField" layoutX="16.0" layoutY="194.0" prefHeight="25.0" prefWidth="192.0"
+                   promptText="Kapasitas (Kelas)"/>
+        <ComboBox fx:id="jenisCombo" layoutX="16.0" layoutY="225.0" onAction="#onClickCombo" prefHeight="25.0"
+                  prefWidth="192.0" promptText="Jenis Ruangan"/>
+        <Button fx:id="btnTambah" layoutX="19.0" layoutY="261.0" mnemonicParsing="false"
+                onAction="#tambahRuanganAction" text="Tambah"/>
+        <Button fx:id="btnUpdate" layoutX="88.0" layoutY="261.0" mnemonicParsing="false"
+                onAction="#updateRuanganAction" text="Update"/>
+        <Button fx:id="btnHapus" layoutX="156.0" layoutY="261.0" mnemonicParsing="false"
+                onAction="#hapusRuanganAction" text="Hapus"/>
+        <TableView fx:id="tblDataRuangan" layoutX="233.0" layoutY="109.0" prefHeight="386.0" prefWidth="533.0">
+            <columns>
+                <TableColumn fx:id="tblKolomNama" prefWidth="186.0" text="Nama"/>
+                <TableColumn fx:id="tblKolomJenis" minWidth="3.0" prefWidth="176.0" text="Jenis"/>
+                <TableColumn fx:id="tblKolomKapasitas" prefWidth="170.0" text="Kapasitas (Kelas)"/>
+            </columns>
+        </TableView>
+        <Button fx:id="btnDashboard" defaultButton="true" layoutX="16.0" layoutY="35.0" mnemonicParsing="false"
+                onAction="#toDashboard" prefHeight="43.0" prefWidth="192.0" text="MAIN MENU" textFill="RED">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
+        </Button>
+        <Text fill="#e13434" layoutX="233.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="Aplikasi Jadwal Perkuliahan" textAlignment="CENTER" wrappingWidth="533.000002861023">
+            <font>
+                <Font name="System Bold" size="35.0"/>
+            </font>
+        </Text>
+    </AnchorPane>
 </AnchorPane>

@@ -18,10 +18,6 @@ public class Kelas {
         return no;
     }
 
-    public void setNo(int no) {
-        this.no = no;
-    }
-
     public String getNama() {
         return nama;
     }
@@ -32,9 +28,5 @@ public class Kelas {
 
     public String getJumlah() {
         return jumlah;
-    }
-
-    public void setJumlah(String jumlah) {
-        this.jumlah = jumlah;
     }
 }

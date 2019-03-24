@@ -7,27 +7,20 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class AutoCompleteBoxHelper<T> implements EventHandler<KeyEvent> {
+public class AutoCompleteBoxHelper implements EventHandler<KeyEvent> {
 
     private ComboBox comboBox;
-    private StringBuilder sb;
-    private ObservableList<T> data;
+    private ObservableList data;
     private boolean moveCaretToPos = false;
     private int caretPos;
 
     public AutoCompleteBoxHelper(final ComboBox comboBox) {
         this.comboBox = comboBox;
-        sb = new StringBuilder();
+        new StringBuilder();
         data = comboBox.getItems();
 
         this.comboBox.setEditable(true);
-        this.comboBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-            @Override
-            public void handle(KeyEvent t) {
-                comboBox.hide();
-            }
-        });
+        this.comboBox.setOnKeyPressed(t -> comboBox.hide());
         this.comboBox.setOnKeyReleased(AutoCompleteBoxHelper.this);
     }
 
@@ -60,11 +53,11 @@ public class AutoCompleteBoxHelper<T> implements EventHandler<KeyEvent> {
         }
 
         ObservableList list = FXCollections.observableArrayList();
-        for (int i=0; i<data.size(); i++) {
-            if(data.get(i).toString().toLowerCase().startsWith(
+        for (Object datum : data) {
+            if (datum.toString().toLowerCase().startsWith(
                     AutoCompleteBoxHelper.this.comboBox
                             .getEditor().getText().toLowerCase())) {
-                list.add(data.get(i));
+                list.add(datum);
             }
         }
         String t = comboBox.getEditor().getText();

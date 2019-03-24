@@ -3,7 +3,6 @@ package controller;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import model.Dosen;
+import model.MataKuliah;
 
 import java.net.URL;
 import java.sql.*;
@@ -33,37 +33,49 @@ public class KelolaDosen implements Initializable {
     @FXML
     private TableColumn<Dosen, String> tblKolomNama;
 
+    public AnchorPane pane;
+    public Button btnTambah;
+    public Button btnUpdate;
+    public Button btnHapus;
+    public Button btnDashboard;
+
     private ObservableList<Dosen> ol;
     private Connection connec;
     private PreparedStatement prs;
     private ResultSet rs;
     private Statement stmt;
-    private SQLHelper sqlHelper = new SQLHelper();
+    private ObservableList<MataKuliah> ol_matkul;
     private int next_id=0;
-    private String id_dosen = null;
+    private int matkul_size=0;
+    private int id_dosen;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        connec = sqlHelper.getConnection();
+        connec = SQLHelper.getConnection();
         ol = FXCollections.observableArrayList();
+        ol_matkul = FXCollections.observableArrayList();
         loadDataFromDatabase();
         fromTableToTextField();
         setCellValue();
     }
 
     @FXML
-    private void tambahDosenAction(ActionEvent event) {
+    private void tambahDosenAction() {
         String nama = namaField.getText();
 
+        getMatkulSize();
+
         try {
-            stmt = (Statement) connec.createStatement();
+            stmt = connec.createStatement();
 
             String sql = "INSERT INTO dosen (no, nama)" + "VALUES('" + next_id + "', '" + nama + "')";
             stmt.executeUpdate(sql);
             stmt.close();
+
+            insertDosenMatkul();
 
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/kelola_dosen.fxml"));
             kelolaDosenPane.getChildren().setAll(pane);
@@ -73,13 +85,13 @@ public class KelolaDosen implements Initializable {
     }
 
     @FXML
-    private void updateDosenAction(ActionEvent event) {
+    private void updateDosenAction() {
         String sql = "UPDATE dosen SET nama=? WHERE no=?";
 
         try {
             prs = connec.prepareStatement(sql);
             prs.setString(1, namaField.getText());
-            prs.setString(2, id_dosen);
+            prs.setInt(2, id_dosen);
             int exec = prs.executeUpdate();
 
             if(exec == 1){
@@ -97,12 +109,14 @@ public class KelolaDosen implements Initializable {
     }
 
     @FXML
-    private void hapusDosenAction(ActionEvent event) {
-        String sql = "DELETE FROM dosen WHERE no = ?";
+    private void hapusDosenAction() {
+        getMatkulSize();
+        deleteDosenMatkul();
 
         try {
+            String sql = "DELETE FROM dosen WHERE no = ?";
             prs = connec.prepareStatement(sql);
-            prs.setString(1, id_dosen);
+            prs.setInt(1, id_dosen);
             int exec = prs.executeUpdate();
 
             if(exec == 1){
@@ -118,7 +132,7 @@ public class KelolaDosen implements Initializable {
     }
 
     @FXML
-    private void toDashboard(ActionEvent event) {
+    private void toDashboard() {
         try{
             AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/dashboard.fxml"));
             kelolaDosenPane.getChildren().setAll(ap);
@@ -139,7 +153,7 @@ public class KelolaDosen implements Initializable {
             int i = 0;
 
             while (rs.next()) {
-                ol.add(new Dosen(rs.getString("no"), rs.getString("nama")));
+                ol.add(new Dosen(rs.getInt("no"), rs.getString("nama")));
                 i++;
             }
 
@@ -165,4 +179,51 @@ public class KelolaDosen implements Initializable {
         namaField.clear();
     }
 
+    private void insertDosenMatkul(){
+        try {
+            stmt = connec.createStatement();
+
+            for (int i=1;i<matkul_size+1;i++){
+                String sql = "INSERT INTO dosen_matkul (no_matkul, no_dosen, nilai)"
+                        + "VALUES('" + i + "', '" + next_id + "', '" + 0 + "')";
+
+                stmt.executeUpdate(sql);
+            }
+
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteDosenMatkul(){
+        try {
+            for (int i=1;i<matkul_size+1;i++){
+                String sql = "DELETE FROM dosen_matkul WHERE no_matkul=? AND no_dosen=?";
+
+                prs = connec.prepareStatement(sql);
+                prs.setInt(1, i);
+                prs.setInt(2, id_dosen);
+
+                prs.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getMatkulSize(){
+        try {
+            String sql = "SELECT * FROM matkul";
+            rs = connec.createStatement().executeQuery(sql);
+
+            while (rs.next()) {
+                ol_matkul.add(new MataKuliah(rs.getString("no"), rs.getString("nama"), rs.getString("sks"), rs.getString("jumlah")));
+            }
+
+            matkul_size = ol_matkul.size();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

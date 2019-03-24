@@ -21,6 +21,8 @@ public class Login implements Initializable {
     @FXML
     private TextField passwordField;
 
+    public Button btnLogin;
+
     /**
      * Initializes the controller class.
      */
@@ -30,11 +32,11 @@ public class Login implements Initializable {
     }
 
     @FXML
-    private void loginAction(ActionEvent event) {
+    private void loginAction() {
         String Username = usernameField.getText();
         String password = passwordField.getText();
 
-        if ((Username.equals("root")) && (password.equals("root"))){
+        if ((Username.equals("admin")) && (password.equals("admin"))){
             openDashboard();
         }else{
             Alert alert = new Alert(Alert.AlertType.NONE, "Username atau password salah.", ButtonType.OK);

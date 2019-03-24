@@ -1,10 +1,10 @@
 package controller;
 
 import helper.AutoCompleteBoxHelper;
+import helper.CSPHelper;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,17 +16,18 @@ import javafx.scene.text.Text;
 import model.Jadwal;
 
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GenerateJadwal implements Initializable {
+public class GenerateCSP implements Initializable {
 
     @FXML
     private AnchorPane kelolaJadwalPane;
-    @FXML
-    private AnchorPane pane;
     @FXML
     private ComboBox<String> dosenCombo;
     @FXML
@@ -44,6 +45,15 @@ public class GenerateJadwal implements Initializable {
     @FXML
     private TableColumn<Jadwal, String> tblKolomKelas;
 
+    public AnchorPane pane;
+    public Button btnTambah;
+    public Button btnUpdate;
+    public Button btnDashboard;
+    public Button btnHapusMatkulKelas;
+    public Button btnHapusDosenMatkul;
+    public Button btnHapusDosenMatkulKelas;
+    public Button btnGenerateJadwal;
+
     private ObservableList<Jadwal> ol;
     private ObservableList<String> dosen;
     private ObservableList<String> mata_kuliah;
@@ -51,9 +61,6 @@ public class GenerateJadwal implements Initializable {
     private Connection connec;
     private PreparedStatement prs;
     private ResultSet rs_jadwal;
-    private ResultSet rs_temp;
-    private Statement stmt;
-    private SQLHelper sqlHelper = new SQLHelper();
     private String id_dosen = null;
     private String id_mata_kuliah = null;
     private String id_kelas = null;
@@ -63,7 +70,7 @@ public class GenerateJadwal implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        connec = sqlHelper.getConnection();
+        connec = SQLHelper.getConnection();
         ol = FXCollections.observableArrayList();
         dosen = FXCollections.observableArrayList();
         mata_kuliah = FXCollections.observableArrayList();
@@ -75,29 +82,29 @@ public class GenerateJadwal implements Initializable {
     }
 
     @FXML
-    private void tambahJadwalAction(ActionEvent event) {
+    private void tambahJadwalAction() {
 
         try {
             String sql = "SELECT * FROM dosen WHERE nama=?";
             prs = connec.prepareStatement(sql);
-            prs.setString(1, (String)dosenCombo.getSelectionModel().getSelectedItem());
+            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
-                id_dosen = rs_jadwal.getString("nip");
+                id_dosen = rs_jadwal.getString("no");
             }
         } catch (SQLException e) {
             System.out.println("Erorr");
         }
 
         try {
-            String sql = "SELECT * FROM mata_kuliah WHERE nama=?";
+            String sql = "SELECT * FROM matkul WHERE nama=?";
             prs = connec.prepareStatement(sql);
-            prs.setString(1, (String)dosenCombo.getSelectionModel().getSelectedItem());
+            prs.setString(1, matkulCombo.getSelectionModel().getSelectedItem());
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
-                id_mata_kuliah = rs_jadwal.getString("id_mata_kuliah");
+                id_mata_kuliah = rs_jadwal.getString("no");
             }
         } catch (SQLException e) {
             System.out.println("Erorr");
@@ -106,37 +113,28 @@ public class GenerateJadwal implements Initializable {
         try {
             String sql = "SELECT * FROM kelas WHERE nama=?";
             prs = connec.prepareStatement(sql);
-            prs.setString(1, (String)dosenCombo.getSelectionModel().getSelectedItem());
+            prs.setString(1, kelasCombo.getSelectionModel().getSelectedItem());
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
-                id_kelas = rs_jadwal.getString("id_kelas");
+                id_kelas = rs_jadwal.getString("no");
             }
         } catch (SQLException e) {
             System.out.println("Erorr");
         }
 
-        try {
-            stmt = (Statement) connec.createStatement();
-
-            String sql = "INSERT INTO jadwal (dosen, mata_kuliah, kelas)"
-                    + "VALUES('" + id_dosen + "', '" + id_mata_kuliah + "', '" + id_kelas + "')";
-            stmt.executeUpdate(sql);
-            stmt.close();
-
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/generate_jadwal.fxml"));
-            kelolaJadwalPane.getChildren().setAll(pane);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        updateDosenMatkul();
+        updateMatkulKelas();
+        clearText();
+        loadDataFromDatabase();
     }
 
     @FXML
-    private void updateJadwalAction(ActionEvent event) {
+    private void updateJadwalAction() {
         try {
             String sql = "SELECT * FROM dosen WHERE nama=?";
             prs = connec.prepareStatement(sql);
-            prs.setString(1, (String)dosenCombo.getSelectionModel().getSelectedItem());
+            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
@@ -149,7 +147,7 @@ public class GenerateJadwal implements Initializable {
         try {
             String sql = "SELECT * FROM mata_kuliah WHERE nama=?";
             prs = connec.prepareStatement(sql);
-            prs.setString(1, (String)dosenCombo.getSelectionModel().getSelectedItem());
+            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
@@ -162,7 +160,7 @@ public class GenerateJadwal implements Initializable {
         try {
             String sql = "SELECT * FROM kelas WHERE nama=?";
             prs = connec.prepareStatement(sql);
-            prs.setString(1, (String)dosenCombo.getSelectionModel().getSelectedItem());
+            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
@@ -191,33 +189,12 @@ public class GenerateJadwal implements Initializable {
 
             prs.close();
         } catch (SQLException ex) {
-            Logger.getLogger(GenerateJadwal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GenerateCSP.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @FXML
-    private void hapusJadwalAction(ActionEvent event) {
-        String sql = "DELETE FROM jadwal WHERE id_jadwal = ?";
-
-        try {
-            prs = connec.prepareStatement(sql);
-//            prs.setString(1, id_jadwal);
-            int exec = prs.executeUpdate();
-
-            if(exec == 1){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Berhasil dihapus", ButtonType.OK);
-                alert.setTitle("Dihapus");
-                alert.showAndWait();
-                loadDataFromDatabase();
-//                clearText();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(KelolaKelas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @FXML
-    private void toDashboard(ActionEvent event) {
+    private void toDashboard() {
         try{
             AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/dashboard.fxml"));
             kelolaJadwalPane.getChildren().setAll(ap);
@@ -245,24 +222,24 @@ public class GenerateJadwal implements Initializable {
                     "INNER JOIN kelas ON matkul_kelas.no_kelas = kelas.no " +
                     "WHERE dosen_matkul.nilai=1 AND matkul_kelas.nilai=1";
 
-            String sql = "SELECT * FROM jadwal_temp";
+//            String sql = "SELECT * FROM jadwal_temp";
 
             rs_jadwal = connec.createStatement().executeQuery(sql_jadwal);
-            rs_temp = connec.createStatement().executeQuery(sql);
+//            ResultSet rs_temp = connec.createStatement().executeQuery(sql);
 
             while (rs_jadwal.next()) {
                 ol.add(new Jadwal(rs_jadwal.getString("dosen"), rs_jadwal.getString("dosen_id"), rs_jadwal.getString("matkul"), rs_jadwal.getString("matkul_id"), rs_jadwal.getString("kelas"), rs_jadwal.getString("kelas_id")));
 
-                if (rs_temp != null){
-                    String query = "INSERT INTO jadwal_temp (dosen, matkul, kelas, no_dosen, no_matkul, no_kelas)"
-                            + "VALUES('" + rs_jadwal.getString("dosen") + "', '" + rs_jadwal.getString("matkul") + "', '" + rs_jadwal.getString("kelas") + "', '" + rs_jadwal.getString("dosen_id") + "', '" + rs_jadwal.getString("matkul_id") + "', '" + rs_jadwal.getString("kelas_id") + "')";
-                    connec.createStatement().executeUpdate(query);
-                }
+//                if (rs_temp == null){
+//                    String query = "INSERT INTO jadwal_temp (dosen, matkul, kelas, no_dosen, no_matkul, no_kelas)"
+//                            + "VALUES('" + rs_jadwal.getString("dosen") + "', '" + rs_jadwal.getString("matkul") + "', '" + rs_jadwal.getString("kelas") + "', '" + rs_jadwal.getString("dosen_id") + "', '" + rs_jadwal.getString("matkul_id") + "', '" + rs_jadwal.getString("kelas_id") + "')";
+//                    connec.createStatement().executeUpdate(query);
+//                }
             }
 
             totalData.setText("Total Data : " + ol.size());
         } catch (SQLException ex) {
-            Logger.getLogger(GenerateJadwal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GenerateCSP.class.getName()).log(Level.SEVERE, null, ex);
         }
         tblDataJadwal.setItems(ol);
     }
@@ -281,17 +258,17 @@ public class GenerateJadwal implements Initializable {
         });
     }
 
-//    private void clearText(){
-//        dosenField.clear();
-//        matkulField.clear();
-//        kelasField.clear();
-//    }
+    private void clearText(){
+        dosenCombo.setValue("");
+        matkulCombo.setValue("");
+        kelasCombo.setValue("");
+    }
 
-    public void onClickKelasCombo(ActionEvent actionEvent) {
+    public void onClickKelasCombo() {
         String sql = "SELECT * FROM kelas WHERE nama=?";
         try {
             prs = connec.prepareStatement(sql);
-            prs.setString(1, (String)kelasCombo.getSelectionModel().getSelectedItem());
+            prs.setString(1, kelasCombo.getSelectionModel().getSelectedItem());
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
@@ -302,11 +279,11 @@ public class GenerateJadwal implements Initializable {
         }
     }
 
-    public void onClickMatkulCombo(ActionEvent actionEvent) {
+    public void onClickMatkulCombo() {
         String sql = "SELECT * FROM matkul WHERE nama=?";
         try {
             prs = connec.prepareStatement(sql);
-            prs.setString(1, (String)kelasCombo.getSelectionModel().getSelectedItem());
+            prs.setString(1, kelasCombo.getSelectionModel().getSelectedItem());
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
@@ -317,11 +294,11 @@ public class GenerateJadwal implements Initializable {
         }
     }
 
-    public void onClickDosenCombo(ActionEvent actionEvent) {
+    public void onClickDosenCombo() {
         String sql = "SELECT * FROM dosen WHERE nama=?";
         try {
             prs = connec.prepareStatement(sql);
-            prs.setString(1, (String)kelasCombo.getSelectionModel().getSelectedItem());
+            prs.setString(1, kelasCombo.getSelectionModel().getSelectedItem());
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
@@ -332,7 +309,7 @@ public class GenerateJadwal implements Initializable {
         }
     }
 
-    public void fillComboBox(){
+    private void fillComboBox(){
         dosenCombo.setEditable(true);
         matkulCombo.setEditable(true);
         kelasCombo.setEditable(true);
@@ -376,12 +353,101 @@ public class GenerateJadwal implements Initializable {
         dosenCombo.setItems(dosen);
         matkulCombo.setItems(mata_kuliah);
         kelasCombo.setItems(kelas);
-        new AutoCompleteBoxHelper<>(dosenCombo);
-        new AutoCompleteBoxHelper<>(matkulCombo);
-        new AutoCompleteBoxHelper<>(kelasCombo);
+        new AutoCompleteBoxHelper(dosenCombo);
+        new AutoCompleteBoxHelper(matkulCombo);
+        new AutoCompleteBoxHelper(kelasCombo);
     }
 
-//    public void updateTotal(){
-//        totalData.setText("Total Data : " + );
-//    }
+    private void updateMatkulKelas(){
+        try {
+            String sql = "UPDATE matkul_kelas SET nilai=1 WHERE no_kelas=? AND no_matkul=?";
+            prs = connec.prepareStatement(sql);
+
+            prs.setString(1, id_kelas);
+            prs.setString(2, id_mata_kuliah);
+
+            prs.executeUpdate();
+            prs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateDosenMatkul(){
+        try {
+            String sql = "UPDATE dosen_matkul SET nilai=1 WHERE no_dosen=? AND no_matkul=?";
+            prs = connec.prepareStatement(sql);
+
+            prs.setString(1, id_dosen);
+            prs.setString(2, id_mata_kuliah);
+
+            prs.executeUpdate();
+            prs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteMatkulKelas(){
+        try {
+            String sql = "UPDATE matkul_kelas SET nilai=0 WHERE no_kelas=? AND no_matkul=?";
+            prs = connec.prepareStatement(sql);
+
+            prs.setString(1, id_kelas);
+            prs.setString(2, id_mata_kuliah);
+
+            prs.executeUpdate();
+            prs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteDosenMatkul(){
+        try {
+            String sql = "UPDATE dosen_matkul SET nilai=0 WHERE no_dosen=? AND no_matkul=?";
+            prs = connec.prepareStatement(sql);
+
+            prs.setString(1, id_dosen);
+            prs.setString(2, id_mata_kuliah);
+
+            prs.executeUpdate();
+            prs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void hapusMatkulKelasAction() {
+        deleteMatkulKelas();
+        clearText();
+        loadDataFromDatabase();
+    }
+
+    public void hapusDosenMatkulAction() {
+        deleteDosenMatkul();
+        clearText();
+        loadDataFromDatabase();
+    }
+
+    public void hapusDosenMatkulKelasAction() {
+        deleteDosenMatkul();
+        deleteMatkulKelas();
+        clearText();
+        loadDataFromDatabase();
+    }
+
+    public void generateJadwal() {
+        CSPHelper.main();
+        toDijkstraMenu();
+    }
+
+    private void toDijkstraMenu(){
+        try{
+            AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/generate_dijkstra.fxml"));
+            pane.getChildren().setAll(ap);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }

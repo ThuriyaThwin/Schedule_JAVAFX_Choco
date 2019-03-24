@@ -3,7 +3,6 @@ package controller;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,7 +11,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import model.Kelas;
 import model.MataKuliah;
 
 import java.net.URL;
@@ -25,8 +23,6 @@ public class KelolaMatkul implements Initializable {
 
     @FXML
     private AnchorPane kelolaMataKuliahPane;
-    @FXML
-    private AnchorPane pane;
     @FXML
     private TextField namaField;
     @FXML
@@ -44,12 +40,15 @@ public class KelolaMatkul implements Initializable {
     @FXML
     private TableColumn<MataKuliah, String> tblKolomSKS;
 
+    public AnchorPane pane;
+    public Button btnTambah;
+    public Button btnUpdate;
+    public Button btnHapus;
+    public Button btnDashboard;
+
     private ObservableList<MataKuliah> ol;
     private Connection connec;
     private PreparedStatement prs;
-    private ResultSet rs;
-    private Statement stmt;
-    private SQLHelper sqlHelper = new SQLHelper();
     private String id_mata_kuliah = null;
     private int next_id = 0;
 
@@ -58,7 +57,7 @@ public class KelolaMatkul implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        connec = sqlHelper.getConnection();
+        connec = SQLHelper.getConnection();
         ol = FXCollections.observableArrayList();
         loadDataFromDatabase();
         fromTableToTextField();
@@ -66,13 +65,13 @@ public class KelolaMatkul implements Initializable {
     }
 
     @FXML
-    private void tambahMataKuliahAction(ActionEvent event) {
+    private void tambahMataKuliahAction() {
         String nama = namaField.getText();
         String jumlah = jumlahField.getText();
         String sks = sksField.getText();
 
         try {
-            stmt = (Statement) connec.createStatement();
+            Statement stmt = connec.createStatement();
 
             String sql = "INSERT INTO matkul (no, nama, sks, jumlah)"
                     + "VALUES('" + next_id + "', '" + nama + "', '" + sks + "', '" + jumlah + "')";
@@ -87,7 +86,7 @@ public class KelolaMatkul implements Initializable {
     }
 
     @FXML
-    private void updateMataKuliahAction(ActionEvent event) {
+    private void updateMataKuliahAction() {
         String sql = "UPDATE matkul SET nama=?, sks=?, jumlah=? WHERE no=?";
 
         try {
@@ -113,7 +112,7 @@ public class KelolaMatkul implements Initializable {
     }
 
     @FXML
-    private void hapusMataKuliahAction(ActionEvent event) {
+    private void hapusMataKuliahAction() {
         String sql = "DELETE FROM matkul WHERE no = ?";
 
         try {
@@ -134,7 +133,7 @@ public class KelolaMatkul implements Initializable {
     }
 
     @FXML
-    private void toDashboard(ActionEvent event) {
+    private void toDashboard() {
         try{
             AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/dashboard.fxml"));
             kelolaMataKuliahPane.getChildren().setAll(ap);
@@ -153,7 +152,7 @@ public class KelolaMatkul implements Initializable {
         ol.clear();
         try {
             String sql = "SELECT * FROM matkul";
-            rs = connec.createStatement().executeQuery(sql);
+            ResultSet rs = connec.createStatement().executeQuery(sql);
             int i =0;
 
             while (rs.next()) {

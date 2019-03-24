@@ -6,9 +6,6 @@ public class MataKuliah {
     private String sks;
     private String jumlah;
 
-    public MataKuliah() {
-    }
-
     public MataKuliah(String no, String nama, String sks, String jumlah) {
         this.no = no;
         this.nama = nama;
@@ -18,10 +15,6 @@ public class MataKuliah {
 
     public String getNo() {
         return no;
-    }
-
-    public void setNo(String no) {
-        this.no = no;
     }
 
     public String getNama() {
@@ -36,16 +29,8 @@ public class MataKuliah {
         return sks;
     }
 
-    public void setSks(String sks) {
-        this.sks = sks;
-    }
-
     public String getJumlah() {
         return jumlah;
-    }
-
-    public void setJumlah(String jumlah) {
-        this.jumlah = jumlah;
     }
 
     @Override

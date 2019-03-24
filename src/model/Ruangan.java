@@ -21,10 +21,6 @@ public class Ruangan {
         return id_ruangan;
     }
 
-    public void setId_ruangan(String id_ruangan) {
-        this.id_ruangan = id_ruangan;
-    }
-
     public String getNama() {
         return nama;
     }
@@ -37,16 +33,8 @@ public class Ruangan {
         return jenis;
     }
 
-    public void setJenis(String jenis) {
-        this.jenis = jenis;
-    }
-
     public String getKapasitas() {
         return kapasitas;
-    }
-
-    public void setKapasitas(String kapasitas) {
-        this.kapasitas = kapasitas;
     }
 
     @Override

@@ -1,10 +1,8 @@
 package controller;
 
-import helper.AutoCompleteBoxHelper;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import model.Kelas;
+import model.MataKuliah;
 
 import java.net.URL;
 import java.sql.*;
@@ -25,8 +24,6 @@ public class KelolaKelas implements Initializable {
 
     @FXML
     private AnchorPane kelolaKelasPane;
-    @FXML
-    private AnchorPane pane;
     @FXML
     private TextField namaField;
     @FXML
@@ -40,42 +37,51 @@ public class KelolaKelas implements Initializable {
     @FXML
     private TableColumn<Kelas, String> tblKolomJumlah;
 
+    public AnchorPane pane;
+    public Button btnTambah;
+    public Button btnUpdate;
+    public Button btnHapus;
+    public Button btnDashboard;
+
     private ObservableList<Kelas> ol;
-    private ObservableList<String> prodi;
+    private ObservableList<MataKuliah> ol_matkul;
     private Connection connec;
     private PreparedStatement prs;
     private ResultSet rs_kelas;
     private Statement stmt;
-    private SQLHelper sqlHelper = new SQLHelper();
     private int id_kelas;
-    private int next_id = 0;
+    private int next_id=0;
+    private int matkul_size=0;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        connec = sqlHelper.getConnection();
+        connec = SQLHelper.getConnection();
         ol = FXCollections.observableArrayList();
-        prodi = FXCollections.observableArrayList();
+        ol_matkul = FXCollections.observableArrayList();
         loadDataFromDatabase();
         fromTableToTextField();
         setCellValue();
-//        fillComboBox();
     }
 
     @FXML
-    private void tambahKelasAction(ActionEvent event) {
+    private void tambahKelasAction() {
         String nama = namaField.getText();
         String jumlah = jumlahField.getText();
 
+        getMatkulSize();
+
         try {
-            stmt = (Statement) connec.createStatement();
+            stmt = connec.createStatement();
 
             String sql = "INSERT INTO kelas (no, nama, jumlah)"
                     + "VALUES('" + next_id + "', '" + nama + "', '" + jumlah + "')";
-            int exec = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             stmt.close();
+
+            insertMatkulKelas();
 
             AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/kelola_kelas.fxml"));
             kelolaKelasPane.getChildren().setAll(pane);
@@ -85,7 +91,7 @@ public class KelolaKelas implements Initializable {
     }
 
     @FXML
-    private void updateKelasAction(ActionEvent event) {
+    private void updateKelasAction() {
         try {
             String sql = "UPDATE kelas SET nama=?, jumlah=? WHERE no=?";
             prs = connec.prepareStatement(sql);
@@ -109,10 +115,12 @@ public class KelolaKelas implements Initializable {
     }
 
     @FXML
-    private void hapusKelasAction(ActionEvent event) {
-        String sql = "DELETE FROM kelas WHERE no = ?";
+    private void hapusKelasAction() {
+        getMatkulSize();
+        deleteMatkulKelas();
 
         try {
+            String sql = "DELETE FROM kelas WHERE no = ?";
             prs = connec.prepareStatement(sql);
             prs.setInt(1, id_kelas);
             int exec = prs.executeUpdate();
@@ -130,7 +138,7 @@ public class KelolaKelas implements Initializable {
     }
 
     @FXML
-    private void toDashboard(ActionEvent event) {
+    private void toDashboard() {
         try{
             AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/dashboard.fxml"));
             kelolaKelasPane.getChildren().setAll(ap);
@@ -168,6 +176,9 @@ public class KelolaKelas implements Initializable {
         tblDataKelas.setOnMouseClicked((MouseEvent event) -> {
             Kelas kelas = tblDataKelas.getItems().get(tblDataKelas.getSelectionModel().getSelectedIndex());
             if (kelas != null){
+                System.out.println(kelas.getNo());
+                System.out.println(kelas.getNama());
+                System.out.println(kelas.getJumlah());
                 id_kelas = kelas.getNo();
                 namaField.setText(kelas.getNama());
                 jumlahField.setText(kelas.getJumlah());
@@ -178,5 +189,53 @@ public class KelolaKelas implements Initializable {
     private void clearText(){
         namaField.clear();
         jumlahField.clear();
+    }
+
+    private void insertMatkulKelas(){
+        try {
+            stmt = connec.createStatement();
+
+            for (int i=1;i<matkul_size+1;i++){
+                String sql = "INSERT INTO matkul_kelas (no_matkul, no_kelas, nilai)"
+                        + "VALUES('" + i + "', '" + next_id + "', '" + 0 + "')";
+
+                stmt.executeUpdate(sql);
+            }
+
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteMatkulKelas(){
+        try {
+            for (int i=1;i<matkul_size+1;i++){
+                String sql = "DELETE FROM matkul_kelas WHERE no_matkul=? AND no_kelas=?";
+
+                prs = connec.prepareStatement(sql);
+                prs.setInt(1, i);
+                prs.setInt(2, id_kelas);
+
+                prs.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getMatkulSize(){
+        try {
+            String sql = "SELECT * FROM matkul";
+            rs_kelas = connec.createStatement().executeQuery(sql);
+
+            while (rs_kelas.next()) {
+                ol_matkul.add(new MataKuliah(rs_kelas.getString("no"), rs_kelas.getString("nama"), rs_kelas.getString("sks"), rs_kelas.getString("jumlah")));
+            }
+
+            matkul_size = ol_matkul.size();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
