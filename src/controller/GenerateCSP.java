@@ -221,20 +221,10 @@ public class GenerateCSP implements Initializable {
                     "INNER JOIN matkul ON dosen_matkul.no_matkul = matkul.no " +
                     "INNER JOIN kelas ON matkul_kelas.no_kelas = kelas.no " +
                     "WHERE dosen_matkul.nilai=1 AND matkul_kelas.nilai=1";
-
-//            String sql = "SELECT * FROM jadwal_temp";
-
             rs_jadwal = connec.createStatement().executeQuery(sql_jadwal);
-//            ResultSet rs_temp = connec.createStatement().executeQuery(sql);
 
             while (rs_jadwal.next()) {
                 ol.add(new Jadwal(rs_jadwal.getString("dosen"), rs_jadwal.getString("dosen_id"), rs_jadwal.getString("matkul"), rs_jadwal.getString("matkul_id"), rs_jadwal.getString("kelas"), rs_jadwal.getString("kelas_id")));
-
-//                if (rs_temp == null){
-//                    String query = "INSERT INTO jadwal_temp (dosen, matkul, kelas, no_dosen, no_matkul, no_kelas)"
-//                            + "VALUES('" + rs_jadwal.getString("dosen") + "', '" + rs_jadwal.getString("matkul") + "', '" + rs_jadwal.getString("kelas") + "', '" + rs_jadwal.getString("dosen_id") + "', '" + rs_jadwal.getString("matkul_id") + "', '" + rs_jadwal.getString("kelas_id") + "')";
-//                    connec.createStatement().executeUpdate(query);
-//                }
             }
 
             totalData.setText("Total Data : " + ol.size());
@@ -438,13 +428,24 @@ public class GenerateCSP implements Initializable {
     }
 
     public void generateJadwal() {
+        deleteJadwal();
         CSPHelper.main();
         toDijkstraMenu();
     }
 
+    private void deleteJadwal(){
+        try {
+            String sql = "TRUNCATE TABLE jadwal";
+            prs.executeUpdate(sql);
+            prs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void toDijkstraMenu(){
         try{
-            AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/generate_dijkstra.fxml"));
+            AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/output_csp.fxml"));
             pane.getChildren().setAll(ap);
         }catch(Exception e){
             e.printStackTrace();

@@ -8,7 +8,7 @@ public class SQLHelper {
 
     public static Connection getConnection(){
         try {
-            String url="jdbc:mysql://localhost/penjadwalan_real";
+            String url="jdbc:mysql://localhost/penjadwalan_tb";
             String user="root";
             String pass="";
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
@@ -40,6 +40,7 @@ public class SQLHelper {
         try {
             Statement state = conn.createStatement();
             state.executeUpdate(query);
+            System.out.println("Berhasil insert");
         }
         catch (SQLException e){
             log( "Driver loaded, but cannot connect to db " + e.getMessage());

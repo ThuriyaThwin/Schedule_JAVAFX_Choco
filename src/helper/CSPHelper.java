@@ -16,8 +16,6 @@ public class CSPHelper {
     private String[] kelas;
     private String[][] dosen_matkul;
     private String[][] matkul_kelas;
-    //    private String[][][] dosen_matkul_kelas;
-//    private String[][][] hari_sesi_kelas;
     private String[] sks;
 
     private Solver problem;
@@ -86,22 +84,6 @@ public class CSPHelper {
         rs.close();
     }
 
-//    private void fillRuangan() throws SQLException {
-//        ResultSet rs = SqlHelpersx1.getResultSet("SELECT * FROM ruangan ORDER BY no");
-//
-//        ruangan = new String[getRowCount(rs)];
-//        kapasitas = new String[getRowCount(rs)];
-//        int i = 0;
-//
-//        while (rs.next()) {
-//            ruangan[i] = rs.getString("nama");
-//            kapasitas[i] = rs.getString("kapasitas");
-//            i++;
-//        }
-//
-//        rs.close();
-//    }
-
     private void fillKelas() throws SQLException {
         ResultSet rs = SQLHelper.getResultSet("SELECT * FROM kelas ORDER BY no");
 
@@ -145,42 +127,8 @@ public class CSPHelper {
 
         rs.close();
     }
-//
-//    private void fillDosenMatkulKelas() throws SQLException {
-//        ResultSet rs = SqlHelpersx1.getResultSet("SELECT * FROM dosen_matkul_kelas ORDER BY no_dosen, no_matkul, no_kelas");
-//
-//        dosen_matkul_kelas = new String[dosen.length][matkul.length][kelas.length];
-//
-//        while (rs.next()) {
-//            int no_dosen = rs.getInt("no_dosen");
-//            int no_matkul = rs.getInt("no_matkul");
-//            int no_kelas = rs.getInt("no_kelas");
-//
-//            dosen_matkul_kelas[no_dosen-1][no_matkul-1][no_kelas-1] = rs.getString("nilai");
-//        }
-//
-//        rs.close();
-//    }
-
-//    private void fillHariSesiKelas() throws SQLException {
-//        ResultSet rs = SqlHelpersx1.getResultSet("SELECT * FROM hari_sesi_kelas ORDER BY no_hari, no_sesi, no_kelas");
-//
-//         hari_sesi_kelas = new String[hari.length][sesi.length][kelas.length];
-//
-//        while (rs.next()) {
-//            int no_hari = rs.getInt("no_hari");
-//            int no_sesi = rs.getInt("no_sesi");
-//            int no_kelas = rs.getInt("no_kelas");
-//
-//            hari_sesi_kelas[no_hari-1][no_sesi-1][no_kelas-1] = rs.getString("nilai");
-//        }
-//
-//        rs.close();
-//    }
 
     private void generateSolusi() {
-        //Definisi Variabel
-        //IntegerVariable[][][][][][] x = new IntegerVariable[dosen.length][hari.length][sesi.length][matkul.length][ruang.length];
         IntExp[][][][][] x = new IntExp[dosen.length][hari.length][sesi.length][matkul.length][kelas.length];
 
         for (int iDosen = 0; iDosen < dosen.length; iDosen++) {
@@ -188,13 +136,6 @@ public class CSPHelper {
                 for (int iSesi = 0; iSesi < sesi.length; iSesi++) {
                     for (int iMatkul = 0; iMatkul < matkul.length; iMatkul++) {
                         for (int iKelas = 0; iKelas < kelas.length; iKelas++) {
-                            /*x[iDosen][iHari][iSesi][iMatkul][iRuang] = Choco.makeIntVar(
-                                    "x[" + iDosen + "]" +
-                                            "[" + iHari + "]" +
-                                            "[" + iSesi + "]" +
-                                            "[" + iMatkul + "]" +
-                                            "[" + iRuang + "]", 0, 1, Options.V_ENUM);*/
-
                             x[iDosen][iHari][iSesi][iMatkul][iKelas] = problem.createEnumIntVar(
                                     "x[" + iDosen + "]" +
                                             "[" + iHari + "]" +
@@ -207,24 +148,6 @@ public class CSPHelper {
             }
         }
 
-        //Definisi batasan-batasan variabel
-//        for (int iDosen = 0; iDosen < dosen.length; iDosen++) {
-//            for (int iHari = 0; iHari < hari.length; iHari++) {
-//                for (int iSesi = 0; iSesi < sesi.length; iSesi++) {
-//                    for (int iMatkul = 0; iMatkul < matkul.length; iMatkul++) {
-//                        for (int iKelas = 0; iKelas < kelas.length; iKelas++) {
-//                            problem.post(problem.geq(x[iDosen][iHari][iSesi][iMatkul][iKelas], 0));
-//                            problem.post(problem.leq(x[iDosen][iHari][iSesi][iMatkul][iKelas], 1));
-////                            problem.post(problem.leq(x[iDosen][iHari][iSesi][iMatkul][iKelas], Integer.parseInt(dosen_matkul[iDosen][iMatkul])));
-////                            problem.post(problem.leq(x[iDosen][iHari][iSesi][iMatkul][iKelas], Integer.parseInt(matkul_kelas[iMatkul][iKelas])));
-//                            problem.post(problem.leq(x[iDosen][iHari][iSesi][iMatkul][iKelas], Integer.parseInt(dosen_matkul_kelas[iDosen][iMatkul][iKelas])));
-////                            problem.post(problem.geq(x[iDosen][iHari][iSesi][iMatkul][iKelas], Integer.parseInt(hari_sesi_kelas[iHari][iSesi][iKelas])));
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
         for (int iHari = 0; iHari < hari.length; iHari++) {
             for (int iSesi = 0; iSesi < sesi.length; iSesi++) {
                 for (int iMatkul = 0; iMatkul < matkul.length; iMatkul++) {
@@ -234,7 +157,6 @@ public class CSPHelper {
                             problem.post(problem.leq(x[iDosen][iHari][iSesi][iMatkul][iKelas], 1));
                             problem.post(problem.leq(x[iDosen][iHari][iSesi][iMatkul][iKelas], Integer.parseInt(matkul_kelas[iMatkul][iKelas])));
                             problem.post(problem.leq(x[iDosen][iHari][iSesi][iMatkul][iKelas], Integer.parseInt(dosen_matkul[iDosen][iMatkul])));
-//                            problem.post(problem.leq(x[iDosen][iHari][iSesi][iMatkul][iKelas], Integer.parseInt(dosen_matkul_kelas[iDosen][iMatkul][iKelas])));
                         }
                     }
                 }
@@ -260,28 +182,6 @@ public class CSPHelper {
 
             problem.post(problem.eq(plus, Integer.parseInt(sks[iMatkul])));
         }
-
-       /* IntExp plus4;
-        for (int iRuangan=0; iRuangan < ruangan.length; iRuangan++) {
-            plus4 = null;
-
-            for (int iDosen=0; iDosen < dosen.length; iDosen++) {
-                for (int iHari=0; iHari < hari.length; iHari++) {
-                    for (int iSesi=0; iSesi < sesi.length; iSesi++) {
-                        for (int iMatkul = 0; iMatkul < matkul.length; iMatkul++) {
-                            for (int iKelas = 0; iKelas < kelas.length; iKelas++) {
-                                if (plus4 == null)
-                                    plus4 = x[iDosen][iHari][iSesi][iMatkul][iRuangan][iKelas];
-                                else
-                                    plus4 = problem.plus(plus4, x[iDosen][iHari][iSesi][iMatkul][iRuangan][iKelas]);
-                            }
-                        }
-                    }
-                }
-            }
-
-            problem.post(problem.eq(plus4, Integer.parseInt(kapasitas[iRuangan])));
-        }*/
 
         IntExp plus1;
         for (int iDosen=0; iDosen < dosen.length; iDosen++) {
@@ -323,72 +223,7 @@ public class CSPHelper {
             }
         }
 
-//        IntExp plus3;
-//        for (int iDosen=0; iDosen < dosen.length; iDosen++) {
-//            for (int iMatkul=0; iMatkul < matkul.length; iMatkul++) {
-//                for (int iKelas=0; iKelas < kelas.length; iKelas++) {
-//                    plus3 = null;
-//
-//                    for (int iHari=0; iHari < hari.length; iHari++) {
-//                        for (int iSesi=0; iSesi < sesi.length; iSesi++) {
-//                            if (plus3 == null)
-//                                plus3 = x[iDosen][iHari][iSesi][iMatkul][iKelas];
-//                            else
-//                                plus3 = problem.plus(plus3, x[iDosen][iHari][iSesi][iMatkul][iKelas]);
-//                        }
-//                    }
-//
-//                    problem.post(problem.leq(plus3, 1));
-//                }
-//            }
-//        }
-
-//        IntExp plus3;
-//        for (int iKelas=0; iKelas < kelas.length; iKelas++) {
-//            for (int iMatkul=0; iMatkul < matkul.length; iMatkul++) {
-//
-//                plus3 = null;
-//
-//                for (int iDosen=0; iDosen < dosen.length; iDosen++) {
-//                    for (int iHari=0; iHari < hari.length; iHari++) {
-//                        for (int iSesi=0; iSesi < sesi.length; iSesi++) {
-//                            if (plus3 == null)
-//                                plus3 = x[iDosen][iHari][iSesi][iMatkul][iKelas];
-//                            else
-//                                plus3 = problem.plus(plus3, x[iDosen][iHari][iSesi][iMatkul][iKelas]);
-//                        }
-//                    }
-//
-//                    problem.post(problem.leq(plus3, 1));
-//                }
-//            }
-//        }
-
-//        IntExp plus3;
-//        for (int iRuangan=0; iRuangan<ruangan.length; iRuangan++) {
-//            for (int iHari=0; iHari<hari.length; iHari++) {
-//                for (int iSesi=0; iSesi<sesi.length; iSesi++) {
-//                    plus3 = null;
-//
-//                    for (int iDosen=0; iDosen<dosen.length; iDosen++) {
-//                        for (int iMatkul=0; iMatkul<matkul.length; iMatkul++) {
-//                            for (int iKelas=0; iKelas<kelas.length; iKelas++) {
-//                                if (plus3 == null)
-//                                    plus3 = x[iDosen][iHari][iSesi][iMatkul][iRuangan][iKelas];
-//                                else
-//                                    plus3 = problem.plus(plus3, x[iDosen][iHari][iSesi][iMatkul][iRuangan][iKelas]);
-//                            }
-//                        }
-//                    }
-//
-//                    problem.post(problem.leq(plus3, 1));
-//                }
-//            }
-//        }
-
         try {
-            //problem.propagate();
-            //problem.solve().booleanValue();
             problem.solve();
         }
         catch (SolverException ce) {
@@ -415,15 +250,6 @@ public class CSPHelper {
                                         + "VALUES('" + (iDosen+1) + "', '" + (iHari+1) + "', '" + (iSesi+1) + "', '" + (iMatkul+1) + "', '" + (iKelas+1) + "')";
                                 SQLHelper.insertDB(sql);
                             }
-                                /*if (x[iDosen][iHari][iSesi][iMatkul][iRuang].toString().substring(x[iDosen][iHari][iSesi][iMatkul][iRuang].toString().length()) == "1") {
-                                    System.out.println(
-                                        "x[" + dosen[iDosen] + "]" +
-                                        "[" + hari[iHari] + "]" +
-                                        "[" + sesi[iSesi] + "]" +
-                                        "[" + matkul[iMatkul] + "]" +
-                                        "[" + ruang[iRuang] + "] = " +
-                                        x[iDosen][iHari][iSesi][iMatkul][iRuang]);
-                                }*/
                         }
                     }
                 }
@@ -454,18 +280,12 @@ public class CSPHelper {
             System.out.println("Sukses 3");
             def.fillMatkul();
             System.out.println("Sukses 4");
-//            def.fillRuangan();
-//            System.out.println("Sukses 5");
             def.fillKelas();
-            System.out.println("Sukses 6");
+            System.out.println("Sukses 5");
             def.fillDosenMatkul();
-            System.out.println("Sukses 7");
+            System.out.println("Sukses 6");
             def.fillMatkulKelas();
-            System.out.println("Sukses 8");
-//            def.fillDosenMatkulKelas();
-//            System.out.println("Sukses 9");
-//            def.fillHariSesiKelas();
-//            System.out.println("Sukses 10");
+            System.out.println("Sukses 7");
         }
         catch (SQLException se) {
             System.out.println("Error [SQLException]: " + se.getMessage());
