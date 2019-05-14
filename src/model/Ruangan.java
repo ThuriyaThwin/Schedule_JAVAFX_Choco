@@ -4,21 +4,23 @@ public class Ruangan {
 
     private String id_ruangan;
     private String nama;
-    private String jenis;
     private String kapasitas;
 
     public Ruangan() {
     }
 
-    public Ruangan(String id_ruangan, String nama, String jenis, String kapasitas) {
+    public Ruangan(String id_ruangan, String nama, String kapasitas) {
         this.id_ruangan = id_ruangan;
         this.nama = nama;
-        this.jenis = jenis;
         this.kapasitas = kapasitas;
     }
 
     public String getId_ruangan() {
         return id_ruangan;
+    }
+
+    public void setId_ruangan(String id_ruangan) {
+        this.id_ruangan = id_ruangan;
     }
 
     public String getNama() {
@@ -29,12 +31,12 @@ public class Ruangan {
         this.nama = nama;
     }
 
-    public String getJenis() {
-        return jenis;
-    }
-
     public String getKapasitas() {
         return kapasitas;
+    }
+
+    public void setKapasitas(String kapasitas) {
+        this.kapasitas = kapasitas;
     }
 
     @Override
@@ -42,7 +44,6 @@ public class Ruangan {
         return "Ruangan{" +
                 "id_ruangan='" + id_ruangan + '\'' +
                 ", nama='" + nama + '\'' +
-                ", jenis='" + jenis + '\'' +
                 ", kapasitas='" + kapasitas + '\'' +
                 '}';
     }

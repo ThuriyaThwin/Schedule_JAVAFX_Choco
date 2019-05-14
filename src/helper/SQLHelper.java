@@ -8,8 +8,9 @@ public class SQLHelper {
 
     public static Connection getConnection(){
         try {
-            String url="jdbc:mysql://localhost/penjadwalan_tb";
+            String url="jdbc:mysql://localhost/penjadwalan_real";
             String user="root";
+
             String pass="";
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             mysqlconfig=DriverManager.getConnection(url, user, pass);
@@ -19,7 +20,7 @@ public class SQLHelper {
         return mysqlconfig;
     }
 
-    static ResultSet getResultSet(String query) {
+    public static ResultSet getResultSet(String query) {
         Connection conn = getConnection();
         ResultSet rs = null;
 
@@ -40,7 +41,6 @@ public class SQLHelper {
         try {
             Statement state = conn.createStatement();
             state.executeUpdate(query);
-            System.out.println("Berhasil insert");
         }
         catch (SQLException e){
             log( "Driver loaded, but cannot connect to db " + e.getMessage());

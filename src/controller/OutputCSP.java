@@ -43,6 +43,7 @@ public class OutputCSP implements Initializable {
 
     public AnchorPane pane;
     public Button btnDashboard;
+    public Button toDijkstra;
 
     private ObservableList<JadwalCSP> ol;
     private Connection connec;
@@ -60,6 +61,16 @@ public class OutputCSP implements Initializable {
 
     @FXML
     private void toDashboard() {
+        try{
+            AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/dashboard.fxml"));
+            outputCSPPane.getChildren().setAll(ap);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void toDijkstra() {
         try{
             AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/dashboard.fxml"));
             outputCSPPane.getChildren().setAll(ap);

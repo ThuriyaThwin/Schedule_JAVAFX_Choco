@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Add generate CSP backtracking function">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Cleaning code">
+      <change afterPath="$PROJECT_DIR$/src/controller/GenerateDijkstra.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ScheduleFX/META-INF/ScheduleFX.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ScheduleFX/driver/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ScheduleFX/driver/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ScheduleFX/helper/SQLHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ScheduleFX/helper/SQLHelper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ScheduleFX/view/kelola_kelas.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ScheduleFX/view/kelola_kelas.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GenerateCSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GenerateCSP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/KelolaRuangan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/KelolaRuangan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/OutputCSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/OutputCSP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/driver/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/driver/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helper/CSPHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/helper/CSPHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helper/SQLHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/helper/SQLHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Jadwal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Jadwal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/Ruangan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Ruangan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/generate_csp.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/generate_csp.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/generate_dijkstra.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/generate_dijkstra.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/kelola_kelas.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/kelola_kelas.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/kelola_ruangan.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/kelola_ruangan.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/output_csp.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/output_csp.fxml" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,57 +77,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/driver/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/controller/GenerateCSP.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret lean-forward="true" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#12455#12873#0" />
-                <element signature="e#12879#13297#0" />
-                <element signature="e#13303#13721#0" />
-                <element signature="e#13727#14145#0" />
-                <element signature="e#14151#14277#0" />
-                <element signature="e#14283#14409#0" />
-                <element signature="e#14415#14575#0" />
-                <element signature="e#14581#14669#0" />
-                <element signature="e#14003#14464#0" />
-                <element signature="e#14675#14942#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/controller/KelolaKelas.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2448">
-              <caret line="162" selection-start-line="162" selection-end-line="162" />
-              <folding>
-                <element signature="method#deleteMatkulKelas#0;class#KelolaKelas#0" />
-                <element signature="method#getMatkulSize#0;class#KelolaKelas#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/controller/Login.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="731">
-              <caret line="43" column="43" selection-start-line="43" selection-start-column="43" selection-end-line="43" selection-end-column="43" />
+            <state relative-caret-position="269">
+              <caret line="454" column="5" selection-start-line="454" selection-start-column="5" selection-end-line="454" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -123,13 +89,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/controller/Dashboard.java">
+        <entry file="file://$PROJECT_DIR$/src/controller/GenerateDijkstra.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="867">
-              <caret line="51" column="9" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="1765">
+              <caret line="310" column="5" selection-start-line="310" selection-start-column="5" selection-end-line="310" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -137,8 +100,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controller/OutputCSP.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="84" column="31" selection-start-line="84" selection-start-column="31" selection-end-line="84" selection-end-column="31" />
+            <state relative-caret-position="167">
+              <caret line="98" column="45" lean-forward="true" selection-start-line="98" selection-start-column="45" selection-end-line="98" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -147,22 +110,34 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/controller/KelolaRuangan.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-238">
+              <caret line="23" column="41" lean-forward="true" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
+              <folding>
+                <element signature="method#clearText#0;class#KelolaRuangan#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/helper/CSPHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="291" column="9" lean-forward="true" selection-start-line="291" selection-start-column="9" selection-end-line="291" selection-end-column="9" />
+            <state relative-caret-position="207">
+              <caret line="451" column="40" selection-start-line="451" selection-start-column="40" selection-end-line="451" selection-end-column="40" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#981#982#0" expanded="true" />
+                <element signature="e#1021#1022#0" expanded="true" />
+                <element signature="method#fillDosen#0;class#CSPHelper#0" />
+                <element signature="method#fillHari#0;class#CSPHelper#0" />
+                <element signature="method#fillSesi#0;class#CSPHelper#0" />
+                <element signature="method#fillRuangan#0;class#CSPHelper#0" />
+                <element signature="method#fillKelas#0;class#CSPHelper#0" />
+                <element signature="method#fillMatkulKelas#0;class#CSPHelper#0" />
+                <element signature="method#fillDosenMatkul#0;class#CSPHelper#0" />
+                <element signature="method#fillMatkulKategori#0;class#CSPHelper#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/helper/SQLHelper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="27" lean-forward="true" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -179,18 +154,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>add</find>
-      <find>Text</find>
-      <find>stage</find>
-      <find>launch</find>
-      <find>jurusan</find>
-      <find>mahasiswa</find>
-      <find>id_dosen</find>
-      <find>SELECT</find>
-      <find>dosen</find>
-      <find>Jumlah</find>
-      <find>Prodi</find>
-      <find>kelas</find>
       <find>jumlah</find>
       <find>``</find>
       <find>j</find>
@@ -209,6 +172,18 @@
       <find>mataKuliah</find>
       <find>`</find>
       <find>\n</find>
+      <find>combo</find>
+      <find>solver</find>
+      <find>solve</find>
+      <find>iRuangan</find>
+      <find>SqlHelper</find>
+      <find>print</find>
+      <find>main</find>
+      <find>ruanganArray</find>
+      <find>x[d][m][k][r][h][s][m]</find>
+      <find>from</find>
+      <find>fill</find>
+      <find>getRow</find>
     </findStrings>
     <replaceStrings>
       <replace>Mahasiswa</replace>
@@ -231,6 +206,10 @@
       <replace>Jadwal</replace>
       <replace>JadwalCSP</replace>
       <replace>jadwalCSP</replace>
+      <replace>SQLHelper</replace>
+      <replace>dosen.length</replace>
+      <replace>ruangan</replace>
+      <replace>x[d][m][k][r][h][s][0]</replace>
     </replaceStrings>
   </component>
   <component name="FindManager">
@@ -244,10 +223,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Controller/Login.java" />
-        <option value="$PROJECT_DIR$/src/View/login.fxml" />
-        <option value="$PROJECT_DIR$/src/Driver/Main.java" />
-        <option value="$PROJECT_DIR$/src/view/kelola_mahasiswa.fxml" />
         <option value="$PROJECT_DIR$/src/model/Mahasiswa.java" />
         <option value="$PROJECT_DIR$/src/helper/ComboBoxHelper.java" />
         <option value="$PROJECT_DIR$/src/controller/KelolaMahasiswa.java" />
@@ -265,14 +240,10 @@
         <option value="$PROJECT_DIR$/src/model/Kelas1.java" />
         <option value="$PROJECT_DIR$/src/model/MataKuliah1.java" />
         <option value="$PROJECT_DIR$/src/controller/KelolaMatkul1.java" />
-        <option value="$PROJECT_DIR$/src/model/Jadwal.java" />
         <option value="$PROJECT_DIR$/src/model/Kelas.java" />
         <option value="$PROJECT_DIR$/src/model/MataKuliah.java" />
-        <option value="$PROJECT_DIR$/src/model/Ruangan.java" />
         <option value="$PROJECT_DIR$/src/view/kelola_dosen.fxml" />
-        <option value="$PROJECT_DIR$/src/view/kelola_kelas.fxml" />
         <option value="$PROJECT_DIR$/src/view/kelola_matkul.fxml" />
-        <option value="$PROJECT_DIR$/src/view/kelola_ruangan.fxml" />
         <option value="$PROJECT_DIR$/src/helper/AutoCompleteBoxHelper.java" />
         <option value="$PROJECT_DIR$/src/model/Dosen.java" />
         <option value="$PROJECT_DIR$/src/view/generate_jadwal.fxml" />
@@ -281,20 +252,28 @@
         <option value="$PROJECT_DIR$/src/controller/KelolaDosen.java" />
         <option value="$PROJECT_DIR$/src/controller/KelolaKelas.java" />
         <option value="$PROJECT_DIR$/src/controller/KelolaMatkul.java" />
-        <option value="$PROJECT_DIR$/src/view/output_csp.fxml" />
         <option value="$PROJECT_DIR$/src/model/JadwalCSP.java" />
-        <option value="$PROJECT_DIR$/src/controller/OutputCSP.java" />
         <option value="$PROJECT_DIR$/src/controller/Login.java" />
         <option value="$PROJECT_DIR$/src/view/login.fxml" />
-        <option value="$PROJECT_DIR$/src/driver/Main.java" />
         <option value="$PROJECT_DIR$/src/controller/Dashboard.java" />
         <option value="$PROJECT_DIR$/db/penjadwalan_tb_v3.sql" />
-        <option value="$PROJECT_DIR$/src/controller/KelolaRuangan.java" />
-        <option value="$PROJECT_DIR$/src/view/dashboard.fxml" />
         <option value="$PROJECT_DIR$/src/view/new_dashboard.fxml" />
-        <option value="$PROJECT_DIR$/src/controller/GenerateCSP.java" />
-        <option value="$PROJECT_DIR$/src/helper/CSPHelper.java" />
+        <option value="$PROJECT_DIR$/src/view/dashboard.fxml" />
+        <option value="$APPLICATION_CONFIG_DIR$/idea64.exe.vmoptions" />
+        <option value="$PROJECT_DIR$/src/model/Ruangan.java" />
+        <option value="$PROJECT_DIR$/src/view/kelola_ruangan.fxml" />
+        <option value="$PROJECT_DIR$/src/controller/OutputCSP.java" />
+        <option value="$PROJECT_DIR$/src/view/kelola_kelas.fxml" />
+        <option value="$PROJECT_DIR$/src/model/Jadwal.java" />
+        <option value="$PROJECT_DIR$/src/view/output_csp.fxml" />
+        <option value="$PROJECT_DIR$/src/view/generate_dijkstra.fxml" />
+        <option value="$PROJECT_DIR$/src/driver/Main.java" />
+        <option value="$PROJECT_DIR$/src/view/generate_csp.fxml" />
         <option value="$PROJECT_DIR$/src/helper/SQLHelper.java" />
+        <option value="$PROJECT_DIR$/src/controller/KelolaRuangan.java" />
+        <option value="$PROJECT_DIR$/src/controller/GenerateCSP.java" />
+        <option value="$PROJECT_DIR$/src/controller/GenerateDijkstra.java" />
+        <option value="$PROJECT_DIR$/src/helper/CSPHelper.java" />
       </list>
     </option>
   </component>
@@ -306,10 +285,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-7" />
-    <option name="y" value="2" />
-    <option name="width" value="1378" />
-    <option name="height" value="743" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="754" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectReloadState">
@@ -320,8 +299,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -344,7 +321,19 @@
               <item name="ScheduleFX" type="b2602c69:ProjectViewProjectNode" />
               <item name="ScheduleFX" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="driver" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ScheduleFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ScheduleFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="helper" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ScheduleFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ScheduleFX" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ScheduleFX" type="b2602c69:ProjectViewProjectNode" />
@@ -352,14 +341,12 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="view" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="ScheduleFX" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -375,7 +362,7 @@
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553782431724" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557823623757" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -386,17 +373,17 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Kuliah\Sem 6\TA II\Project\App\ScheduleFX\src\css" />
-      <recent name="D:\Kuliah\Sem 6\TA II\Project\App\ScheduleFX\src" />
-      <recent name="D:\Kuliah\Sem 6\TA II\Project\ScheduleFX\src\view" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Kuliah\Sem 6\TA II\Project\ScheduleFX\src\View" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="controller" />
       <recent name="model" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Kuliah\Sem 6\TA II\Project\ScheduleFX\src\View" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Kuliah\Sem 6\TA II\Project\App\ScheduleFX\src\css" />
+      <recent name="D:\Kuliah\Sem 6\TA II\Project\App\ScheduleFX\src" />
+      <recent name="D:\Kuliah\Sem 6\TA II\Project\ScheduleFX\src\view" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -491,6 +478,7 @@
       </method>
     </configuration>
     <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
@@ -571,7 +559,14 @@
       <option name="project" value="LOCAL" />
       <updated>1553441830808</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Cleaning code">
+      <created>1553782555844</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1553782555844</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -588,9 +583,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.20726173" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.1860817" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -602,7 +596,7 @@
       <window_info id="DB Browser" order="9" weight="0.32980332" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32850242" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32850242" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3252818" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3993559" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -613,7 +607,7 @@
       <window_info anchor="bottom" id="Changes" order="10" />
       <window_info anchor="bottom" id="Profiler" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" weight="0.32850242" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.32850242" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.32847896" />
       <window_info anchor="bottom" id="Terminal" order="14" />
       <window_info anchor="bottom" id="Console" order="15" />
       <window_info anchor="bottom" id="DB Execution Console" order="16" />
@@ -628,6 +622,7 @@
       <window_info anchor="right" id="Palette&#9;" order="8" />
       <window_info anchor="right" id="Theme Preview" order="9" />
       <window_info anchor="right" id="Maven" order="10" weight="0.32980332" />
+      <window_info anchor="right" id="FAQ Robot" order="11" />
     </layout>
   </component>
   <component name="VcsManagerConfiguration">
@@ -640,28 +635,14 @@
     <MESSAGE value="Focus on FTB faculty and update all module function" />
     <MESSAGE value="Add total data function" />
     <MESSAGE value="Add generate CSP backtracking function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add generate CSP backtracking function" />
+    <MESSAGE value="Cleaning code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaning code" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_201/javafx-src.zip!/javafx/scene/control/ComboBox.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="293" column="74" selection-start-line="293" selection-start-column="74" selection-end-line="293" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_201/javafx-src.zip!/javafx/application/Application.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2374">
-          <caret line="222" column="23" selection-start-line="222" selection-start-column="23" selection-end-line="222" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/penjadwalan_mhs.sql" />
     <entry file="db://3027ba39-347f-408e-b520-96cfb49df26f/consoles/MySQL">
       <provider selected="true" editor-type-id="0.CONSOLE">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -708,25 +689,6 @@
     <entry file="file://$PROJECT_DIR$/src/controller/KelolaMatkul1.java" />
     <entry file="file://$PROJECT_DIR$/src/view/kelola_matkul1.fxml" />
     <entry file="file://$PROJECT_DIR$/src/model/Mahasiswa.java" />
-    <entry file="file://$PROJECT_DIR$/src/model/Ruangan.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="47" column="5" lean-forward="true" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
-          <folding>
-            <element signature="e#437#438#0" expanded="true" />
-            <element signature="e#470#471#0" expanded="true" />
-            <element signature="e#597#598#0" expanded="true" />
-            <element signature="e#624#625#0" expanded="true" />
-            <element signature="e#664#665#0" expanded="true" />
-            <element signature="e#696#697#0" expanded="true" />
-            <element signature="e#728#729#0" expanded="true" />
-            <element signature="e#756#757#0" expanded="true" />
-            <element signature="e#868#869#0" expanded="true" />
-            <element signature="e#900#901#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/model/MataKuliah.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -758,60 +720,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/generate_csp.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="37" column="143" selection-start-line="37" selection-start-column="143" selection-end-line="37" selection-end-column="143" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/kelola_dosen.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="47" column="18" lean-forward="true" selection-end-line="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/kelola_kelas.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="13" column="42" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/kelola_matkul.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="26" column="28" selection-end-line="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/KelolaDosen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="46" column="49" selection-start-line="46" selection-start-column="49" selection-end-line="46" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getMatkulSize#0;class#KelolaDosen#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/controller/KelolaMatkul.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
           <caret line="50" column="34" selection-start-line="50" selection-start-column="34" selection-end-line="50" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/model/Jadwal.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -846,22 +758,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/generate_dijkstra.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/kelola_ruangan.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -876,11 +772,98 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/output_csp.fxml">
+    <entry file="file://$PROJECT_DIR$/src/helper/AutoCompleteBoxHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1224">
+          <caret line="72" column="9" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/view/new_dashboard.fxml" />
+    <entry file="file://$PROJECT_DIR$/src/css/style.css" />
+    <entry file="file://$PROJECT_DIR$/src/controller/Login.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="43" column="43" selection-start-line="43" selection-start-column="43" selection-end-line="43" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../choco-2.1.2/choco-solver-2.1.2-with-sources.jar!/choco/kernel/solver/Solver.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/KelolaKelas.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3213">
+          <caret line="207" selection-start-line="207" selection-end-line="207" />
+          <folding>
+            <element signature="method#deleteMatkulKelas#0;class#KelolaKelas#0" />
+            <element signature="method#getMatkulSize#0;class#KelolaKelas#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/idea64.exe.vmoptions">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_201/javafx-src.zip!/com/sun/javafx/application/LauncherImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="539">
+          <caret line="861" selection-start-line="861" selection-end-line="861" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/model/Ruangan.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="42" column="18" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
+          <folding>
+            <element signature="e#369#370#0" expanded="true" />
+            <element signature="e#402#403#0" expanded="true" />
+            <element signature="e#454#455#0" expanded="true" />
+            <element signature="e#498#499#0" expanded="true" />
+            <element signature="e#529#530#0" expanded="true" />
+            <element signature="e#556#557#0" expanded="true" />
+            <element signature="e#596#597#0" expanded="true" />
+            <element signature="e#628#629#0" expanded="true" />
+            <element signature="e#664#665#0" expanded="true" />
+            <element signature="e#696#697#0" expanded="true" />
+            <element signature="e#746#747#0" expanded="true" />
+            <element signature="e#788#789#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/view/dashboard.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="59" selection-start-line="17" selection-start-column="59" selection-end-line="17" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/view/kelola_matkul.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="26" column="28" selection-end-line="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/view/kelola_ruangan.fxml">
       <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
       <provider editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+        <state relative-caret-position="204">
+          <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -892,105 +875,119 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/KelolaRuangan.java">
+    <entry file="file://$PROJECT_DIR$/src/view/kelola_kelas.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="49" column="33" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
-          <folding>
-            <element signature="method#hapusRuanganAction#0;class#KelolaRuangan#0" />
-            <element signature="method#toDashboard#0;class#KelolaRuangan#0" />
-            <element signature="method#setCellValue#0;class#KelolaRuangan#0" />
-            <element signature="method#loadDataFromDatabase#0;class#KelolaRuangan#0" />
-            <element signature="method#clearText#0;class#KelolaRuangan#0" />
-            <element signature="method#fillComboBox#0;class#KelolaRuangan#0" />
-          </folding>
+        <state relative-caret-position="289">
+          <caret line="17" selection-start-line="17" selection-end-line="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/helper/AutoCompleteBoxHelper.java">
+    <entry file="file://$PROJECT_DIR$/src/view/kelola_dosen.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1224">
-          <caret line="72" column="9" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
+        <state relative-caret-position="306">
+          <caret line="39" column="57" lean-forward="true" selection-start-line="39" selection-start-column="57" selection-end-line="39" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/KelolaDosen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="171" column="16" selection-start-line="171" selection-start-column="16" selection-end-line="171" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#getMatkulSize#0;class#KelolaDosen#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/KelolaKelas.java">
+    <entry file="file://$PROJECT_DIR$/src/model/Jadwal.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2448">
-          <caret line="162" selection-start-line="162" selection-end-line="162" />
+        <state relative-caret-position="204">
+          <caret line="108" column="34" selection-start-line="108" selection-start-column="34" selection-end-line="108" selection-end-column="34" />
           <folding>
-            <element signature="method#deleteMatkulKelas#0;class#KelolaKelas#0" />
-            <element signature="method#getMatkulSize#0;class#KelolaKelas#0" />
+            <element signature="e#1442#1443#0" expanded="true" />
+            <element signature="e#1467#1468#0" expanded="true" />
+            <element signature="e#1747#1748#0" expanded="true" />
+            <element signature="e#1774#1775#0" expanded="true" />
+            <element signature="e#1807#1808#0" expanded="true" />
+            <element signature="e#1836#1837#0" expanded="true" />
+            <element signature="e#1867#1868#0" expanded="true" />
+            <element signature="e#1894#1895#0" expanded="true" />
+            <element signature="e#1927#1928#0" expanded="true" />
+            <element signature="e#1956#1957#0" expanded="true" />
+            <element signature="e#1990#1991#0" expanded="true" />
+            <element signature="e#2020#2021#0" expanded="true" />
+            <element signature="e#2056#2057#0" expanded="true" />
+            <element signature="e#2088#2089#0" expanded="true" />
+            <element signature="e#2622#2623#0" expanded="true" />
+            <element signature="e#2664#2665#0" expanded="true" />
+            <element signature="e#2698#2699#0" expanded="true" />
+            <element signature="e#2744#2745#0" expanded="true" />
+            <element signature="e#2782#2783#0" expanded="true" />
+            <element signature="e#2834#2835#0" expanded="true" />
+            <element signature="e#2878#2879#0" expanded="true" />
+            <element signature="e#2934#2935#0" expanded="true" />
+            <element signature="e#2982#2983#0" expanded="true" />
+            <element signature="e#3024#3025#0" expanded="true" />
+            <element signature="e#3058#3059#0" expanded="true" />
+            <element signature="e#3104#3105#0" expanded="true" />
+            <element signature="e#3142#3143#0" expanded="true" />
+            <element signature="e#3182#3183#0" expanded="true" />
+            <element signature="e#3214#3215#0" expanded="true" />
+            <element signature="e#3258#3259#0" expanded="true" />
+            <element signature="e#3294#3295#0" expanded="true" />
+            <element signature="e#3334#3335#0" expanded="true" />
+            <element signature="e#3366#3367#0" expanded="true" />
+            <element signature="e#3410#3411#0" expanded="true" />
+            <element signature="e#3446#3447#0" expanded="true" />
+            <element signature="e#3492#3493#0" expanded="true" />
+            <element signature="e#3530#3531#0" expanded="true" />
+            <element signature="e#3580#3581#0" expanded="true" />
+            <element signature="e#3622#3623#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/Login.java">
+    <entry file="file://$PROJECT_DIR$/src/view/output_csp.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="43" column="43" selection-start-line="43" selection-start-column="43" selection-end-line="43" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="154">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/view/generate_dijkstra.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="91">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/controller/Dashboard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="867">
-          <caret line="51" column="9" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
+        <state relative-caret-position="190">
+          <caret line="67" selection-start-line="67" selection-end-line="67" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/css/style.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/dashboard.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="514">
-          <caret line="46" column="13" selection-start-line="10" selection-start-column="4" selection-end-line="46" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/new_dashboard.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+    <entry file="file://$PROJECT_DIR$/src/view/generate_csp.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="23" lean-forward="true" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/driver/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/OutputCSP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="84" column="31" selection-start-line="84" selection-start-column="31" selection-end-line="84" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/helper/CSPHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="291" column="9" lean-forward="true" selection-start-line="291" selection-start-column="9" selection-end-line="291" selection-end-column="9" />
+        <state relative-caret-position="51">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -999,27 +996,63 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/helper/SQLHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="27" lean-forward="true" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+        <state relative-caret-position="68">
+          <caret line="22" column="49" lean-forward="true" selection-start-line="22" selection-start-column="49" selection-end-line="22" selection-end-column="49" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/controller/GenerateCSP.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret lean-forward="true" />
+        <state relative-caret-position="269">
+          <caret line="454" column="5" selection-start-line="454" selection-start-column="5" selection-end-line="454" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12455#12873#0" />
-            <element signature="e#12879#13297#0" />
-            <element signature="e#13303#13721#0" />
-            <element signature="e#13727#14145#0" />
-            <element signature="e#14151#14277#0" />
-            <element signature="e#14283#14409#0" />
-            <element signature="e#14415#14575#0" />
-            <element signature="e#14581#14669#0" />
-            <element signature="e#14003#14464#0" />
-            <element signature="e#14675#14942#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/GenerateDijkstra.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1765">
+          <caret line="310" column="5" selection-start-line="310" selection-start-column="5" selection-end-line="310" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/OutputCSP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="98" column="45" lean-forward="true" selection-start-line="98" selection-start-column="45" selection-end-line="98" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/KelolaRuangan.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-238">
+          <caret line="23" column="41" lean-forward="true" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
+          <folding>
+            <element signature="method#clearText#0;class#KelolaRuangan#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/helper/CSPHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="451" column="40" selection-start-line="451" selection-start-column="40" selection-end-line="451" selection-end-column="40" />
+          <folding>
+            <element signature="e#981#982#0" expanded="true" />
+            <element signature="e#1021#1022#0" expanded="true" />
+            <element signature="method#fillDosen#0;class#CSPHelper#0" />
+            <element signature="method#fillHari#0;class#CSPHelper#0" />
+            <element signature="method#fillSesi#0;class#CSPHelper#0" />
+            <element signature="method#fillRuangan#0;class#CSPHelper#0" />
+            <element signature="method#fillKelas#0;class#CSPHelper#0" />
+            <element signature="method#fillMatkulKelas#0;class#CSPHelper#0" />
+            <element signature="method#fillDosenMatkul#0;class#CSPHelper#0" />
+            <element signature="method#fillMatkulKategori#0;class#CSPHelper#0" />
           </folding>
         </state>
       </provider>

@@ -9,7 +9,7 @@
 
 <AnchorPane id="AnchorPane" fx:id="outputCSPPane" prefHeight="422.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OutputCSP">
     <AnchorPane id="AnchorPane" fx:id="pane" layoutX="10.0" layoutY="10.0" prefHeight="491.0" prefWidth="767.0">
-        <TableView fx:id="tblDataJadwal" layoutX="-1.0" layoutY="109.0" prefHeight="334.0" prefWidth="767.0">
+        <TableView fx:id="tblDataJadwal" layoutX="-1.0" layoutY="109.0" prefHeight="334.0" prefWidth="760.0">
             <columns>
                 <TableColumn fx:id="tblKolomHari" prefWidth="136.0" text="Hari" />
                 <TableColumn fx:id="tblKolomSesi" minWidth="3.0" prefWidth="122.0" text="Sesi" />
@@ -33,5 +33,10 @@
                 <Font size="20.0" />
             </font>
         </Text>
+      <Button fx:id="toDijkstra" defaultButton="true" layoutX="623.0" layoutY="449.0" mnemonicParsing="false" onAction="#toDijkstra" prefHeight="36.0" prefWidth="130.0" text="DIJKSTRA -&gt;">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
     </AnchorPane>
 </AnchorPane>

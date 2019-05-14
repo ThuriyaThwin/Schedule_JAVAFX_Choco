@@ -53,6 +53,7 @@ public class GenerateCSP implements Initializable {
     public Button btnHapusDosenMatkul;
     public Button btnHapusDosenMatkulKelas;
     public Button btnGenerateJadwal;
+    public Text text;
 
     private ObservableList<Jadwal> ol;
     private ObservableList<String> dosen;
@@ -131,66 +132,66 @@ public class GenerateCSP implements Initializable {
 
     @FXML
     private void updateJadwalAction() {
-        try {
-            String sql = "SELECT * FROM dosen WHERE nama=?";
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
-            rs_jadwal = prs.executeQuery();
-
-            while (rs_jadwal.next()){
-                id_dosen = rs_jadwal.getString("nip");
-            }
-        } catch (SQLException e) {
-            System.out.println("Erorr");
-        }
-
-        try {
-            String sql = "SELECT * FROM mata_kuliah WHERE nama=?";
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
-            rs_jadwal = prs.executeQuery();
-
-            while (rs_jadwal.next()){
-                id_mata_kuliah = rs_jadwal.getString("id_mata_kuliah");
-            }
-        } catch (SQLException e) {
-            System.out.println("Erorr");
-        }
-
-        try {
-            String sql = "SELECT * FROM kelas WHERE nama=?";
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
-            rs_jadwal = prs.executeQuery();
-
-            while (rs_jadwal.next()){
-                id_kelas = rs_jadwal.getString("id_kelas");
-            }
-        } catch (SQLException e) {
-            System.out.println("Erorr");
-        }
-
-        try {
-            String sql = "UPDATE jadwal SET dosen=?, mata_kuliah=?, kelas=? WHERE id_jadwal=?";
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, id_dosen);
-            prs.setString(2, id_mata_kuliah);
-            prs.setString(3, id_kelas);
-//            prs.setString(4, id_jadwal);
-            int exec = prs.executeUpdate();
-
-            if(exec == 1){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update berhasil", ButtonType.OK);
-                alert.setTitle("Update");
-                alert.showAndWait();
-                loadDataFromDatabase();
-//                clearText();
-            }
-
-            prs.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(GenerateCSP.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            String sql = "SELECT * FROM dosen WHERE nama=?";
+//            prs = connec.prepareStatement(sql);
+//            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
+//            rs_jadwal = prs.executeQuery();
+//
+//            while (rs_jadwal.next()){
+//                id_dosen = rs_jadwal.getString("nip");
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Erorr");
+//        }
+//
+//        try {
+//            String sql = "SELECT * FROM mata_kuliah WHERE nama=?";
+//            prs = connec.prepareStatement(sql);
+//            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
+//            rs_jadwal = prs.executeQuery();
+//
+//            while (rs_jadwal.next()){
+//                id_mata_kuliah = rs_jadwal.getString("id_mata_kuliah");
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Erorr");
+//        }
+//
+//        try {
+//            String sql = "SELECT * FROM kelas WHERE nama=?";
+//            prs = connec.prepareStatement(sql);
+//            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
+//            rs_jadwal = prs.executeQuery();
+//
+//            while (rs_jadwal.next()){
+//                id_kelas = rs_jadwal.getString("id_kelas");
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Erorr");
+//        }
+//
+//        try {
+//            String sql = "UPDATE jadwal SET dosen=?, mata_kuliah=?, kelas=? WHERE id_jadwal=?";
+//            prs = connec.prepareStatement(sql);
+//            prs.setString(1, id_dosen);
+//            prs.setString(2, id_mata_kuliah);
+//            prs.setString(3, id_kelas);
+////            prs.setString(4, id_jadwal);
+//            int exec = prs.executeUpdate();
+//
+//            if(exec == 1){
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update berhasil", ButtonType.OK);
+//                alert.setTitle("Update");
+//                alert.showAndWait();
+//                loadDataFromDatabase();
+////                clearText();
+//            }
+//
+//            prs.close();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(GenerateCSP.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     @FXML
@@ -238,6 +239,7 @@ public class GenerateCSP implements Initializable {
         tblDataJadwal.setOnMouseClicked((MouseEvent event) -> {
             Jadwal jadwal = tblDataJadwal.getItems().get(tblDataJadwal.getSelectionModel().getSelectedIndex());
             if (jadwal != null){
+                System.out.println(jadwal.getDosenId());
                 id_dosen = jadwal.getDosenId();
                 id_mata_kuliah = jadwal.getMataKuliahId();
                 id_kelas = jadwal.getKelasId();
@@ -430,7 +432,7 @@ public class GenerateCSP implements Initializable {
     public void generateJadwal() {
         deleteJadwal();
         CSPHelper.main();
-        toDijkstraMenu();
+        toDijkstra();
     }
 
     private void deleteJadwal(){
@@ -443,9 +445,9 @@ public class GenerateCSP implements Initializable {
         }
     }
 
-    private void toDijkstraMenu(){
+    public void toDijkstra() {
         try{
-            AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/output_csp.fxml"));
+            AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/generate_dijkstra.fxml"));
             pane.getChildren().setAll(ap);
         }catch(Exception e){
             e.printStackTrace();
