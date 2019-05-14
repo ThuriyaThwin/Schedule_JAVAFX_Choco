@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Cleaning code">
-      <change afterPath="$PROJECT_DIR$/src/controller/GenerateDijkstra.java" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Add penjadwalan_real db (dummy)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ScheduleFX/driver/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ScheduleFX/driver/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ScheduleFX/helper/SQLHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ScheduleFX/helper/SQLHelper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ScheduleFX/view/kelola_kelas.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ScheduleFX/view/kelola_kelas.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GenerateCSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GenerateCSP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/KelolaRuangan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/KelolaRuangan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/OutputCSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/OutputCSP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/driver/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/driver/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helper/CSPHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/helper/CSPHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helper/SQLHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/helper/SQLHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Jadwal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Jadwal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Ruangan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Ruangan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/generate_csp.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/generate_csp.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/generate_dijkstra.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/generate_dijkstra.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/kelola_kelas.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/kelola_kelas.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/kelola_ruangan.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/kelola_ruangan.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/output_csp.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/output_csp.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/GenerateDijkstra.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GenerateDijkstra.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -79,8 +64,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controller/GenerateCSP.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="454" column="5" selection-start-line="454" selection-start-column="5" selection-end-line="454" selection-end-column="5" />
+            <state relative-caret-position="235">
+              <caret line="227" column="18" selection-start-line="227" selection-start-column="16" selection-end-line="227" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -88,11 +73,26 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/controller/GenerateDijkstra.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1765">
-              <caret line="310" column="5" selection-start-line="310" selection-start-column="5" selection-end-line="310" selection-end-column="5" />
+            <state relative-caret-position="55">
+              <caret line="66" column="36" lean-forward="true" selection-start-line="66" selection-start-column="36" selection-end-line="66" selection-end-column="36" />
+              <folding>
+                <element signature="e#8963#8964#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/driver/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="182">
+              <caret line="12" selection-start-line="12" selection-end-line="17" selection-end-column="28" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -121,21 +121,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/helper/CSPHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="451" column="40" selection-start-line="451" selection-start-column="40" selection-end-line="451" selection-end-column="40" />
+            <state relative-caret-position="123">
+              <caret line="43" column="27" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="27" />
               <folding>
                 <element signature="e#981#982#0" expanded="true" />
                 <element signature="e#1021#1022#0" expanded="true" />
-                <element signature="method#fillDosen#0;class#CSPHelper#0" />
                 <element signature="method#fillHari#0;class#CSPHelper#0" />
                 <element signature="method#fillSesi#0;class#CSPHelper#0" />
                 <element signature="method#fillRuangan#0;class#CSPHelper#0" />
                 <element signature="method#fillKelas#0;class#CSPHelper#0" />
+                <element signature="method#fillKategori#0;class#CSPHelper#0" />
                 <element signature="method#fillMatkulKelas#0;class#CSPHelper#0" />
-                <element signature="method#fillDosenMatkul#0;class#CSPHelper#0" />
                 <element signature="method#fillMatkulKategori#0;class#CSPHelper#0" />
               </folding>
             </state>
@@ -154,7 +153,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>jumlah</find>
       <find>``</find>
       <find>j</find>
       <find>d</find>
@@ -184,6 +182,7 @@
       <find>from</find>
       <find>fill</find>
       <find>getRow</find>
+      <find>kelasnya</find>
     </findStrings>
     <replaceStrings>
       <replace>Mahasiswa</replace>
@@ -267,13 +266,13 @@
         <option value="$PROJECT_DIR$/src/model/Jadwal.java" />
         <option value="$PROJECT_DIR$/src/view/output_csp.fxml" />
         <option value="$PROJECT_DIR$/src/view/generate_dijkstra.fxml" />
-        <option value="$PROJECT_DIR$/src/driver/Main.java" />
         <option value="$PROJECT_DIR$/src/view/generate_csp.fxml" />
         <option value="$PROJECT_DIR$/src/helper/SQLHelper.java" />
         <option value="$PROJECT_DIR$/src/controller/KelolaRuangan.java" />
         <option value="$PROJECT_DIR$/src/controller/GenerateCSP.java" />
-        <option value="$PROJECT_DIR$/src/controller/GenerateDijkstra.java" />
         <option value="$PROJECT_DIR$/src/helper/CSPHelper.java" />
+        <option value="$PROJECT_DIR$/src/driver/Main.java" />
+        <option value="$PROJECT_DIR$/src/controller/GenerateDijkstra.java" />
       </list>
     </option>
   </component>
@@ -305,6 +304,11 @@
             <path>
               <item name="ScheduleFX" type="b2602c69:ProjectViewProjectNode" />
               <item name="ScheduleFX" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ScheduleFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ScheduleFX" type="462c0819:PsiDirectoryNode" />
+              <item name="db" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ScheduleFX" type="b2602c69:ProjectViewProjectNode" />
@@ -362,7 +366,7 @@
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557823795879" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557841739421" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -566,7 +570,21 @@
       <option name="project" value="LOCAL" />
       <updated>1553782555844</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Add Dijkstra UI &amp; count of room able to fill">
+      <created>1557823701902</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1557823701902</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Add penjadwalan_real db (dummy)">
+      <created>1557823873273</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1557823873273</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -583,8 +601,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.1860817" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.1860817" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -596,7 +615,7 @@
       <window_info id="DB Browser" order="9" weight="0.32980332" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32850242" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3252818" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3252818" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3993559" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -636,7 +655,9 @@
     <MESSAGE value="Add total data function" />
     <MESSAGE value="Add generate CSP backtracking function" />
     <MESSAGE value="Cleaning code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaning code" />
+    <MESSAGE value="Add Dijkstra UI &amp; count of room able to fill" />
+    <MESSAGE value="Add penjadwalan_real db (dummy)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add penjadwalan_real db (dummy)" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -984,37 +1005,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/driver/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/helper/SQLHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="22" column="49" lean-forward="true" selection-start-line="22" selection-start-column="49" selection-end-line="22" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/GenerateCSP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="454" column="5" selection-start-line="454" selection-start-column="5" selection-end-line="454" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/GenerateDijkstra.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1765">
-          <caret line="310" column="5" selection-start-line="310" selection-start-column="5" selection-end-line="310" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -1038,21 +1032,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/GenerateCSP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="227" column="18" selection-start-line="227" selection-start-column="16" selection-end-line="227" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/driver/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="12" selection-start-line="12" selection-end-line="17" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/helper/CSPHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="451" column="40" selection-start-line="451" selection-start-column="40" selection-end-line="451" selection-end-column="40" />
+        <state relative-caret-position="123">
+          <caret line="43" column="27" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="27" />
           <folding>
             <element signature="e#981#982#0" expanded="true" />
             <element signature="e#1021#1022#0" expanded="true" />
-            <element signature="method#fillDosen#0;class#CSPHelper#0" />
             <element signature="method#fillHari#0;class#CSPHelper#0" />
             <element signature="method#fillSesi#0;class#CSPHelper#0" />
             <element signature="method#fillRuangan#0;class#CSPHelper#0" />
             <element signature="method#fillKelas#0;class#CSPHelper#0" />
+            <element signature="method#fillKategori#0;class#CSPHelper#0" />
             <element signature="method#fillMatkulKelas#0;class#CSPHelper#0" />
-            <element signature="method#fillDosenMatkul#0;class#CSPHelper#0" />
             <element signature="method#fillMatkulKategori#0;class#CSPHelper#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/controller/GenerateDijkstra.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="55">
+          <caret line="66" column="36" lean-forward="true" selection-start-line="66" selection-start-column="36" selection-end-line="66" selection-end-column="36" />
+          <folding>
+            <element signature="e#8963#8964#0" expanded="true" />
           </folding>
         </state>
       </provider>

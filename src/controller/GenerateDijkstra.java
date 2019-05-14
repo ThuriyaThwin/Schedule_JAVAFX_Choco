@@ -62,15 +62,14 @@ public class GenerateDijkstra implements Initializable {
     private Connection connec;
     private PreparedStatement prs;
     private ResultSet rs_jadwal;
+    private String sql_jadwal;
     private String id_ruangan = null;
     private String id_jadwal = null;
     private String id_hari = null;
     private int hari_dipilih = 5;
 
-    private String[] jumlah;
-    private String[] kapasitas;
-    private int matkulLength;
-    private int ruanganLength;
+    private int kelasSize;
+    private int sesiSize;
 
     /**
      * Initializes the controller class.
@@ -82,10 +81,12 @@ public class GenerateDijkstra implements Initializable {
         ruangan = FXCollections.observableArrayList();
         hari = FXCollections.observableArrayList();
 
+        fillComboBox();
+        fillSesi();
+        fillKelas();
         loadDataFromDatabase(hari_dipilih);
         fromTableToTextField();
         setCellValue();
-        fillComboBox();
     }
 
     @FXML
@@ -146,62 +147,37 @@ public class GenerateDijkstra implements Initializable {
     private void loadDataFromDatabase(int hari) {
         ol.clear();
         try {
-            String sql_jadwal = "SELECT jadwal.id_jadwal AS id, " +
-                    "jadwal.no_dosen AS dosen_id, " +
-                    "jadwal.no_matkul AS matkul_id, " +
-                    "jadwal.no_hari AS hari_id, " +
-                    "jadwal.no_sesi AS sesi_id, " +
-                    "jadwal.no_kelas AS kelas_id, " +
-                    "jadwal.no_ruangan AS ruangan_id, " +
-                    "dosen.nama AS dosen, " +
-                    "matkul.nama AS matkul, " +
-                    "kelas.nama AS kelas, " +
-                    "hari.nama AS hari, " +
-                    "sesi.nama AS sesi, " +
-                    "ruangan.nama AS ruangan " +
-                    "FROM jadwal " +
-                    "INNER JOIN matkul ON jadwal.no_matkul = matkul.no " +
-                    "INNER JOIN dosen ON jadwal.no_dosen = dosen.no " +
-                    "INNER JOIN kelas ON jadwal.no_kelas = kelas.no " +
-                    "INNER JOIN hari ON jadwal.no_hari = hari.no " +
-                    "INNER JOIN sesi ON jadwal.no_sesi = sesi.no " +
-                    "INNER JOIN ruangan ON jadwal.no_ruangan = ruangan.no " +
-                    "WHERE jadwal.no_hari='" + hari + "'" +
-                    "ORDER BY jadwal.no_hari DESC, jadwal.no_sesi DESC, jadwal.no_kelas DESC";
-            rs_jadwal = connec.createStatement().executeQuery(sql_jadwal);
+            for (int k=kelasSize;k>0;k--){
+                boolean filled = false;
 
-            int i = 0;
-            while (rs_jadwal.next()) {
-                Jadwal jadwal = new Jadwal();
-                jadwal.setId(rs_jadwal.getString("id"));
-                jadwal.setDosen(rs_jadwal.getString("dosen"));
-                jadwal.setDosenId(rs_jadwal.getString("dosen_id"));
-                jadwal.setMataKuliah(rs_jadwal.getString("matkul"));
-                jadwal.setMataKuliahId(rs_jadwal.getString("matkul_id"));
-                jadwal.setKelas(rs_jadwal.getString("kelas"));
-                jadwal.setKelasId(rs_jadwal.getString("kelas_id"));
-                jadwal.setHari(rs_jadwal.getString("hari"));
-                jadwal.setHariId(rs_jadwal.getString("hari_id"));
-                jadwal.setSesi(rs_jadwal.getString("sesi"));
-                jadwal.setSesiId(rs_jadwal.getString("sesi_id"));
-                jadwal.setRuangan(rs_jadwal.getString("ruangan"));
-                jadwal.setRuanganId(rs_jadwal.getString("ruangan_id"));
+                for (int s=sesiSize;s>0;s--){
+                    if (!filled){
+                        if (check(hari, k, s)){
+                            rs_jadwal = connec.createStatement().executeQuery(sql_jadwal);
 
-                System.out.println("kelasnya " + jadwal.getKelasId());
+                            while (rs_jadwal.next()){
+                                Jadwal jadwal = new Jadwal();
 
-//                if (ol.size() == 0)
-                    ol.add(jadwal);
-//                else{
-//                    System.out.println("hari ol " + ol.get(i).getHariId());
-//                    System.out.println("hari " + jadwal.getHariId());
-//                    System.out.println("kelas ol " + ol.get(i).getKelasId());
-//                    System.out.println("kelas " + jadwal.getKelasId());
-//                    if (!(ol.get(i).getHariId().equalsIgnoreCase(jadwal.getHariId())) &&
-//                            !ol.get(i).getKelasId().equalsIgnoreCase(jadwal.getKelasId())){
-//                        ol.add(jadwal);
-//                        i++;
-//                    }
-//                }
+                                jadwal.setId(rs_jadwal.getString("id"));
+                                jadwal.setDosen(rs_jadwal.getString("dosen"));
+                                jadwal.setDosenId(rs_jadwal.getString("dosen_id"));
+                                jadwal.setMataKuliah(rs_jadwal.getString("matkul"));
+                                jadwal.setMataKuliahId(rs_jadwal.getString("matkul_id"));
+                                jadwal.setKelas(rs_jadwal.getString("kelas"));
+                                jadwal.setKelasId(rs_jadwal.getString("kelas_id"));
+                                jadwal.setHari(rs_jadwal.getString("hari"));
+                                jadwal.setHariId(rs_jadwal.getString("hari_id"));
+                                jadwal.setSesi(rs_jadwal.getString("sesi"));
+                                jadwal.setSesiId(rs_jadwal.getString("sesi_id"));
+                                jadwal.setRuangan(rs_jadwal.getString("ruangan"));
+                                jadwal.setRuanganId(rs_jadwal.getString("ruangan_id"));
+
+                                ol.add(jadwal);
+                                filled = true;
+                            }
+                        }
+                    }
+                }
             }
 
             totalData.setText("Total Data : " + ol.size());
@@ -247,7 +223,7 @@ public class GenerateDijkstra implements Initializable {
         ruanganCombo.setEditable(true);
 
         try {
-            String sql = "SELECT * FROM ruangan ";
+            String sql = "SELECT * FROM ruangan";
             prs = connec.prepareStatement(sql);
             rs_jadwal = prs.executeQuery();
 
@@ -308,5 +284,61 @@ public class GenerateDijkstra implements Initializable {
         }
 
         loadDataFromDatabase(hari_dipilih);
+    }
+
+    private void fillKelas() {
+        try {
+            String sql = "SELECT * FROM kelas ORDER BY no DESC";
+            prs = connec.prepareStatement(sql);
+            rs_jadwal = prs.executeQuery();
+
+            while (rs_jadwal.next()){
+                kelasSize++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillSesi() {
+        try {
+            String sql = "SELECT * FROM sesi ORDER BY no DESC";
+            prs = connec.prepareStatement(sql);
+            rs_jadwal = prs.executeQuery();
+
+            while (rs_jadwal.next()){
+                sesiSize++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean check(int hari, int kelas, int sesi) throws SQLException {
+        sql_jadwal = "SELECT jadwal.id_jadwal AS id, " +
+                "jadwal.no_dosen AS dosen_id, " +
+                "jadwal.no_matkul AS matkul_id, " +
+                "jadwal.no_hari AS hari_id, " +
+                "jadwal.no_sesi AS sesi_id, " +
+                "jadwal.no_kelas AS kelas_id, " +
+                "jadwal.no_ruangan AS ruangan_id, " +
+                "dosen.nama AS dosen, " +
+                "matkul.nama AS matkul, " +
+                "kelas.nama AS kelas, " +
+                "hari.nama AS hari, " +
+                "sesi.nama AS sesi, " +
+                "ruangan.nama AS ruangan " +
+                "FROM jadwal " +
+                "INNER JOIN matkul ON jadwal.no_matkul = matkul.no " +
+                "INNER JOIN dosen ON jadwal.no_dosen = dosen.no " +
+                "INNER JOIN kelas ON jadwal.no_kelas = kelas.no " +
+                "INNER JOIN hari ON jadwal.no_hari = hari.no " +
+                "INNER JOIN sesi ON jadwal.no_sesi = sesi.no " +
+                "INNER JOIN ruangan ON jadwal.no_ruangan = ruangan.no " +
+                "WHERE jadwal.no_hari='" + hari + "' AND jadwal.no_kelas='" + kelas + "' AND jadwal.no_sesi='" + sesi + "'" +
+                "ORDER BY jadwal.no_hari DESC, jadwal.no_sesi DESC, jadwal.no_kelas DESC";
+        rs_jadwal = connec.createStatement().executeQuery(sql_jadwal);
+
+        return rs_jadwal.next();
     }
 }
