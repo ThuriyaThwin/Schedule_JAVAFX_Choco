@@ -49,6 +49,5 @@
                 <Font size="20.0" />
             </font>
         </Text>
-        <Button fx:id="btnToOutputDijkstra" layoutX="352.0" layoutY="454.0" mnemonicParsing="false" onAction="#toOutputDijkstra" prefHeight="25.0" prefWidth="139.0" text="Lihat Hasil Dijkstra" />
     </AnchorPane>
 </AnchorPane>

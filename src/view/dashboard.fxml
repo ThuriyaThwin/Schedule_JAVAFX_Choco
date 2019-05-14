@@ -5,44 +5,36 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" fx:id="pane" prefHeight="516.0" prefWidth="784.0"
-            xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controller.Dashboard">
-    <Text layoutX="74.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0"
-          text="Aplikasi Generate Jadwal Perkuliahan">
+<AnchorPane id="AnchorPane" fx:id="pane" prefHeight="516.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Dashboard">
+    <Text layoutX="74.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aplikasi Generate Jadwal Perkuliahan">
         <font>
-            <Font size="39.0"/>
+            <Font size="39.0" />
         </font>
     </Text>
-    <Button fx:id="btnKelolaKelas" defaultButton="true" layoutX="97.0" layoutY="121.0" mnemonicParsing="false"
-            onAction="#kelolaKelasAction" prefHeight="93.0" prefWidth="287.0" text="Kelola Kelas" textFill="#1f8c73">
+    <Button fx:id="btnKelolaKelas" defaultButton="true" layoutX="97.0" layoutY="121.0" mnemonicParsing="false" onAction="#kelolaKelasAction" prefHeight="93.0" prefWidth="287.0" text="Kelola Kelas" textFill="#1f8c73">
         <font>
-            <Font name="System Bold" size="27.0"/>
+            <Font name="System Bold" size="27.0" />
         </font>
     </Button>
-    <Button fx:id="btnKelolaDosen" defaultButton="true" layoutX="399.0" layoutY="121.0" mnemonicParsing="false"
-            onAction="#kelolaDosenAction" prefHeight="93.0" prefWidth="287.0" text="Kelola Dosen" textFill="#1f8c73">
+    <Button fx:id="btnKelolaDosen" defaultButton="true" layoutX="399.0" layoutY="121.0" mnemonicParsing="false" onAction="#kelolaDosenAction" prefHeight="93.0" prefWidth="287.0" text="Kelola Dosen" textFill="#1f8c73">
         <font>
-            <Font name="System Bold" size="27.0"/>
+            <Font name="System Bold" size="27.0" />
         </font>
     </Button>
-    <Button fx:id="btnKelolaMatkul" defaultButton="true" layoutX="97.0" layoutY="225.0" mnemonicParsing="false"
-            onAction="#kelolaMatkulAction" prefHeight="93.0" prefWidth="287.0" text="Kelola Matkul" textFill="#1f8c73">
+    <Button fx:id="btnKelolaMatkul" defaultButton="true" layoutX="97.0" layoutY="225.0" mnemonicParsing="false" onAction="#kelolaMatkulAction" prefHeight="93.0" prefWidth="287.0" text="Kelola Matkul" textFill="#1f8c73">
         <font>
-          <Font name="System Bold" size="27.0"/>
+          <Font name="System Bold" size="27.0" />
         </font>
     </Button>
-    <Button fx:id="btnKelolaRuangan" defaultButton="true" layoutX="399.0" layoutY="225.0" mnemonicParsing="false"
-            onAction="#kelolaRuanganAction" prefHeight="93.0" prefWidth="287.0" text="Kelola Ruang" textFill="#1f8c73">
+    <Button fx:id="btnKelolaRuangan" defaultButton="true" layoutX="399.0" layoutY="225.0" mnemonicParsing="false" onAction="#kelolaRuanganAction" prefHeight="93.0" prefWidth="287.0" text="Kelola Ruang" textFill="#1f8c73">
         <font>
-          <Font name="System Bold" size="27.0"/>
+          <Font name="System Bold" size="27.0" />
         </font>
     </Button>
-    <Button fx:id="btnKelolaJadwal" defaultButton="true" layoutX="97.0" layoutY="329.0" mnemonicParsing="false"
-            onAction="#kelolaJadwalAction" prefHeight="134.0" prefWidth="590.0" text="GENERATE&#10;JADWAL"
-            textAlignment="CENTER" textFill="RED">
+    <Button fx:id="btnKelolaJadwal" defaultButton="true" layoutX="97.0" layoutY="329.0" mnemonicParsing="false" onAction="#kelolaJadwalAction" prefHeight="93.0" prefWidth="590.0" text="GENERATE&#10;JADWAL" textAlignment="CENTER" textFill="RED">
         <font>
-          <Font name="System Bold" size="27.0"/>
+          <Font name="System Bold" size="27.0" />
         </font>
     </Button>
+   <Button fx:id="btnRefreshData" layoutX="584.0" layoutY="438.0" mnemonicParsing="false" prefHeight="33.0"  onAction="#refreshDataAction" prefWidth="102.0" text="Perbarui Data" />
 </AnchorPane>

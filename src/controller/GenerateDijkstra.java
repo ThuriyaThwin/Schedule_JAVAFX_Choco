@@ -54,7 +54,6 @@ public class GenerateDijkstra implements Initializable {
     public Button btnSetRuangan;
     public Button btnDashboard;
     public Button btnGenerateDijkstra;
-    public Button btnToOutputDijkstra;
 
     private ObservableList<Jadwal> ol;
     private ObservableList<String> ruangan;
@@ -65,7 +64,6 @@ public class GenerateDijkstra implements Initializable {
     private String sql_jadwal;
     private String id_ruangan = null;
     private String id_jadwal = null;
-    private String id_hari = null;
     private int hari_dipilih = 5;
 
     private int kelasSize;
@@ -113,8 +111,8 @@ public class GenerateDijkstra implements Initializable {
             int exec = prs.executeUpdate();
 
             if(exec == 1){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update berhasil", ButtonType.OK);
-                alert.setTitle("Update");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Berhasil di-set", ButtonType.OK);
+                alert.setTitle("Set Ruangan");
                 alert.showAndWait();
                 loadDataFromDatabase(hari_dipilih);
                 clearText();
@@ -193,7 +191,6 @@ public class GenerateDijkstra implements Initializable {
             if (jadwal != null){
                 System.out.println(jadwal.getDosenId());
                 id_jadwal = jadwal.getId();
-                id_hari = jadwal.getHariId();
                 kelasField.setText(jadwal.getKelas());
             }
         });
@@ -248,6 +245,7 @@ public class GenerateDijkstra implements Initializable {
 
         ruanganCombo.setItems(ruangan);
         hariCombo.setItems(hari);
+        ruanganCombo.getSelectionModel().select(5);
         new AutoCompleteBoxHelper(ruanganCombo);
     }
 
@@ -263,10 +261,6 @@ public class GenerateDijkstra implements Initializable {
         }catch(Exception e){
             e.printStackTrace();
         }
-    }
-
-    public void toOutputDijkstra() {
-        toDijkstra();
     }
 
     public void onClickHariCombo() {

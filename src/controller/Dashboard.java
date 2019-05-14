@@ -1,5 +1,7 @@
 package controller;
 
+import helper.InputQueryHelper;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +18,7 @@ public class Dashboard implements Initializable {
     public Button btnKelolaMatkul;
     public Button btnKelolaRuangan;
     public Button btnKelolaJadwal;
+    public Button btnRefreshData;
 
     @FXML
     private AnchorPane pane;
@@ -70,4 +73,7 @@ public class Dashboard implements Initializable {
         }catch(Exception e){ e.printStackTrace(); }
     }
 
+    public void refreshDataAction() {
+        InputQueryHelper.main();
+    }
 }
