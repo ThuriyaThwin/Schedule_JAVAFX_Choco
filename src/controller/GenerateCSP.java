@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 public class GenerateCSP implements Initializable {
 
     @FXML
-    private AnchorPane kelolaJadwalPane;
+    private AnchorPane cspPane;
     @FXML
     private ComboBox<String> dosenCombo;
     @FXML
@@ -45,7 +45,6 @@ public class GenerateCSP implements Initializable {
     @FXML
     private TableColumn<Jadwal, String> tblKolomKelas;
 
-    public AnchorPane pane;
     public Button btnTambah;
     public Button btnUpdate;
     public Button btnDashboard;
@@ -65,6 +64,7 @@ public class GenerateCSP implements Initializable {
     private String id_dosen = null;
     private String id_mata_kuliah = null;
     private String id_kelas = null;
+    private int ruanganSize=0;
 
     /**
      * Initializes the controller class.
@@ -198,7 +198,7 @@ public class GenerateCSP implements Initializable {
     private void toDashboard() {
         try{
             AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/dashboard.fxml"));
-            kelolaJadwalPane.getChildren().setAll(ap);
+            cspPane.getChildren().setAll(ap);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -433,6 +433,7 @@ public class GenerateCSP implements Initializable {
         deleteJadwal();
         CSPHelper.main();
         toDijkstra();
+        resetRuangan();
     }
 
     private void deleteJadwal(){
@@ -448,9 +449,48 @@ public class GenerateCSP implements Initializable {
     public void toDijkstra() {
         try{
             AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/generate_dijkstra.fxml"));
-            pane.getChildren().setAll(ap);
+            cspPane.getChildren().setAll(ap);
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void resetRuangan(){
+        String sql_ruangan = "UPDATE ruangan SET status=? WHERE no=?";
+
+        try {
+            int id_ruangan = getDefaultRuangan();
+
+            for (int i=1; i<=ruanganSize; i++){
+                if (i != id_ruangan){
+                    prs = connec.prepareStatement(sql_ruangan);
+                    prs.setInt(1, 2);
+                    prs.setInt(2, i);
+                    prs.executeUpdate();
+                    prs.close();
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(KelolaDosen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private int getDefaultRuangan() throws SQLException {
+        int id_ruangan = 0;
+        String sql = "SELECT * FROM ruangan";
+        prs = connec.prepareStatement(sql);
+        rs_jadwal = prs.executeQuery();
+
+        int i=0;
+        while (rs_jadwal.next()){
+            if (rs_jadwal.getString(2).equalsIgnoreCase("Belum di-set"))
+                id_ruangan = rs_jadwal.getInt("no");
+
+            i++;
+        }
+
+        ruanganSize = i;
+
+        return id_ruangan;
     }
 }

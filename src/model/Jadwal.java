@@ -15,6 +15,7 @@ public class Jadwal {
     private String sesiId;
     private String ruangan;
     private String ruanganId;
+    private String kategori;
 
     public Jadwal() {
     }
@@ -158,6 +159,14 @@ public class Jadwal {
         this.ruanganId = ruanganId;
     }
 
+    public String getKategori() {
+        return kategori;
+    }
+
+    public void setKategori(String kategori) {
+        this.kategori = kategori;
+    }
+
     @Override
     public String toString() {
         return "Jadwal{" +
@@ -174,6 +183,7 @@ public class Jadwal {
                 ", sesiId='" + sesiId + '\'' +
                 ", ruangan='" + ruangan + '\'' +
                 ", ruanganId='" + ruanganId + '\'' +
+                ", kategori='" + kategori + '\'' +
                 '}';
     }
 }

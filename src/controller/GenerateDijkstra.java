@@ -1,11 +1,9 @@
 package controller;
 
 import helper.AutoCompleteBoxHelper;
-import helper.CSPHelper;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -49,8 +47,9 @@ public class GenerateDijkstra implements Initializable {
     private TableColumn<Jadwal, String> tblKolomSesi;
     @FXML
     private TableColumn<Jadwal, String> tblKolomRuangan;
+    @FXML
+    private TableColumn<Jadwal, String> tblKolomKategori;
 
-    public AnchorPane pane;
     public Button btnSetRuangan;
     public Button btnDashboard;
     public Button btnGenerateDijkstra;
@@ -102,6 +101,18 @@ public class GenerateDijkstra implements Initializable {
             System.out.println("Erorr");
         }
 
+        String sql_ruangan = "UPDATE ruangan SET status=? WHERE no=?";
+
+        try {
+            prs = connec.prepareStatement(sql_ruangan);
+            prs.setInt(1, 2);
+            prs.setString(2, id_ruangan);
+            prs.executeUpdate();
+            prs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(KelolaDosen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         String sql = "UPDATE jadwal SET no_ruangan=? WHERE id_jadwal=?";
 
         try {
@@ -114,7 +125,8 @@ public class GenerateDijkstra implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Berhasil di-set", ButtonType.OK);
                 alert.setTitle("Set Ruangan");
                 alert.showAndWait();
-                loadDataFromDatabase(hari_dipilih);
+                loadDataFromDatabase(onClickHariCombo());
+                fillComboBox();
                 clearText();
             }
 
@@ -140,6 +152,7 @@ public class GenerateDijkstra implements Initializable {
         tblKolomKelas.setCellValueFactory(new PropertyValueFactory<>("kelas"));
         tblKolomSesi.setCellValueFactory(new PropertyValueFactory<>("sesi"));
         tblKolomRuangan.setCellValueFactory(new PropertyValueFactory<>("ruangan"));
+        tblKolomKategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
     }
 
     private void loadDataFromDatabase(int hari) {
@@ -169,6 +182,7 @@ public class GenerateDijkstra implements Initializable {
                                 jadwal.setSesiId(rs_jadwal.getString("sesi_id"));
                                 jadwal.setRuangan(rs_jadwal.getString("ruangan"));
                                 jadwal.setRuanganId(rs_jadwal.getString("ruangan_id"));
+                                jadwal.setKategori(rs_jadwal.getString("kategori"));
 
                                 ol.add(jadwal);
                                 filled = true;
@@ -189,9 +203,12 @@ public class GenerateDijkstra implements Initializable {
         tblDataJadwal.setOnMouseClicked((MouseEvent event) -> {
             Jadwal jadwal = tblDataJadwal.getItems().get(tblDataJadwal.getSelectionModel().getSelectedIndex());
             if (jadwal != null){
-                System.out.println(jadwal.getDosenId());
                 id_jadwal = jadwal.getId();
                 kelasField.setText(jadwal.getKelas());
+                if (jadwal.getRuanganId() == null) id_ruangan = null;
+                else id_ruangan = jadwal.getRuanganId();
+
+                System.out.println(jadwal.getDosenId() + " " + id_ruangan);
             }
         });
     }
@@ -218,9 +235,11 @@ public class GenerateDijkstra implements Initializable {
 
     private void fillComboBox(){
         ruanganCombo.setEditable(true);
+        ruanganCombo.getItems().clear();
+        hariCombo.getItems().clear();
 
         try {
-            String sql = "SELECT * FROM ruangan";
+            String sql = "SELECT * FROM ruangan WHERE status='1' OR status='3'";
             prs = connec.prepareStatement(sql);
             rs_jadwal = prs.executeQuery();
 
@@ -245,7 +264,7 @@ public class GenerateDijkstra implements Initializable {
 
         ruanganCombo.setItems(ruangan);
         hariCombo.setItems(hari);
-        ruanganCombo.getSelectionModel().select(5);
+        hariCombo.getSelectionModel().select("Senin");
         new AutoCompleteBoxHelper(ruanganCombo);
     }
 
@@ -257,13 +276,13 @@ public class GenerateDijkstra implements Initializable {
     private void toDijkstra() {
         try{
             AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/output_dijkstra.fxml"));
-            pane.getChildren().setAll(ap);
+            dijkstraPane.getChildren().setAll(ap);
         }catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    public void onClickHariCombo() {
+    public int onClickHariCombo() {
         String sql = "SELECT * FROM hari WHERE nama=?";
         try {
             prs = connec.prepareStatement(sql);
@@ -278,6 +297,8 @@ public class GenerateDijkstra implements Initializable {
         }
 
         loadDataFromDatabase(hari_dipilih);
+
+        return hari_dipilih;
     }
 
     private void fillKelas() {
@@ -321,7 +342,8 @@ public class GenerateDijkstra implements Initializable {
                 "kelas.nama AS kelas, " +
                 "hari.nama AS hari, " +
                 "sesi.nama AS sesi, " +
-                "ruangan.nama AS ruangan " +
+                "ruangan.nama AS ruangan, " +
+                "kategori.nama AS kategori " +
                 "FROM jadwal " +
                 "INNER JOIN matkul ON jadwal.no_matkul = matkul.no " +
                 "INNER JOIN dosen ON jadwal.no_dosen = dosen.no " +
@@ -329,6 +351,7 @@ public class GenerateDijkstra implements Initializable {
                 "INNER JOIN hari ON jadwal.no_hari = hari.no " +
                 "INNER JOIN sesi ON jadwal.no_sesi = sesi.no " +
                 "INNER JOIN ruangan ON jadwal.no_ruangan = ruangan.no " +
+                "INNER JOIN kategori ON jadwal.kategori = kategori.no " +
                 "WHERE jadwal.no_hari='" + hari + "' AND jadwal.no_kelas='" + kelas + "' AND jadwal.no_sesi='" + sesi + "'" +
                 "ORDER BY jadwal.no_hari DESC, jadwal.no_sesi DESC, jadwal.no_kelas DESC";
         rs_jadwal = connec.createStatement().executeQuery(sql_jadwal);

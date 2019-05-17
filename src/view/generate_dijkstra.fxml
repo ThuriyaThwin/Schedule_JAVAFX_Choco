@@ -10,44 +10,43 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane id="AnchorPane" fx:id="dijkstraPane" prefHeight="422.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GenerateDijkstra">
-    <AnchorPane id="AnchorPane" fx:id="pane" layoutX="10.0" layoutY="10.0" prefHeight="498.0" prefWidth="767.0">
-        <Text layoutX="38.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Jadwal" underline="true">
-            <font>
-                <Font size="28.0" />
-            </font>
-        </Text>
-        <TextField fx:id="kelasField" editable="false" layoutX="16.0" layoutY="163.0" prefHeight="25.0" prefWidth="192.0" promptText="Kelas" />
-        <ComboBox fx:id="ruanganCombo" layoutX="16.0" layoutY="194.0" onAction="#onClickRuanganCombo" prefHeight="25.0" prefWidth="192.0" promptText="Ruangan" />
-        <ComboBox fx:id="hariCombo" layoutX="233.0" layoutY="115.0" onAction="#onClickHariCombo" prefHeight="25.0" prefWidth="91.0" promptText="Pilih Hari" />
-        <Button fx:id="btnSetRuangan" layoutX="20.0" layoutY="230.0" mnemonicParsing="false" onAction="#setRuanganAction" prefHeight="25.0" prefWidth="185.0" text="Set Ruangan" />
-        <TableView fx:id="tblDataJadwal" layoutX="233.0" layoutY="145.0" prefHeight="286.0" prefWidth="533.0">
-            <columns>
-                <TableColumn fx:id="tblKolomSesi" minWidth="3.0" prefWidth="84.0" text="Sesi" />
-                <TableColumn fx:id="tblKolomMatkul" prefWidth="161.0" text="Mata Kuliah" />
-                <TableColumn fx:id="tblKolomDosen" minWidth="0.0" prefWidth="93.0" text="Dosen" />
-                <TableColumn fx:id="tblKolomKelas" prefWidth="82.0" text="Kelas" />
-                <TableColumn fx:id="tblKolomRuangan" prefWidth="112.0" text="Ruangan" />
-            </columns>
-        </TableView>
-        <Button fx:id="btnDashboard" defaultButton="true" layoutX="16.0" layoutY="35.0" mnemonicParsing="false" onAction="#toDashboard" prefHeight="43.0" prefWidth="192.0" text="MAIN MENU" textFill="RED">
-            <font>
-                <Font name="System Bold" size="12.0" />
-            </font>
-        </Button>
-        <Button fx:id="btnGenerateDijkstra" defaultButton="true" layoutX="546.0" layoutY="445.0" mnemonicParsing="false" onAction="#generateDijkstra" prefHeight="43.0" prefWidth="192.0" text="GENERATE DIJKSTRA" textAlignment="CENTER" textFill="#008a2e">
-            <font>
-                <Font name="System Bold" size="15.0" />
-            </font>
-        </Button>
-        <Text fill="#e13434" layoutX="233.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aplikasi Jadwal Perkuliahan" textAlignment="CENTER" wrappingWidth="533.000002861023">
-            <font>
-                <Font name="System Bold" size="35.0" />
-            </font>
-        </Text>
-        <Text fx:id="totalData" layoutX="14.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Data">
-            <font>
-                <Font size="20.0" />
-            </font>
-        </Text>
-    </AnchorPane>
+    <Text layoutX="38.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Jadwal" underline="true">
+        <font>
+            <Font size="28.0" />
+        </font>
+    </Text>
+    <TextField fx:id="kelasField" editable="false" layoutX="16.0" layoutY="163.0" prefHeight="25.0" prefWidth="192.0" promptText="Kelas" />
+    <ComboBox fx:id="ruanganCombo" layoutX="16.0" layoutY="194.0" onAction="#onClickRuanganCombo" prefHeight="25.0" prefWidth="192.0" promptText="Ruangan" />
+    <ComboBox fx:id="hariCombo" layoutX="233.0" layoutY="115.0" onAction="#onClickHariCombo" prefHeight="25.0" prefWidth="91.0" promptText="Pilih Hari" />
+    <Button fx:id="btnSetRuangan" layoutX="20.0" layoutY="230.0" mnemonicParsing="false" onAction="#setRuanganAction" prefHeight="25.0" prefWidth="185.0" text="Set Ruangan" />
+    <TableView fx:id="tblDataJadwal" layoutX="233.0" layoutY="145.0" prefHeight="286.0" prefWidth="533.0">
+        <columns>
+            <TableColumn fx:id="tblKolomSesi" minWidth="3.0" prefWidth="84.0" text="Sesi" />
+            <TableColumn fx:id="tblKolomKelas" prefWidth="72.0" text="Kelas" />
+            <TableColumn fx:id="tblKolomMatkul" prefWidth="109.0" text="Mata Kuliah" />
+            <TableColumn fx:id="tblKolomDosen" minWidth="0.0" prefWidth="71.0" text="Dosen" />
+            <TableColumn fx:id="tblKolomKategori" minWidth="0.0" prefWidth="103.0" text="Kategori" />
+            <TableColumn fx:id="tblKolomRuangan" prefWidth="93.0" text="Ruangan" />
+        </columns>
+    </TableView>
+    <Button fx:id="btnDashboard" defaultButton="true" layoutX="16.0" layoutY="35.0" mnemonicParsing="false" onAction="#toDashboard" prefHeight="43.0" prefWidth="192.0" text="MAIN MENU" textFill="RED">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Button>
+    <Button fx:id="btnGenerateDijkstra" defaultButton="true" layoutX="546.0" layoutY="445.0" mnemonicParsing="false" onAction="#generateDijkstra" prefHeight="43.0" prefWidth="192.0" text="GENERATE DIJKSTRA" textAlignment="CENTER" textFill="#008a2e">
+        <font>
+            <Font name="System Bold" size="15.0" />
+        </font>
+    </Button>
+    <Text fill="#e13434" layoutX="233.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aplikasi Jadwal Perkuliahan" textAlignment="CENTER" wrappingWidth="533.000002861023">
+        <font>
+            <Font name="System Bold" size="35.0" />
+        </font>
+    </Text>
+    <Text fx:id="totalData" layoutX="14.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Data">
+        <font>
+            <Font size="20.0" />
+        </font>
+    </Text>
 </AnchorPane>

@@ -8,10 +8,10 @@ public class SQLHelper {
 
     public static Connection getConnection(){
         try {
-            String url="jdbc:mysql://localhost/penjadwalan_contoh";
+            String url="jdbc:mysql://localhost/penjadwalan_diploma";
             String user="root";
-
             String pass="";
+
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             mysqlconfig=DriverManager.getConnection(url, user, pass);
         } catch (Exception e) {

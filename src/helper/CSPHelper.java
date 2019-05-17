@@ -280,7 +280,7 @@ public class CSPHelper {
         }
 
         /*
-            Constraint for number 2
+            Constraint for number 2 & 3
          */
         count = 0 ;
         IntExp constraint2;
@@ -370,7 +370,7 @@ public class CSPHelper {
         }
     }
 
-    private void printSolution(){
+    private void printSolution() {
         SQLHelper.insertDB("TRUNCATE TABLE jadwal");
 
         for (int d=0; d<dosenLength; d++){
@@ -398,9 +398,17 @@ public class CSPHelper {
             }
         }
 
-        /*
-            Hitung ruangan bisa dimasuki
-         */
+
+        filterKapasitasRuangan();
+        try {
+            updateKategori();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        printSolverData();
+    }
+
+    private void filterKapasitasRuangan(){
         for (int m=0; m<matkulLength; m++){
             int able = 0;
             for (int r=0; r<ruanganLength; r++){
@@ -417,8 +425,36 @@ public class CSPHelper {
                 }
             }
         }
+    }
 
-        printSolverData();
+    private void updateKategori() throws SQLException {
+        ResultSet rs = SQLHelper.getResultSet("SELECT * FROM jadwal ORDER BY id_jadwal");
+
+        int no_matkul;
+        int kategori = 0;
+
+        System.out.println("rs " + rs.next());
+
+        while (rs.next()) {
+            no_matkul = rs.getInt("no_matkul");
+
+            ResultSet matkulResult = SQLHelper.getResultSet("SELECT * FROM matkul");
+
+            System.out.println(no_matkul);
+
+            while (matkulResult.next()){
+                if (matkulResult.getInt("no") == no_matkul){
+                    kategori = matkulResult.getInt("kategori");
+                    System.out.println("kategori=" + kategori);
+
+                    String sql = "UPDATE jadwal SET kategori='" + kategori + "' WHERE no_matkul='" + no_matkul + "'";
+                    SQLHelper.insertDB(sql);
+                    System.out.println("inserted");
+                }
+            }
+        }
+
+        rs.close();
     }
 
     private void printSolverData(){
