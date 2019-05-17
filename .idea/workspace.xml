@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Add refresh data function">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Update CSPHelper">
+      <change afterPath="$PROJECT_DIR$/db/penjadwalan_ftb.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/penjadwalan_fti.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ScheduleFX/controller/Dashboard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ScheduleFX/controller/Dashboard.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ScheduleFX/helper/SQLHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ScheduleFX/helper/SQLHelper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ScheduleFX/view/dashboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ScheduleFX/view/dashboard.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GenerateCSP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GenerateCSP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/GenerateDijkstra.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GenerateDijkstra.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helper/CSPHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/helper/CSPHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helper/SQLHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/helper/SQLHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Jadwal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Jadwal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/generate_csp.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/generate_csp.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/generate_dijkstra.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/generate_dijkstra.fxml" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -81,11 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/helper/SQLHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="66" selection-start-line="10" selection-start-column="66" selection-end-line="10" selection-end-column="66" />
+            <state relative-caret-position="34">
+              <caret line="2" column="18" lean-forward="true" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -138,7 +132,7 @@
           <provider editor-type-id="JavaFX-Scene-Builder" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/helper/CSPHelper.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="221">
@@ -166,7 +160,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>HideableItem</find>
       <find>String</find>
       <find>countries</find>
       <find>T</find>
@@ -196,6 +189,7 @@
       <find>jadwal[d][m][k][h][s][0][kt]</find>
       <find>INSERT</find>
       <find>setRua</find>
+      <find>update</find>
     </findStrings>
     <replaceStrings>
       <replace>Mahasiswa</replace>
@@ -323,6 +317,11 @@
             <path>
               <item name="ScheduleFX" type="b2602c69:ProjectViewProjectNode" />
               <item name="ScheduleFX" type="462c0819:PsiDirectoryNode" />
+              <item name="db" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ScheduleFX" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ScheduleFX" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -369,7 +368,7 @@
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557931316711" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1558056590668" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -602,7 +601,14 @@
       <option name="project" value="LOCAL" />
       <updated>1557845437742</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Update CSPHelper">
+      <created>1558055331317</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1558055331318</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -633,7 +639,7 @@
       <window_info id="DB Browser" order="9" weight="0.32980332" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32850242" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3252818" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3252818" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3993559" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -677,7 +683,8 @@
     <MESSAGE value="Add penjadwalan_real db (dummy)" />
     <MESSAGE value="Fix table filter on dijkstra UI" />
     <MESSAGE value="Add refresh data function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add refresh data function" />
+    <MESSAGE value="Update CSPHelper" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update CSPHelper" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -1039,13 +1046,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/helper/SQLHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="66" selection-start-line="10" selection-start-column="66" selection-end-line="10" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/helper/CSPHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -1057,6 +1057,13 @@
             <element signature="method#fillKelas#0;class#CSPHelper#0" />
             <element signature="method#fillMatkulKelas#0;class#CSPHelper#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/helper/SQLHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="18" lean-forward="true" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
         </state>
       </provider>
     </entry>
