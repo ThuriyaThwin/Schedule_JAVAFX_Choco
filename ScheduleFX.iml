@@ -10,7 +10,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/Compressed/mysql-connector-java.jar!/" />
+          <root url="jar://$MODULE_DIR$/library/mysql-connector-java.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -19,25 +19,16 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/Compressed/jar_files/controlsfx-8.40.11.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../choco-2.1.2" />
+          <root url="file://E:/tiwi/choco-2.1.2" />
         </CLASSES>
         <JAVADOC>
-          <root url="file://$MODULE_DIR$/../choco-2.1.2/apidocs" />
+          <root url="file://E:/tiwi/choco-2.1.2/apidocs" />
         </JAVADOC>
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../choco-2.1.2" />
+          <root url="file://E:/tiwi/choco-2.1.2" />
         </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../choco-2.1.2" recursive="false" />
-        <jarDirectory url="file://$MODULE_DIR$/../choco-2.1.2" recursive="false" type="SOURCES" />
+        <jarDirectory url="file://E:/tiwi/choco-2.1.2" recursive="false" />
+        <jarDirectory url="file://E:/tiwi/choco-2.1.2" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
   </component>
