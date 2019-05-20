@@ -65,6 +65,7 @@ public class GenerateCSP implements Initializable {
     private String id_mata_kuliah = null;
     private String id_kelas = null;
     private int ruanganSize=0;
+    private int hariSize=0;
 
     /**
      * Initializes the controller class.
@@ -76,10 +77,12 @@ public class GenerateCSP implements Initializable {
         dosen = FXCollections.observableArrayList();
         mata_kuliah = FXCollections.observableArrayList();
         kelas = FXCollections.observableArrayList();
+
         loadDataFromDatabase();
         fromTableToTextField();
         setCellValue();
         fillComboBox();
+        getHariSize();
     }
 
     @FXML
@@ -432,8 +435,9 @@ public class GenerateCSP implements Initializable {
     public void generateJadwal() {
         deleteJadwal();
         CSPHelper.main();
-        toDijkstra();
         resetRuangan();
+        resetHari();
+        toDijkstra();
     }
 
     private void deleteJadwal(){
@@ -475,6 +479,21 @@ public class GenerateCSP implements Initializable {
         }
     }
 
+    private void resetHari(){
+        String sql_hari = "UPDATE hari SET status='1' WHERE no=?";
+
+        try {
+            for (int i=1; i<=hariSize; i++){
+                prs = connec.prepareStatement(sql_hari);
+                prs.setInt(1, i);
+                prs.executeUpdate();
+                prs.close();
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erorr");
+        }
+    }
+
     private int getDefaultRuangan() throws SQLException {
         int id_ruangan = 0;
         String sql = "SELECT * FROM ruangan";
@@ -492,5 +511,22 @@ public class GenerateCSP implements Initializable {
         ruanganSize = i;
 
         return id_ruangan;
+    }
+
+    private void getHariSize() {
+        String sql = "SELECT * FROM hari";
+        try {
+            prs = connec.prepareStatement(sql);
+            rs_jadwal = prs.executeQuery();
+
+            int i=0;
+            while (rs_jadwal.next()){
+                i++;
+            }
+
+            hariSize = i;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

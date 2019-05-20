@@ -18,7 +18,6 @@
     <TextField fx:id="kelasField" editable="false" layoutX="16.0" layoutY="163.0" prefHeight="25.0" prefWidth="192.0" promptText="Kelas" />
     <ComboBox fx:id="ruanganCombo" layoutX="16.0" layoutY="194.0" onAction="#onClickRuanganCombo" prefHeight="25.0" prefWidth="192.0" promptText="Ruangan" />
     <ComboBox fx:id="hariCombo" layoutX="233.0" layoutY="115.0" onAction="#onClickHariCombo" prefHeight="25.0" prefWidth="91.0" promptText="Pilih Hari" />
-    <Button fx:id="btnSetRuangan" layoutX="20.0" layoutY="230.0" mnemonicParsing="false" onAction="#setRuanganAction" prefHeight="25.0" prefWidth="185.0" text="Set Ruangan" />
     <TableView fx:id="tblDataJadwal" layoutX="233.0" layoutY="145.0" prefHeight="286.0" prefWidth="533.0">
         <columns>
             <TableColumn fx:id="tblKolomSesi" minWidth="3.0" prefWidth="84.0" text="Sesi" />
@@ -34,7 +33,7 @@
             <Font name="System Bold" size="12.0" />
         </font>
     </Button>
-    <Button fx:id="btnOutput" defaultButton="true" layoutX="546.0" layoutY="445.0" mnemonicParsing="false" onAction="#toOutput" prefHeight="43.0" prefWidth="192.0" text="LIHAT HASIL" textAlignment="CENTER" textFill="#008a2e">
+    <Button fx:id="btnSetRuanganPerHari" defaultButton="true" layoutX="546.0" layoutY="445.0" mnemonicParsing="false" onAction="#setRuanganPerHari" prefHeight="43.0" prefWidth="192.0" text="SET RUANGAN" textAlignment="CENTER" textFill="#008a2e">
         <font>
             <Font name="System Bold" size="15.0" />
         </font>

@@ -4,6 +4,7 @@ import helper.AutoCompleteBoxHelper;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -50,9 +51,8 @@ public class SetRuanganManual implements Initializable {
     @FXML
     private TableColumn<Jadwal, String> tblKolomKategori;
 
-    public Button btnSetRuangan;
     public Button btnDashboard;
-    public Button btnOutput;
+    public Button btnSetRuanganPerHari;
 
     private ObservableList<Jadwal> ol;
     private ObservableList<String> ruangan;
@@ -62,6 +62,7 @@ public class SetRuanganManual implements Initializable {
     private ResultSet rs_jadwal;
     private String sql_jadwal;
     private String id_ruangan = null;
+    private String ruangan_unset = null;
     private String id_matkul = null;
     private String id_jadwal = null;
     private int hari_dipilih = 5;
@@ -80,59 +81,8 @@ public class SetRuanganManual implements Initializable {
 
         fillComboBox();
         fillRuangan();
-//        loadDataFromDatabase(hari_dipilih);
         fromTableToTextField();
         setCellValue();
-    }
-
-    @FXML
-    private void setRuanganAction() {
-        try {
-            String sql = "SELECT * FROM ruangan WHERE no=?";
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, ruanganCombo.getSelectionModel().getSelectedItem());
-            rs_jadwal = prs.executeQuery();
-
-            while (rs_jadwal.next()){
-                id_ruangan = rs_jadwal.getString("no");
-            }
-        } catch (SQLException e) {
-            System.out.println("Erorr");
-        }
-
-        String sql_ruangan = "UPDATE ruangan SET status=? WHERE no=?";
-
-        try {
-            prs = connec.prepareStatement(sql_ruangan);
-            prs.setInt(1, 2);
-            prs.setString(2, id_ruangan);
-            prs.executeUpdate();
-            prs.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(KelolaDosen.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        String sql = "UPDATE jadwal SET no_ruangan=? WHERE id_jadwal=?";
-
-        try {
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, id_ruangan);
-            prs.setString(2, id_jadwal);
-            int exec = prs.executeUpdate();
-
-            if(exec == 1){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Berhasil di-set", ButtonType.OK);
-                alert.setTitle("Set Ruangan");
-                alert.showAndWait();
-                loadDataFromDatabase(onClickHariCombo());
-                fillComboBox();
-                clearText();
-            }
-
-            prs.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(KelolaDosen.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @FXML
@@ -194,13 +144,25 @@ public class SetRuanganManual implements Initializable {
             Jadwal jadwal = tblDataJadwal.getItems().get(tblDataJadwal.getSelectionModel().getSelectedIndex());
             if (jadwal != null){
                 id_jadwal = jadwal.getId();
-                id_ruangan = jadwal.getRuanganId();
                 id_matkul = jadwal.getMataKuliahId();
+                id_ruangan = jadwal.getRuanganId();
                 kelasField.setText(jadwal.getKelas());
-
                 refreshRuanganComboBox();
             }
         });
+    }
+
+    private void refreshRuanganComboBox() {
+        ruanganCombo.setEditable(true);
+        ruanganCombo.getItems().clear();
+
+        ruanganCombo.setItems(checkKapasitas());
+        new AutoCompleteBoxHelper(ruanganCombo);
+    }
+
+    private void refreshHariComboBox() {
+        hariCombo.getItems().clear();
+        hariCombo.setItems(checkStatus());
     }
 
     private void clearText(){
@@ -209,17 +171,53 @@ public class SetRuanganManual implements Initializable {
     }
 
     public void onClickRuanganCombo() {
-        String sql = "SELECT * FROM ruangan WHERE nama=?";
+        String[] id = (ruanganCombo.getSelectionModel().getSelectedItem()).split(" ");
+
         try {
+            String sql = "SELECT * FROM ruangan WHERE nama=?";
             prs = connec.prepareStatement(sql);
-            prs.setString(1, ruanganCombo.getSelectionModel().getSelectedItem());
+            prs.setString(1, id[0]);
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
                 id_ruangan = rs_jadwal.getString("no");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Erorr");
+        }
+
+        String sql_ruangan = "UPDATE ruangan SET status=? WHERE nama=?";
+
+        try {
+            prs = connec.prepareStatement(sql_ruangan);
+            prs.setInt(1, 2);
+            prs.setString(2, id[0]);
+            prs.executeUpdate();
+            prs.close();
+        } catch (SQLException ex) {
+            System.out.println("Erorr");
+        }
+
+        String sql = "UPDATE jadwal SET no_ruangan=? WHERE id_jadwal=?";
+
+        try {
+            prs = connec.prepareStatement(sql);
+            prs.setString(1, id_ruangan);
+            prs.setString(2, id_jadwal);
+            int exec = prs.executeUpdate();
+
+            if(exec == 1){
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Berhasil di-set", ButtonType.OK);
+//                alert.setTitle("Set Ruangan");
+//                alert.showAndWait();
+                loadDataFromDatabase(onClickHariCombo());
+                fillComboBox();
+                clearText();
+            }
+
+            prs.close();
+        } catch (SQLException ex) {
+            System.out.println("Erorr");
         }
     }
 
@@ -234,7 +232,7 @@ public class SetRuanganManual implements Initializable {
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
-                ruangan.add(rs_jadwal.getString("nama") + "  | " + rs_jadwal.getString("kapasitas"));
+                ruangan.add(rs_jadwal.getString("nama") + " | " + rs_jadwal.getString("kapasitas"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -276,6 +274,23 @@ public class SetRuanganManual implements Initializable {
         return hari_dipilih;
     }
 
+    private void fillRuangan() {
+        try {
+            String sql = "SELECT * FROM ruangan ORDER BY no DESC";
+            prs = connec.prepareStatement(sql);
+            rs_jadwal = prs.executeQuery();
+
+            while (rs_jadwal.next()){
+                if (rs_jadwal.getString("nama").equalsIgnoreCase("Belum di-set")){
+                    ruangan_unset = rs_jadwal.getString("no");
+                }
+                ruanganSize++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean check(int hari) throws SQLException {
         sql_jadwal = "SELECT jadwal.id_jadwal AS id, " +
                 "jadwal.no_dosen AS dosen_id, " +
@@ -306,37 +321,6 @@ public class SetRuanganManual implements Initializable {
         return rs_jadwal.next();
     }
 
-    public void toOutput() {
-//        try{
-//            AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/output_dijkstra.fxml"));
-//            manualSetPane.getChildren().setAll(ap);
-//        }catch(Exception e){
-//            e.printStackTrace();
-//        }
-    }
-
-    private void fillRuangan() {
-        try {
-            String sql = "SELECT * FROM ruangan ORDER BY no DESC";
-            prs = connec.prepareStatement(sql);
-            rs_jadwal = prs.executeQuery();
-
-            while (rs_jadwal.next()){
-                ruanganSize++;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void refreshRuanganComboBox() {
-        ruanganCombo.setEditable(true);
-        ruanganCombo.getItems().clear();
-
-        ruanganCombo.setItems(checkKapasitas());
-        new AutoCompleteBoxHelper(ruanganCombo);
-    }
-
     private ObservableList<String> checkKapasitas(){
         int jumlah = 0;
         try {
@@ -349,7 +333,7 @@ public class SetRuanganManual implements Initializable {
             }
 
             for (int i=1; i<=ruanganSize; i++){
-                String sql_ruangan = "SELECT * FROM ruangan WHERE no='" + i + "'";
+                String sql_ruangan = "SELECT * FROM ruangan WHERE no='" + i + "' AND status='1'";
                 prs = connec.prepareStatement(sql_ruangan);
                 ResultSet rs = prs.executeQuery();
 
@@ -371,6 +355,69 @@ public class SetRuanganManual implements Initializable {
             e.printStackTrace();
         }
 
-        return ruangan;
+        if (!ruangan.isEmpty()) return ruangan;
+        else ruangan.add("Ruangan tidak tersedia"); return ruangan;
+    }
+
+    private ObservableList<String> checkStatus(){
+        try {
+            String sql = "SELECT * FROM hari WHERE status='1' ORDER BY no DESC";
+            prs = connec.prepareStatement(sql);
+            rs_jadwal = prs.executeQuery();
+
+            while (rs_jadwal.next()){
+                hari.add(rs_jadwal.getString("nama"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (!hari.isEmpty()) return hari;
+        else hari.add("Ruangan tidak tersedia"); return hari;
+    }
+
+
+    public void setRuanganPerHari() {
+        String sql = "UPDATE hari SET status=2 WHERE no=?";
+
+        try {
+            prs = connec.prepareStatement(sql);
+            prs.setInt(1, hari_dipilih);
+            int exec = prs.executeUpdate();
+
+            if(exec == 1){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Berhasil di-set", ButtonType.OK);
+                alert.setTitle("Berhasil");
+                alert.showAndWait();
+                loadDataFromDatabase(onClickHariCombo());
+                fillComboBox();
+                clearText();
+            }
+
+            prs.close();
+        } catch (SQLException ex) {
+            System.out.println("Erorr");
+        }
+
+        refreshHariComboBox();
+        resetRuangan();
+        tblDataJadwal.getItems().clear();
+    }
+
+    private void resetRuangan(){
+        for (int i=1; i<ruanganSize; i++){
+            if (i!=Integer.parseInt(ruangan_unset)){
+                String sql_ruangan = "UPDATE ruangan SET status='1' WHERE no=?";
+
+                try {
+                    prs = connec.prepareStatement(sql_ruangan);
+                    prs.setInt(1, i);
+                    prs.executeUpdate();
+                    prs.close();
+                } catch (SQLException ex) {
+                    System.out.println("Erorr");
+                }
+            }
+        }
     }
 }
