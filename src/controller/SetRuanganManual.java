@@ -80,7 +80,7 @@ public class SetRuanganManual implements Initializable {
 
         fillComboBox();
         fillRuangan();
-        loadDataFromDatabase(hari_dipilih);
+//        loadDataFromDatabase(hari_dipilih);
         fromTableToTextField();
         setCellValue();
     }
@@ -198,7 +198,7 @@ public class SetRuanganManual implements Initializable {
                 id_matkul = jadwal.getMataKuliahId();
                 kelasField.setText(jadwal.getKelas());
 
-                fillComboBox();
+                refreshRuanganComboBox();
             }
         });
     }
@@ -228,41 +228,20 @@ public class SetRuanganManual implements Initializable {
         ruanganCombo.getItems().clear();
         hariCombo.getItems().clear();
 
-        int jumlah = 0;
         try {
-            String sql = "SELECT * FROM matkul WHERE no='" + id_matkul + "'";
+            String sql = "SELECT * FROM ruangan WHERE status='1' OR status='3'";
             prs = connec.prepareStatement(sql);
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
-                jumlah = rs_jadwal.getInt("jumlah");
-            }
-
-            for (int i=1; i<=ruanganSize; i++){
-                String sql_ruangan = "SELECT * FROM ruangan WHERE no='" + i + "'";
-                prs = connec.prepareStatement(sql_ruangan);
-                ResultSet rs = prs.executeQuery();
-
-                int kapasitas;
-                int delta;
-
-                while (rs.next()){
-                    if (!rs.getString("nama").equalsIgnoreCase("Belum di-set")){
-                        kapasitas = rs.getInt("kapasitas");
-                        delta = kapasitas - jumlah;
-
-                        if (delta >= 0){
-                            ruangan.add(rs.getString("nama") + "  | " + rs.getString("kapasitas"));
-                        }
-                    }
-                }
+                ruangan.add(rs_jadwal.getString("nama") + "  | " + rs_jadwal.getString("kapasitas"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         try {
-            String sql = "SELECT * FROM hari ORDER BY no DESC";
+            String sql = "SELECT * FROM hari WHERE status='1' ORDER BY no DESC";
             prs = connec.prepareStatement(sql);
             rs_jadwal = prs.executeQuery();
 
@@ -275,7 +254,6 @@ public class SetRuanganManual implements Initializable {
 
         ruanganCombo.setItems(ruangan);
         hariCombo.setItems(hari);
-        hariCombo.getSelectionModel().select("Senin");
         new AutoCompleteBoxHelper(ruanganCombo);
     }
 
@@ -349,5 +327,50 @@ public class SetRuanganManual implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void refreshRuanganComboBox() {
+        ruanganCombo.setEditable(true);
+        ruanganCombo.getItems().clear();
+
+        ruanganCombo.setItems(checkKapasitas());
+        new AutoCompleteBoxHelper(ruanganCombo);
+    }
+
+    private ObservableList<String> checkKapasitas(){
+        int jumlah = 0;
+        try {
+            String sql = "SELECT * FROM matkul WHERE no='" + id_matkul + "'";
+            prs = connec.prepareStatement(sql);
+            rs_jadwal = prs.executeQuery();
+
+            while (rs_jadwal.next()){
+                jumlah = rs_jadwal.getInt("jumlah");
+            }
+
+            for (int i=1; i<=ruanganSize; i++){
+                String sql_ruangan = "SELECT * FROM ruangan WHERE no='" + i + "'";
+                prs = connec.prepareStatement(sql_ruangan);
+                ResultSet rs = prs.executeQuery();
+
+                int kapasitas;
+                int delta;
+
+                while (rs.next()){
+                    if (!rs.getString("nama").equalsIgnoreCase("Belum di-set")){
+                        kapasitas = rs.getInt("kapasitas");
+                        delta = kapasitas - jumlah;
+
+                        if (delta >= 0){
+                            ruangan.add(rs.getString("nama") + "  | " + rs.getString("kapasitas"));
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ruangan;
     }
 }

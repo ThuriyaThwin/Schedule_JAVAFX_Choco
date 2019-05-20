@@ -19,6 +19,7 @@ public class CSPHelper {
     private String[] sks;
     private String[] jumlah;
     private String[] kapasitas;
+    private String[] kategori;
 
     private Solver problem;
     private IntExp[][][][][][] jadwal;
@@ -119,12 +120,14 @@ public class CSPHelper {
         matkulLength = matkulArray.length;
         sks = new String[getRowCount(rs)];
         jumlah = new String[getRowCount(rs)];
+        kategori = new String[getRowCount(rs)];
         int i = 0;
 
         while (rs.next()) {
             matkulArray[i] = rs.getString("nama");
             sks[i] = rs.getString("sks");
             jumlah[i] = rs.getString("jumlah");
+            kategori[i] = rs.getString("kategori");
 
             i++;
         }
@@ -343,22 +346,72 @@ public class CSPHelper {
                 for (int h = 0; h < hariLength; h++) {
                     constraint7 = null;
 
-                    for (int d=0; d<dosenLength; d++){
+                    for (int d = 0; d < dosenLength; d++) {
                         for (int s = 0; s < sesiLength; s++) {
                             if (constraint7 == null)
                                 constraint7 = jadwal[d][m][k][h][s][0];
                             else
                                 constraint7 = problem.plus(constraint7, jadwal[d][m][k][h][s][0]);
-
-                            System.out.println("Var[7]-" + count);
-                            count++;
                         }
                     }
 
                     problem.post(problem.leq(constraint7, 2));
+//                    if(kategori[m].equalsIgnoreCase("1")){
+//                        constraint7 = null;
+//
+//                        for (int d = 0; d < dosenLength; d++) {
+//                            for (int s = 0; s < sesiLength; s++) {
+//                                if (constraint7 == null)
+//                                    constraint7 = jadwal[d][m][k][h][s][0];
+//                                else
+//                                    constraint7 = problem.plus(constraint7, jadwal[d][m][k][h][s][0]);
+//                            }
+//                        }
+//
+//                        problem.post(problem.geq(constraint7, 0));
+//                        problem.post(problem.leq(constraint7, 1));
+//                    } else {
+//                        constraint7 = null;
+//
+//                        for (int d = 0; d < dosenLength; d++) {
+//                            for (int s = 0; s < sesiLength; s++) {
+//                                if (constraint7 == null)
+//                                    constraint7 = jadwal[d][m][k][h][s][0];
+//                                else
+//                                    constraint7 = problem.plus(constraint7, jadwal[d][m][k][h][s][0]);
+//                            }
+//                        }
+//
+//                        problem.post(problem.geq(constraint7, 0));
+//                        problem.post(problem.leq(constraint7, 2));
+//                    }
                 }
             }
         }
+
+//        IntExp constraint8;
+//        count = 0;
+//        for (int m=0; m<matkulLength; m++){
+//            for (int h = 0; h<hariLength; h++) {
+//
+//                if (kategori[m].equalsIgnoreCase("2")) {
+//                    constraint8 = null;
+//
+//                    for (int d = 0; d < dosenLength; d++) {
+//                        for (int k = 0; k < kelasLength; k++) {
+//                            for (int s = 0; s < sesiLength; s++) {
+//                                if (constraint8 == null)
+//                                    constraint8 = jadwal[d][m][k][h][s][0];
+//                                else
+//                                    constraint8 = problem.plus(constraint8, jadwal[d][m][k][h][s][0]);
+//                            }
+//                        }
+//                    }
+//
+//                    problem.post(problem.geq(constraint8, 2));
+//                }
+//            }
+//        }
     }
 
     private void solveConstraint(){
@@ -411,13 +464,13 @@ public class CSPHelper {
     private void filterKapasitasRuangan(){
         for (int m=0; m<matkulLength; m++){
             int able = 0;
+
             for (int r=0; r<ruanganLength; r++){
 
                 int delta = Integer.parseInt(kapasitas[r]) - Integer.parseInt(jumlah[m]);
                 int dos = (delta >= 0) ? 1:0;
 
-                if (dos == 1)
-                    able++;
+                if (dos == 1) able++;
 
                 if (r == 4){
                     String sql = "UPDATE jadwal SET tot_ruangan='" + able + "' WHERE no_matkul='" + (m+1) + "'";
@@ -433,23 +486,16 @@ public class CSPHelper {
         int no_matkul;
         int kategori = 0;
 
-        System.out.println("rs " + rs.next());
-
         while (rs.next()) {
             no_matkul = rs.getInt("no_matkul");
 
             ResultSet matkulResult = SQLHelper.getResultSet("SELECT * FROM matkul");
 
-            System.out.println(no_matkul);
-
             while (matkulResult.next()){
                 if (matkulResult.getInt("no") == no_matkul){
                     kategori = matkulResult.getInt("kategori");
-                    System.out.println("kategori=" + kategori);
-
                     String sql = "UPDATE jadwal SET kategori='" + kategori + "' WHERE no_matkul='" + no_matkul + "'";
                     SQLHelper.insertDB(sql);
-                    System.out.println("inserted");
                 }
             }
         }

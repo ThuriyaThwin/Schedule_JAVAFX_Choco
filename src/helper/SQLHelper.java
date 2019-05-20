@@ -8,7 +8,7 @@ public class SQLHelper {
 
     public static Connection getConnection(){
         try {
-            String url="jdbc:mysql://localhost/penjadwalan_diploma";
+            String url="jdbc:mysql://localhost/penjadwalan_reals";
             String user="root";
             String pass="";
 

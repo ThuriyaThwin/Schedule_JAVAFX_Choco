@@ -67,7 +67,7 @@ public class GenerateDijkstra implements Initializable {
     private String id_ruangan = null;
     private String id_jadwal = null;
     private String id_matkul = null;
-    private int hari_dipilih = 5;
+    private int hari_dipilih;
 
     private int kelasSize;
     private int sesiSize;
@@ -87,17 +87,18 @@ public class GenerateDijkstra implements Initializable {
         fillSesi();
         fillKelas();
         fillRuangan();
-        loadDataFromDatabase(hari_dipilih);
         fromTableToTextField();
         setCellValue();
     }
 
     @FXML
     private void setRuanganAction() {
+        String[] id = (ruanganCombo.getSelectionModel().getSelectedItem()).split(" ");
+
         try {
-            String sql = "SELECT * FROM ruangan WHERE no=?";
+            String sql = "SELECT * FROM ruangan WHERE nama=?";
             prs = connec.prepareStatement(sql);
-            prs.setString(1, ruanganCombo.getSelectionModel().getSelectedItem());
+            prs.setString(1, id[0]);
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
@@ -107,16 +108,16 @@ public class GenerateDijkstra implements Initializable {
             System.out.println("Erorr");
         }
 
-        String sql_ruangan = "UPDATE ruangan SET status=? WHERE no=?";
+        String sql_ruangan = "UPDATE ruangan SET status=? WHERE nama=?";
 
         try {
             prs = connec.prepareStatement(sql_ruangan);
             prs.setInt(1, 2);
-            prs.setString(2, id_ruangan);
+            prs.setString(2, id[0]);
             prs.executeUpdate();
             prs.close();
         } catch (SQLException ex) {
-            Logger.getLogger(KelolaDosen.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erorr");
         }
 
         String sql = "UPDATE jadwal SET no_ruangan=? WHERE id_jadwal=?";
@@ -138,7 +139,7 @@ public class GenerateDijkstra implements Initializable {
 
             prs.close();
         } catch (SQLException ex) {
-            Logger.getLogger(KelolaDosen.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erorr");
         }
     }
 
@@ -200,7 +201,7 @@ public class GenerateDijkstra implements Initializable {
 
             totalData.setText("Total Data : " + ol.size());
         } catch (SQLException ex) {
-            Logger.getLogger(GenerateDijkstra.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Erorr");
         }
         tblDataJadwal.setItems(ol);
     }
@@ -257,14 +258,14 @@ public class GenerateDijkstra implements Initializable {
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
-                ruangan.add(rs_jadwal.getString("nama") + "  | " + rs_jadwal.getString("kapasitas"));
+                ruangan.add(rs_jadwal.getString("nama") + " | " + rs_jadwal.getString("kapasitas"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         try {
-            String sql = "SELECT * FROM hari ORDER BY no DESC";
+            String sql = "SELECT * FROM hari WHERE status='1' ORDER BY no DESC";
             prs = connec.prepareStatement(sql);
             rs_jadwal = prs.executeQuery();
 
@@ -277,7 +278,7 @@ public class GenerateDijkstra implements Initializable {
 
         ruanganCombo.setItems(ruangan);
         hariCombo.setItems(hari);
-        hariCombo.getSelectionModel().select("Senin");
+//        hariCombo.getSelectionModel().select(0);
         new AutoCompleteBoxHelper(ruanganCombo);
     }
 
@@ -407,7 +408,7 @@ public class GenerateDijkstra implements Initializable {
             }
 
             for (int i=1; i<=ruanganSize; i++){
-                String sql_ruangan = "SELECT * FROM ruangan WHERE no='" + i + "'";
+                String sql_ruangan = "SELECT * FROM ruangan WHERE no='" + i + "' AND status='1'";
                 prs = connec.prepareStatement(sql_ruangan);
                 ResultSet rs = prs.executeQuery();
 
@@ -429,6 +430,7 @@ public class GenerateDijkstra implements Initializable {
             e.printStackTrace();
         }
 
-        return ruangan;
+        if (!ruangan.isEmpty()) return ruangan;
+        else ruangan.add("Ruangan tidak tersedia"); return ruangan;
     }
 }
