@@ -18,6 +18,7 @@
     <TextField fx:id="kelasField" editable="false" layoutX="16.0" layoutY="163.0" prefHeight="25.0" prefWidth="192.0" promptText="Kelas" />
     <ComboBox fx:id="ruanganCombo" layoutX="16.0" layoutY="194.0" onAction="#onClickRuanganCombo" prefHeight="25.0" prefWidth="192.0" promptText="Ruangan" />
     <ComboBox fx:id="hariCombo" layoutX="233.0" layoutY="115.0" onAction="#onClickHariCombo" prefHeight="25.0" prefWidth="91.0" promptText="Pilih Hari" />
+    <ComboBox fx:id="sesiCombo" layoutX="329.0" layoutY="115.0" onAction="#onClickSesiCombo" prefHeight="25.0" prefWidth="91.0" promptText="Pilih Sesi" />
     <TableView fx:id="tblDataJadwal" layoutX="233.0" layoutY="145.0" prefHeight="286.0" prefWidth="533.0">
         <columns>
             <TableColumn fx:id="tblKolomSesi" minWidth="3.0" prefWidth="84.0" text="Sesi" />
@@ -33,9 +34,14 @@
             <Font name="System Bold" size="12.0" />
         </font>
     </Button>
-    <Button fx:id="btnSetRuanganPerHari" defaultButton="true" layoutX="546.0" layoutY="445.0" mnemonicParsing="false" onAction="#setRuanganPerHari" prefHeight="43.0" prefWidth="192.0" text="SET RUANGAN" textAlignment="CENTER" textFill="#008a2e">
+    <Button fx:id="btnSetRuanganPerHari" defaultButton="true" layoutX="31.0" layoutY="296.0" mnemonicParsing="false" onAction="#setRuanganPerHari" prefHeight="37.0" prefWidth="147.0" text="SET RUANGAN (Hari)" textAlignment="CENTER" textFill="#008a2e">
         <font>
-            <Font name="System Bold" size="15.0" />
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Button>
+    <Button fx:id="btnSetRuanganPerSesi" defaultButton="true" layoutX="31.0" layoutY="251.0" mnemonicParsing="false" onAction="#setRuanganPerSesi" prefHeight="37.0" prefWidth="147.0" text="SET RUANGAN (Sesi)" textAlignment="CENTER" textFill="#008a2e">
+        <font>
+            <Font name="System Bold" size="12.0" />
         </font>
     </Button>
     <Text fill="#e13434" layoutX="233.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aplikasi Jadwal Perkuliahan" textAlignment="CENTER" wrappingWidth="533.000002861023">
@@ -48,4 +54,9 @@
             <Font size="20.0" />
         </font>
     </Text>
+    <Button fx:id="btnToOutput" defaultButton="true" layoutX="546.0" layoutY="445.0" mnemonicParsing="false" onAction="#toOutput" prefHeight="43.0" prefWidth="192.0" text="Lihat Hasil Jadwal" textAlignment="CENTER" textFill="#008a2e">
+        <font>
+            <Font name="System Bold" size="15.0" />
+        </font>
+    </Button>
 </AnchorPane>

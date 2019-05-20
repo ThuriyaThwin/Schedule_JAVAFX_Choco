@@ -218,7 +218,7 @@ public class KelolaDosen implements Initializable {
             rs = connec.createStatement().executeQuery(sql);
 
             while (rs.next()) {
-                ol_matkul.add(new MataKuliah(rs.getString("no"), rs.getString("nama"), rs.getString("sks"), rs.getString("jumlah")));
+                ol_matkul.add(new MataKuliah(rs.getString("no"), rs.getString("nama"), rs.getString("sks"), rs.getString("jumlah"), rs.getString("kategori")));
             }
 
             matkul_size = ol_matkul.size();

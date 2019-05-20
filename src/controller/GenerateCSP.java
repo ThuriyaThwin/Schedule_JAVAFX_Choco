@@ -2,6 +2,7 @@ package controller;
 
 import helper.AutoCompleteBoxHelper;
 import helper.CSPHelper;
+import helper.CSPHelper2;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -434,7 +435,7 @@ public class GenerateCSP implements Initializable {
 
     public void generateJadwal() {
         deleteJadwal();
-        CSPHelper.main();
+        CSPHelper2.main();
         resetRuangan();
         resetHari();
         toDijkstra();

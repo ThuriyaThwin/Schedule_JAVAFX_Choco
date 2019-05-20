@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" fx:id="outputPane" prefHeight="422.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Output">
+    <TableView fx:id="tblDataJadwal" layoutX="11.0" layoutY="116.0" prefHeight="314.0" prefWidth="746.0">
+        <columns>
+            <TableColumn fx:id="tblKolomHari" minWidth="3.0" prefWidth="78.9999771118164" text="Hari" />
+            <TableColumn fx:id="tblKolomSesi" minWidth="3.0" prefWidth="95.00001525878906" text="Sesi" />
+            <TableColumn fx:id="tblKolomKelas" prefWidth="100.0" text="Kelas" />
+            <TableColumn fx:id="tblKolomMatkul" prefWidth="144.0" text="Mata Kuliah" />
+            <TableColumn fx:id="tblKolomDosen" minWidth="0.0" prefWidth="92.0" text="Dosen" />
+            <TableColumn fx:id="tblKolomKategori" minWidth="0.0" prefWidth="105.0" text="Kategori" />
+            <TableColumn fx:id="tblKolomRuangan" prefWidth="152.0" text="Ruangan" />
+        </columns>
+    </TableView>
+    <Button fx:id="btnDashboard" defaultButton="true" layoutX="16.0" layoutY="35.0" mnemonicParsing="false" onAction="#toDashboard" prefHeight="43.0" prefWidth="192.0" text="MAIN MENU" textFill="RED">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Button>
+    <Text fill="#e13434" layoutX="233.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aplikasi Jadwal Perkuliahan" textAlignment="CENTER" wrappingWidth="533.000002861023">
+        <font>
+            <Font name="System Bold" size="35.0" />
+        </font>
+    </Text>
+    <Text fx:id="totalData" layoutX="14.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Data">
+        <font>
+            <Font size="20.0" />
+        </font>
+    </Text>
+</AnchorPane>

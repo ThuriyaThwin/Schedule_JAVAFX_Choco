@@ -35,6 +35,8 @@ public class SetRuanganManual implements Initializable {
     @FXML
     private ComboBox<String> hariCombo;
     @FXML
+    private ComboBox<String> sesiCombo;
+    @FXML
     private Text totalData;
     @FXML
     private TableView<Jadwal> tblDataJadwal;
@@ -52,21 +54,28 @@ public class SetRuanganManual implements Initializable {
     private TableColumn<Jadwal, String> tblKolomKategori;
 
     public Button btnDashboard;
+    public Button btnToOutput;
     public Button btnSetRuanganPerHari;
+    public Button btnSetRuanganPerSesi;
 
     private ObservableList<Jadwal> ol;
     private ObservableList<String> ruangan;
     private ObservableList<String> hari;
+    private ObservableList<String> sesi;
+
     private Connection connec;
     private PreparedStatement prs;
     private ResultSet rs_jadwal;
     private String sql_jadwal;
+
     private String id_ruangan = null;
     private String ruangan_unset = null;
     private String id_matkul = null;
     private String id_jadwal = null;
-    private int hari_dipilih = 5;
+    private String id_kategori = null;
 
+    private int hari_dipilih;
+    private int sesi_dipilih;
     private int ruanganSize;
 
     /**
@@ -78,6 +87,7 @@ public class SetRuanganManual implements Initializable {
         ol = FXCollections.observableArrayList();
         ruangan = FXCollections.observableArrayList();
         hari = FXCollections.observableArrayList();
+        sesi = FXCollections.observableArrayList();
 
         fillComboBox();
         fillRuangan();
@@ -104,10 +114,10 @@ public class SetRuanganManual implements Initializable {
         tblKolomKategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
     }
 
-    private void loadDataFromDatabase(int hari) {
+    private void loadDataFromDatabase(int hari, int sesi) {
         ol.clear();
         try {
-            if (check(hari)){
+            if (check(hari, sesi)){
                 rs_jadwal = connec.createStatement().executeQuery(sql_jadwal);
 
                 while (rs_jadwal.next()){
@@ -146,6 +156,8 @@ public class SetRuanganManual implements Initializable {
                 id_jadwal = jadwal.getId();
                 id_matkul = jadwal.getMataKuliahId();
                 id_ruangan = jadwal.getRuanganId();
+                if (jadwal.getKategori().equalsIgnoreCase("Teori")) id_kategori = "1";
+                else if (jadwal.getKategori().equalsIgnoreCase("Praktikum")) id_kategori = "2";
                 kelasField.setText(jadwal.getKelas());
                 refreshRuanganComboBox();
             }
@@ -162,7 +174,12 @@ public class SetRuanganManual implements Initializable {
 
     private void refreshHariComboBox() {
         hariCombo.getItems().clear();
-        hariCombo.setItems(checkStatus());
+        hariCombo.setItems(checkStatusHari());
+    }
+
+    private void refreshSesiComboBox() {
+        sesiCombo.getItems().clear();
+        sesiCombo.setItems(checkStatusSesi());
     }
 
     private void clearText(){
@@ -210,7 +227,7 @@ public class SetRuanganManual implements Initializable {
 //                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Berhasil di-set", ButtonType.OK);
 //                alert.setTitle("Set Ruangan");
 //                alert.showAndWait();
-                loadDataFromDatabase(onClickHariCombo());
+                loadDataFromDatabase(onClickHariCombo(), onClickSesiCombo());
                 fillComboBox();
                 clearText();
             }
@@ -225,6 +242,7 @@ public class SetRuanganManual implements Initializable {
         ruanganCombo.setEditable(true);
         ruanganCombo.getItems().clear();
         hariCombo.getItems().clear();
+        sesiCombo.getItems().clear();
 
         try {
             String sql = "SELECT * FROM ruangan WHERE status='1' OR status='3'";
@@ -250,9 +268,40 @@ public class SetRuanganManual implements Initializable {
             e.printStackTrace();
         }
 
+        try {
+            String sql = "SELECT * FROM sesi WHERE status='1' ORDER BY no DESC";
+            prs = connec.prepareStatement(sql);
+            rs_jadwal = prs.executeQuery();
+
+            while (rs_jadwal.next()){
+                sesi.add(rs_jadwal.getString("nama"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         ruanganCombo.setItems(ruangan);
         hariCombo.setItems(hari);
+        sesiCombo.setItems(sesi);
         new AutoCompleteBoxHelper(ruanganCombo);
+    }
+
+    public int onClickSesiCombo() {
+        String sql = "SELECT * FROM sesi WHERE nama=?";
+        try {
+            prs = connec.prepareStatement(sql);
+            prs.setString(1, sesiCombo.getSelectionModel().getSelectedItem());
+            rs_jadwal = prs.executeQuery();
+
+            while (rs_jadwal.next()){
+                sesi_dipilih = Integer.parseInt(rs_jadwal.getString("no"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        loadDataFromDatabase(hari_dipilih, sesi_dipilih);
+        return sesi_dipilih;
     }
 
     public int onClickHariCombo() {
@@ -269,7 +318,7 @@ public class SetRuanganManual implements Initializable {
             e.printStackTrace();
         }
 
-        loadDataFromDatabase(hari_dipilih);
+        loadDataFromDatabase(hari_dipilih, sesi_dipilih);
 
         return hari_dipilih;
     }
@@ -291,7 +340,7 @@ public class SetRuanganManual implements Initializable {
         }
     }
 
-    private boolean check(int hari) throws SQLException {
+    private boolean check(int hari, int sesi) throws SQLException {
         sql_jadwal = "SELECT jadwal.id_jadwal AS id, " +
                 "jadwal.no_dosen AS dosen_id, " +
                 "jadwal.no_matkul AS matkul_id, " +
@@ -314,7 +363,7 @@ public class SetRuanganManual implements Initializable {
                 "INNER JOIN sesi ON jadwal.no_sesi = sesi.no " +
                 "INNER JOIN ruangan ON jadwal.no_ruangan = ruangan.no " +
                 "INNER JOIN kategori ON jadwal.kategori = kategori.no " +
-                "WHERE jadwal.no_hari='" + hari + "'" +
+                "WHERE jadwal.no_hari='" + hari + "' AND jadwal.no_sesi='" + sesi + "'" +
                 "ORDER BY jadwal.no_hari DESC, jadwal.no_sesi DESC, jadwal.no_kelas DESC";
         rs_jadwal = connec.createStatement().executeQuery(sql_jadwal);
 
@@ -359,7 +408,7 @@ public class SetRuanganManual implements Initializable {
         else ruangan.add("Ruangan tidak tersedia"); return ruangan;
     }
 
-    private ObservableList<String> checkStatus(){
+    private ObservableList<String> checkStatusHari(){
         try {
             String sql = "SELECT * FROM hari WHERE status='1' ORDER BY no DESC";
             prs = connec.prepareStatement(sql);
@@ -373,12 +422,28 @@ public class SetRuanganManual implements Initializable {
         }
 
         if (!hari.isEmpty()) return hari;
-        else hari.add("Ruangan tidak tersedia"); return hari;
+        else hari.add("Tidak tersedia"); return hari;
     }
 
+    private ObservableList<String> checkStatusSesi(){
+        try {
+            String sql = "SELECT * FROM sesi WHERE status='1' ORDER BY no DESC";
+            prs = connec.prepareStatement(sql);
+            rs_jadwal = prs.executeQuery();
+
+            while (rs_jadwal.next()){
+                sesi.add(rs_jadwal.getString("nama"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (!sesi.isEmpty()) return sesi;
+        else sesi.add("Ruangan tidak tersedia"); return sesi;
+    }
 
     public void setRuanganPerHari() {
-        String sql = "UPDATE hari SET status=2 WHERE no=?";
+        String sql = "UPDATE hari SET status='2' WHERE no=?";
 
         try {
             prs = connec.prepareStatement(sql);
@@ -389,7 +454,7 @@ public class SetRuanganManual implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Berhasil di-set", ButtonType.OK);
                 alert.setTitle("Berhasil");
                 alert.showAndWait();
-                loadDataFromDatabase(onClickHariCombo());
+                loadDataFromDatabase(onClickHariCombo(), onClickSesiCombo());
                 fillComboBox();
                 clearText();
             }
@@ -400,6 +465,33 @@ public class SetRuanganManual implements Initializable {
         }
 
         refreshHariComboBox();
+        resetRuangan();
+        tblDataJadwal.getItems().clear();
+    }
+
+    public void setRuanganPerSesi() {
+        String sql = "UPDATE sesi SET status='2' WHERE no=?";
+
+        try {
+            prs = connec.prepareStatement(sql);
+            prs.setInt(1, sesi_dipilih);
+            int exec = prs.executeUpdate();
+
+            if(exec == 1){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Berhasil di-set", ButtonType.OK);
+                alert.setTitle("Berhasil");
+                alert.showAndWait();
+                loadDataFromDatabase(onClickHariCombo(), onClickSesiCombo());
+                fillComboBox();
+                clearText();
+            }
+
+            prs.close();
+        } catch (SQLException ex) {
+            System.out.println("Erorr");
+        }
+
+        refreshSesiComboBox();
         resetRuangan();
         tblDataJadwal.getItems().clear();
     }
@@ -418,6 +510,15 @@ public class SetRuanganManual implements Initializable {
                     System.out.println("Erorr");
                 }
             }
+        }
+    }
+
+    public void toOutput() {
+        try{
+            AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/output.fxml"));
+            manualSetPane.getChildren().setAll(ap);
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 }

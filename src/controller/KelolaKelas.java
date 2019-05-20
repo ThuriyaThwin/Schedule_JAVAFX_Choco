@@ -230,7 +230,7 @@ public class KelolaKelas implements Initializable {
             rs_kelas = connec.createStatement().executeQuery(sql);
 
             while (rs_kelas.next()) {
-                ol_matkul.add(new MataKuliah(rs_kelas.getString("no"), rs_kelas.getString("nama"), rs_kelas.getString("sks"), rs_kelas.getString("jumlah")));
+                ol_matkul.add(new MataKuliah(rs_kelas.getString("no"), rs_kelas.getString("nama"), rs_kelas.getString("sks"), rs_kelas.getString("jumlah"), rs_kelas.getString("kategori")));
             }
 
             matkul_size = ol_matkul.size();
