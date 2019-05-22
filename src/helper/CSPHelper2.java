@@ -265,22 +265,22 @@ public class CSPHelper2 {
 
                     for (int m=0; m<matkulLength; m++){
                         for (int k=0; k<kelasLength; k++) {
-//                            if (constraint1 == null)
-//                                constraint1 = jadwal[d][m][k][h][s];
-//                            else
-//                                constraint1 = problem.plus(constraint1, jadwal[d][m][k][h][s]);
+                            if (constraint1 == null)
+                                constraint1 = jadwal[d][m][k][h][s];
+                            else
+                                constraint1 = problem.plus(constraint1, jadwal[d][m][k][h][s]);
+
+                            System.out.println("Var[1]-" + count);
+                            count++;
+//                            if (kategori[m].equalsIgnoreCase("1")){
+//                                if (constraint1 == null)
+//                                    constraint1 = jadwal[d][m][k][h][s];
+//                                else
+//                                    constraint1 = problem.plus(constraint1, jadwal[d][m][k][h][s]);
 //
-//                            System.out.println("Var[1]-" + count);
-//                            count++;
-                            if (kategori[m].equalsIgnoreCase("1")){
-                                if (constraint1 == null)
-                                    constraint1 = jadwal[d][m][k][h][s];
-                                else
-                                    constraint1 = problem.plus(constraint1, jadwal[d][m][k][h][s]);
-
-                                System.out.println("Var[1]-" + count);
-                                count++;
-                            }
+//                                System.out.println("Var[1]-" + count);
+//                                count++;
+//                            }
                         }
                     }
 
@@ -289,29 +289,30 @@ public class CSPHelper2 {
             }
         }
 
-        for (int d=0; d<dosenLength; d++){
-            for (int h = 0; h < hariLength; h++) {
-                for (int s = 0; s < sesiLength; s++) {
-                    constraint1 = null;
-
-                    for (int m=0; m<matkulLength; m++){
-                        for (int k=0; k<kelasLength; k++) {
-                            if (kategori[m].equalsIgnoreCase("2")){
-                                if (constraint1 == null)
-                                    constraint1 = jadwal[d][m][k][h][s];
-                                else
-                                    constraint1 = problem.plus(constraint1, jadwal[d][m][k][h][s]);
-
-                                System.out.println("Var[1]-" + count);
-                                count++;
-                            }
-                        }
-                    }
-
-                    problem.post(problem.leq(constraint1, 1));
-                }
-            }
-        }
+//        IntExp con;
+//        for (int d=0; d<dosenLength; d++){
+//            for (int h = 0; h < hariLength; h++) {
+//                for (int s = 0; s < sesiLength; s++) {
+//                    con = null;
+//
+//                    for (int m=0; m<matkulLength; m++){
+//                        for (int k=0; k<kelasLength; k++) {
+//                            if (kategori[m].equalsIgnoreCase("2")){
+//                                if (con == null)
+//                                    con = jadwal[d][m][k][h][s];
+//                                else
+//                                    con = problem.plus(con, jadwal[d][m][k][h][s]);
+//
+//                                System.out.println("Var[1]-" + count);
+//                                count++;
+//                            }
+//                        }
+//                    }
+//
+//                    problem.post(problem.leq(con, 1));
+//                }
+//            }
+//        }
 
         // Constraint for number 2 & 3
         count = 0 ;
@@ -408,7 +409,31 @@ public class CSPHelper2 {
                     }
                 }
 
-                problem.post(problem.leq(constraint8, 6));
+                problem.post(problem.leq(constraint8, 7));
+            }
+        }
+
+        IntExp constraint9;
+        count = 0;
+        for (int h = 0; h<hariLength; h++) {
+            for (int s = 0; s<sesiLength; s++) {
+                constraint9 = null;
+
+                for (int d = 0; d<dosenLength; d++) {
+                    for (int m=0; m<matkulLength; m++) {
+                        for (int k=0; k<kelasLength; k++) {
+                            if (constraint9 == null)
+                                constraint9 = jadwal[d][m][k][h][s];
+                            else
+                                constraint9 = problem.plus(constraint9, jadwal[d][m][k][h][s]);
+
+                            System.out.println("Var[9]-" + count);
+                            count++;
+                        }
+                    }
+                }
+
+                problem.post(problem.leq(constraint9, 3));
             }
         }
     }
@@ -483,7 +508,7 @@ public class CSPHelper2 {
         ResultSet rs = SQLHelper.getResultSet("SELECT * FROM jadwal ORDER BY id_jadwal");
 
         int no_matkul;
-        int kategori = 0;
+        int kategori;
 
         while (rs.next()) {
             no_matkul = rs.getInt("no_matkul");

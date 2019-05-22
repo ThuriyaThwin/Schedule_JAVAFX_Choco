@@ -121,8 +121,21 @@ public class SetRuanganManual implements Initializable {
                 rs_jadwal = connec.createStatement().executeQuery(sql_jadwal);
 
                 while (rs_jadwal.next()){
-                    Jadwal jadwal = new Jadwal();
+                    if (rs_jadwal.getString("matkul").equalsIgnoreCase("PRAK KIMDAS") ||
+                            rs_jadwal.getString("matkul").equalsIgnoreCase("PRAK KIMFIS") ||
+                            rs_jadwal.getString("matkul").equalsIgnoreCase("PRAK FISDAS 1") ||
+                            rs_jadwal.getString("matkul").equalsIgnoreCase("PRAK MIKRUM") ||
+                            rs_jadwal.getString("matkul").equalsIgnoreCase("PRAK KIMOR") ||
+                            rs_jadwal.getString("matkul").equalsIgnoreCase("PRAK PIP") ||
+                            rs_jadwal.getString("matkul").equalsIgnoreCase("MATLAB")){
+                        setPreferenceMatkul(rs_jadwal.getInt("id"), rs_jadwal.getString("matkul"));
+                    }
+                }
 
+                rs_jadwal = connec.createStatement().executeQuery(sql_jadwal);
+
+                while (rs_jadwal.next()){
+                    Jadwal jadwal = new Jadwal();
                     jadwal.setId(rs_jadwal.getString("id"));
                     jadwal.setDosen(rs_jadwal.getString("dosen"));
                     jadwal.setDosenId(rs_jadwal.getString("dosen_id"));
@@ -159,9 +172,90 @@ public class SetRuanganManual implements Initializable {
                 if (jadwal.getKategori().equalsIgnoreCase("Teori")) id_kategori = "1";
                 else if (jadwal.getKategori().equalsIgnoreCase("Praktikum")) id_kategori = "2";
                 kelasField.setText(jadwal.getKelas());
+
                 refreshRuanganComboBox();
             }
         });
+    }
+
+    private void setPreferenceMatkul(int id, String preference){
+        if (preference.equalsIgnoreCase("PRAK KIMDAS")){
+            String sql = "SELECT * FROM ruangan WHERE nama='GD812'";
+
+            try {
+                prs = connec.prepareStatement(sql);
+                rs_jadwal = prs.executeQuery();
+
+                while (rs_jadwal.next()){
+                    String sql_ruangan = "UPDATE jadwal SET no_ruangan=? WHERE id_jadwal=?";
+
+                    prs = connec.prepareStatement(sql_ruangan);
+                    prs.setInt(1, rs_jadwal.getInt("no"));
+                    prs.setInt(2, id);
+                    prs.executeUpdate();
+                    prs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if (preference.equalsIgnoreCase("PRAK FISDAS 1")){
+            String sql = "SELECT * FROM ruangan WHERE nama='Lab Fisika'";
+
+            try {
+                prs = connec.prepareStatement(sql);
+                rs_jadwal = prs.executeQuery();
+
+                while (rs_jadwal.next()){
+                    String sql_ruangan = "UPDATE jadwal SET no_ruangan=? WHERE id_jadwal=?";
+
+                    prs = connec.prepareStatement(sql_ruangan);
+                    prs.setInt(1, rs_jadwal.getInt("no"));
+                    prs.setInt(2, id);
+                    prs.executeUpdate();
+                    prs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if (preference.equalsIgnoreCase("PRAK PIP")){
+            String sql = "SELECT * FROM ruangan WHERE nama='GD726'";
+
+            try {
+                prs = connec.prepareStatement(sql);
+                rs_jadwal = prs.executeQuery();
+
+                while (rs_jadwal.next()){
+                    String sql_ruangan = "UPDATE jadwal SET no_ruangan=? WHERE id_jadwal=?";
+
+                    prs = connec.prepareStatement(sql_ruangan);
+                    prs.setInt(1, rs_jadwal.getInt("no"));
+                    prs.setInt(2, id);
+                    prs.executeUpdate();
+                    prs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if (preference.equalsIgnoreCase("MATLAB")){
+            String sql = "SELECT * FROM ruangan WHERE nama='GD726'";
+
+            try {
+                prs = connec.prepareStatement(sql);
+                rs_jadwal = prs.executeQuery();
+
+                while (rs_jadwal.next()){
+                    String sql_ruangan = "UPDATE jadwal SET no_ruangan=? WHERE id_jadwal=?";
+
+                    prs = connec.prepareStatement(sql_ruangan);
+                    prs.setInt(1, rs_jadwal.getInt("no"));
+                    prs.setInt(2, id);
+                    prs.executeUpdate();
+                    prs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void refreshRuanganComboBox() {
@@ -465,6 +559,7 @@ public class SetRuanganManual implements Initializable {
         }
 
         refreshHariComboBox();
+        resetSesi();
         resetRuangan();
         tblDataJadwal.getItems().clear();
     }
@@ -510,6 +605,23 @@ public class SetRuanganManual implements Initializable {
                     System.out.println("Erorr");
                 }
             }
+        }
+    }
+
+    private void resetSesi(){
+        String sql_hari = "UPDATE sesi SET status='1' WHERE no=?";
+
+        try {
+            for (int i=1; i<=8; i++){
+                prs = connec.prepareStatement(sql_hari);
+                prs.setInt(1, i);
+                prs.executeUpdate();
+                prs.close();
+
+                System.out.println("sesi " + i);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erorr");
         }
     }
 
