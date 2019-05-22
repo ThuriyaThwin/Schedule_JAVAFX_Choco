@@ -17,8 +17,8 @@
             </font>
         </Text>
         <TextField fx:id="namaField" layoutX="16.0" layoutY="163.0" prefHeight="25.0" prefWidth="192.0" promptText="Nama" />
-        <TextField fx:id="sksField" layoutX="16.0" layoutY="194.0" prefHeight="25.0" prefWidth="192.0" promptText="SKS" />
-        <TextField fx:id="jumlahField" layoutX="16.0" layoutY="225.0" prefHeight="25.0" prefWidth="192.0" promptText="Jumlah" />
+        <TextField fx:id="sksField" layoutX="16.0" layoutY="194.0" prefHeight="25.0" prefWidth="192.0" promptText="Jumlah Pertemuan" />
+        <TextField fx:id="jumlahField" layoutX="16.0" layoutY="225.0" prefHeight="25.0" prefWidth="192.0" promptText="Jumlah Mahasiswa" />
         <ComboBox fx:id="kategoriCombo" layoutX="16.0" layoutY="255.0" onAction="#onClickKategoriCombo" prefHeight="25.0" prefWidth="192.0" promptText="Kategori" />
         <Button fx:id="btnTambah" layoutX="19.0" layoutY="292.0" mnemonicParsing="false" onAction="#tambahMataKuliahAction" text="Tambah" />
         <Button fx:id="btnUpdate" layoutX="88.0" layoutY="292.0" mnemonicParsing="false" onAction="#updateMataKuliahAction" text="Update" />
