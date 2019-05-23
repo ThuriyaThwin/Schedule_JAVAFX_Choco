@@ -413,29 +413,29 @@ public class CSPHelper2 {
             }
         }
 
-        IntExp constraint9;
-        count = 0;
-        for (int h = 0; h<hariLength; h++) {
-            for (int s = 0; s<sesiLength; s++) {
-                constraint9 = null;
-
-                for (int d = 0; d<dosenLength; d++) {
-                    for (int m=0; m<matkulLength; m++) {
-                        for (int k=0; k<kelasLength; k++) {
-                            if (constraint9 == null)
-                                constraint9 = jadwal[d][m][k][h][s];
-                            else
-                                constraint9 = problem.plus(constraint9, jadwal[d][m][k][h][s]);
-
-                            System.out.println("Var[9]-" + count);
-                            count++;
-                        }
-                    }
-                }
-
-                problem.post(problem.leq(constraint9, 3));
-            }
-        }
+//        IntExp constraint9;
+//        count = 0;
+//        for (int h = 0; h<hariLength; h++) {
+//            for (int s = 0; s<sesiLength; s++) {
+//                constraint9 = null;
+//
+//                for (int d = 0; d<dosenLength; d++) {
+//                    for (int m=0; m<matkulLength; m++) {
+//                        for (int k=0; k<kelasLength; k++) {
+//                            if (constraint9 == null)
+//                                constraint9 = jadwal[d][m][k][h][s];
+//                            else
+//                                constraint9 = problem.plus(constraint9, jadwal[d][m][k][h][s]);
+//
+//                            System.out.println("Var[9]-" + count);
+//                            count++;
+//                        }
+//                    }
+//                }
+//
+//                problem.post(problem.leq(constraint9, 3));
+//            }
+//        }
     }
 
     private void solveConstraint(){

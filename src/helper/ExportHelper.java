@@ -10,15 +10,14 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class ExportHelper {
 
-    static String time;
+    private static String time;
+    private static String url;
 
     public static void exportJadwal() throws Exception {
         Connection connect = SQLHelper.getConnection();
@@ -80,18 +79,35 @@ public class ExportHelper {
 
         time = getTime();
 
-        FileOutputStream out = new FileOutputStream(new File("output/jadwal" + time + ".xlsx"));
+        FileOutputStream out = new FileOutputStream(new File("output/JADWAL_" + getUrl() + "_" + time + ".xlsx"));
         workbook.write(out);
         out.close();
     }
 
-    public static void openJadwal() throws IOException {
+    public static void openJadwal() throws IOException, SQLException {
         if (Desktop.isDesktopSupported()) {
-            Desktop.getDesktop().open(new File("output/jadwal" + time + ".xlsx"));
+            Desktop.getDesktop().open(new File("output/JADWAL_" + getUrl() + "_" + time + ".xlsx"));
         }
     }
 
     private static String getTime(){
         return new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+    }
+
+    private static String getUrl() throws SQLException {
+        Connection connection = SQLHelper.getConnection();
+        DatabaseMetaData databaseMetaData = connection.getMetaData();
+        url = databaseMetaData.getURL();
+
+        String[] id = (url.split("/"));
+        int length = id.length;
+
+        url = id[length-1];
+
+        if (url.equalsIgnoreCase("penjadwalan_ftb")) return "FTB";
+        else if (url.equalsIgnoreCase("penjadwalan_diploma")) return "DIPLOMA";
+        else if (url.equalsIgnoreCase("penjadwalan_sarjana")) return "SARJANA";
+        else if (url.equalsIgnoreCase("penjadwalan_fti")) return "FTI";
+        else return "";
     }
 }

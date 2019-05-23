@@ -8,29 +8,13 @@ public class SQLHelper {
 
     public static Connection getConnection(){
         try {
-            String url="jdbc:mysql://localhost/penjadwalan_sarjana";
+            String url="jdbc:mysql://localhost/penjadwalan_ftb";
             String user="root";
             String pass="";
 
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             mysqlconfig=DriverManager.getConnection(url, user, pass);
-        } catch (Exception e) {
-            System.err.println("koneksi gagal "+e.getMessage());
-        }
-        return mysqlconfig;
-    }
-
-    public static Connection getOtherConnection(String urls){
-        try {
-            String url="jdbc:mysql://localhost/" + urls;
-            String user="root";
-            String pass="";
-
-            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            mysqlconfig=DriverManager.getConnection(url, user, pass);
-        } catch (Exception e) {
-            System.err.println("koneksi gagal "+e.getMessage());
-        }
+        } catch (Exception ignored) {}
         return mysqlconfig;
     }
 
