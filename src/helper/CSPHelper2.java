@@ -280,7 +280,7 @@ public class CSPHelper2 {
 //
 //                                System.out.println("Var[1]-" + count);
 //                                count++;
-//                            }
+//                             }
                         }
                     }
 

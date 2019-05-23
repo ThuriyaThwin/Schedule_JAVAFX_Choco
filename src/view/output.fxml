@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" fx:id="outputPane" prefHeight="422.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Output">
+<AnchorPane id="AnchorPane" fx:id="outputPane" prefHeight="516.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Output">
     <TableView fx:id="tblDataJadwal" layoutX="38.0" layoutY="146.0" prefHeight="283.0" prefWidth="691.0">
         <columns>
             <TableColumn fx:id="tblKolomHari" minWidth="3.0" prefWidth="78.9999771118164" text="Hari" />
@@ -36,4 +36,9 @@
             <Font size="20.0" />
         </font>
     </Text>
+    <Button fx:id="btnExport" defaultButton="true" layoutX="546.0" layoutY="445.0" mnemonicParsing="false" onAction="#exportToExcel" prefHeight="43.0" prefWidth="192.0" text="EXPORT KE EXCEL" textAlignment="CENTER" textFill="#008a2e">
+        <font>
+            <Font name="System Bold" size="15.0" />
+        </font>
+    </Button>
 </AnchorPane>

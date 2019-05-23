@@ -1,6 +1,7 @@
 package controller;
 
 import helper.AutoCompleteBoxHelper;
+import helper.ExportHelper;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,6 +51,7 @@ public class Output implements Initializable {
     private TableColumn<Jadwal, String> tblKolomHari;
 
     public Button btnDashboard;
+    public Button btnExport;
 
     private ObservableList<Jadwal> ol;
     private ObservableList<String> hari;
@@ -196,4 +198,8 @@ public class Output implements Initializable {
         return rs_jadwal.next();
     }
 
+    public void exportToExcel() throws Exception {
+        ExportHelper.exportJadwal();
+        ExportHelper.openJadwal();
+    }
 }
