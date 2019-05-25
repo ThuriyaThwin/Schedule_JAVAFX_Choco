@@ -1,6 +1,7 @@
 package controller;
 
 import helper.AutoCompleteBoxHelper;
+import helper.DijkstraHelper;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,6 +64,7 @@ public class GenerateDijkstra implements Initializable {
     private String id_ruangan = null;
     private String id_jadwal = null;
     private String id_matkul = null;
+    private String id_kelas = null;
     private int hari_dipilih;
 
     private int kelasSize;
@@ -170,25 +172,31 @@ public class GenerateDijkstra implements Initializable {
                             rs_jadwal = connec.createStatement().executeQuery(sql_jadwal);
 
                             while (rs_jadwal.next()){
-                                Jadwal jadwal = new Jadwal();
+                                int no_matkul = rs_jadwal.getInt("matkul_id");
+                                if (no_matkul == 28 || no_matkul == 29 || no_matkul == 30 || no_matkul == 31 ||
+                                        no_matkul == 32 || no_matkul == 33 || no_matkul ==34){
+                                    System.out.println("Preference matkul");
+                                } else {
+                                    Jadwal jadwal = new Jadwal();
 
-                                jadwal.setId(rs_jadwal.getString("id"));
-                                jadwal.setDosen(rs_jadwal.getString("dosen"));
-                                jadwal.setDosenId(rs_jadwal.getString("dosen_id"));
-                                jadwal.setMataKuliah(rs_jadwal.getString("matkul"));
-                                jadwal.setMataKuliahId(rs_jadwal.getString("matkul_id"));
-                                jadwal.setKelas(rs_jadwal.getString("kelas"));
-                                jadwal.setKelasId(rs_jadwal.getString("kelas_id"));
-                                jadwal.setHari(rs_jadwal.getString("hari"));
-                                jadwal.setHariId(rs_jadwal.getString("hari_id"));
-                                jadwal.setSesi(rs_jadwal.getString("sesi"));
-                                jadwal.setSesiId(rs_jadwal.getString("sesi_id"));
-                                jadwal.setRuangan(rs_jadwal.getString("ruangan"));
-                                jadwal.setRuanganId(rs_jadwal.getString("ruangan_id"));
-                                jadwal.setKategori(rs_jadwal.getString("kategori"));
+                                    jadwal.setId(rs_jadwal.getString("id"));
+                                    jadwal.setDosen(rs_jadwal.getString("dosen"));
+                                    jadwal.setDosenId(rs_jadwal.getString("dosen_id"));
+                                    jadwal.setMataKuliah(rs_jadwal.getString("matkul"));
+                                    jadwal.setMataKuliahId(rs_jadwal.getString("matkul_id"));
+                                    jadwal.setKelas(rs_jadwal.getString("kelas"));
+                                    jadwal.setKelasId(rs_jadwal.getString("kelas_id"));
+                                    jadwal.setHari(rs_jadwal.getString("hari"));
+                                    jadwal.setHariId(rs_jadwal.getString("hari_id"));
+                                    jadwal.setSesi(rs_jadwal.getString("sesi"));
+                                    jadwal.setSesiId(rs_jadwal.getString("sesi_id"));
+                                    jadwal.setRuangan(rs_jadwal.getString("ruangan"));
+                                    jadwal.setRuanganId(rs_jadwal.getString("ruangan_id"));
+                                    jadwal.setKategori(rs_jadwal.getString("kategori"));
 
-                                ol.add(jadwal);
-                                filled = true;
+                                    ol.add(jadwal);
+                                    filled = true;
+                                }
                             }
                         }
                     }
@@ -197,7 +205,7 @@ public class GenerateDijkstra implements Initializable {
 
             totalData.setText("Total Data : " + ol.size());
         } catch (SQLException ex) {
-            System.out.println("Erorr");
+            System.out.println("Erorr nih");
         }
         tblDataJadwal.setItems(ol);
     }
@@ -209,6 +217,7 @@ public class GenerateDijkstra implements Initializable {
                 id_jadwal = jadwal.getId();
                 id_matkul = jadwal.getMataKuliahId();
                 id_ruangan = jadwal.getRuanganId();
+                id_kelas = jadwal.getKelasId();
                 kelasField.setText(jadwal.getKelas());
                 refreshRuanganComboBox();
             }
@@ -278,14 +287,18 @@ public class GenerateDijkstra implements Initializable {
         new AutoCompleteBoxHelper(ruanganCombo);
     }
 
-    public void generateDijkstra() {
-//        CSPHelper.main();
-        toDijkstra();
+    public void generateDijkstra() throws SQLException {
+        DijkstraHelper.main(Integer.parseInt(id_kelas), hari_dipilih);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Berhasil di-generate", ButtonType.OK);
+        alert.setTitle("Set Ruangan");
+        alert.showAndWait();
+        clearText();
     }
 
     private void toDijkstra() {
         try{
-            AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/output_dijkstra.fxml"));
+            AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/output.fxml"));
             dijkstraPane.getChildren().setAll(ap);
         }catch(Exception e){
             e.printStackTrace();

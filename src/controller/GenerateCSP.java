@@ -432,7 +432,7 @@ public class GenerateCSP implements Initializable {
         loadDataFromDatabase();
     }
 
-    public void generateJadwal() {
+    public void generateJadwal() throws SQLException {
         deleteJadwal();
         resetRuangan();
         resetHari();

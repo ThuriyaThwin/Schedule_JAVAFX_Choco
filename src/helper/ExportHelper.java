@@ -108,6 +108,7 @@ public class ExportHelper {
         else if (url.equalsIgnoreCase("penjadwalan_diploma")) return "DIPLOMA";
         else if (url.equalsIgnoreCase("penjadwalan_sarjana")) return "SARJANA";
         else if (url.equalsIgnoreCase("penjadwalan_fti")) return "FTI";
+        else if (url.equalsIgnoreCase("penjadwalan_d3tk")) return "D3TK";
         else return "";
     }
 }

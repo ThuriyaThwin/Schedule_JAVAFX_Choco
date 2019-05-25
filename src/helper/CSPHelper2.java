@@ -5,6 +5,8 @@ import choco.kernel.solver.Solver;
 import choco.kernel.solver.SolverException;
 import choco.kernel.solver.constraints.integer.IntExp;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -37,7 +39,7 @@ public class CSPHelper2 {
         problem = new CPSolver();
     }
 
-    public static void main() {
+    public static void main() throws SQLException {
         CSPHelper2 def = new CSPHelper2();
 
         try {
@@ -254,7 +256,7 @@ public class CSPHelper2 {
 
     }
 
-    private void setVarConstraint(){
+    private void setVarConstraint() throws SQLException {
         // Constraint for number 1
         int count = 0;
         IntExp constraint1;
@@ -413,29 +415,45 @@ public class CSPHelper2 {
             }
         }
 
-//        IntExp constraint9;
-//        count = 0;
-//        for (int h = 0; h<hariLength; h++) {
-//            for (int s = 0; s<sesiLength; s++) {
-//                constraint9 = null;
-//
-//                for (int d = 0; d<dosenLength; d++) {
-//                    for (int m=0; m<matkulLength; m++) {
-//                        for (int k=0; k<kelasLength; k++) {
-//                            if (constraint9 == null)
-//                                constraint9 = jadwal[d][m][k][h][s];
-//                            else
-//                                constraint9 = problem.plus(constraint9, jadwal[d][m][k][h][s]);
-//
-//                            System.out.println("Var[9]-" + count);
-//                            count++;
-//                        }
-//                    }
-//                }
-//
-//                problem.post(problem.leq(constraint9, 3));
-//            }
-//        }
+        String url;
+
+        Connection connection = SQLHelper.getConnection();
+        DatabaseMetaData databaseMetaData = null;
+        databaseMetaData = connection.getMetaData();
+        url = databaseMetaData.getURL();
+
+        String[] id = (url.split("/"));
+
+        int length = id.length;
+        url = id[length-1];
+
+        System.out.println("db : " + url);
+
+        IntExp constraint9;
+        count = 0;
+        if (url.equalsIgnoreCase("penjadwalan_ftb") || url.equalsIgnoreCase("penjadwalan_fti")){
+            for (int h = 0; h<hariLength; h++) {
+                for (int s = 0; s<sesiLength; s++) {
+                    constraint9 = null;
+
+                    for (int d = 0; d<dosenLength; d++) {
+                        for (int m=0; m<matkulLength; m++) {
+                            for (int k=0; k<kelasLength; k++) {
+                                if (constraint9 == null)
+                                    constraint9 = jadwal[d][m][k][h][s];
+                                else
+                                    constraint9 = problem.plus(constraint9, jadwal[d][m][k][h][s]);
+
+                                System.out.println("Var[9]-" + count);
+                                count++;
+                            }
+                        }
+                    }
+
+                    problem.post(problem.leq(constraint9, 3));
+                }
+            }
+        }
     }
 
     private void solveConstraint(){
