@@ -35,7 +35,17 @@
             <Font name="System Bold" size="12.0" />
         </font>
     </Button>
-    <Button fx:id="btnGenerateDijkstra" defaultButton="true" layoutX="546.0" layoutY="445.0" mnemonicParsing="false" onAction="#generateDijkstra" prefHeight="43.0" prefWidth="192.0" text="GENERATE DIJKSTRA" textAlignment="CENTER" textFill="#008a2e">
+    <Button fx:id="btnSetRuanganPerHari" defaultButton="true" layoutX="31.0" layoutY="311.0" mnemonicParsing="false" onAction="#setRuanganPerHari" prefHeight="37.0" prefWidth="147.0" text="SET RUANGAN (Hari)" textAlignment="CENTER" textFill="#008a2e">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Button>
+    <Button fx:id="btnGenerateDijkstra" defaultButton="true" layoutX="31.0" layoutY="266.0" mnemonicParsing="false" onAction="#generateDijkstra" prefHeight="37.0" prefWidth="147.0" text="GENERATE DIJKSTRA" textAlignment="CENTER" textFill="#008a2e">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Button>
+    <Button fx:id="btnToOutput" defaultButton="true" layoutX="546.0" layoutY="445.0" mnemonicParsing="false" onAction="#toOutput" prefHeight="43.0" prefWidth="192.0" text="Lihat Jadwal" textAlignment="CENTER" textFill="#008a2e">
         <font>
             <Font name="System Bold" size="15.0" />
         </font>

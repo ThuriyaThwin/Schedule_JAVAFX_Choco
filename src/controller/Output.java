@@ -1,11 +1,9 @@
 package controller;
 
-import helper.AutoCompleteBoxHelper;
 import helper.ExportHelper;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

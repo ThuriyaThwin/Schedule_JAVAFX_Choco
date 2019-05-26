@@ -33,7 +33,6 @@ public class KelolaDosen implements Initializable {
     @FXML
     private TableColumn<Dosen, String> tblKolomNama;
 
-    public AnchorPane pane;
     public Button btnTambah;
     public Button btnUpdate;
     public Button btnHapus;
@@ -68,19 +67,25 @@ public class KelolaDosen implements Initializable {
 
         getMatkulSize();
 
-        try {
-            stmt = connec.createStatement();
+        if (checkInput(nama)){
+            try {
+                stmt = connec.createStatement();
 
-            String sql = "INSERT INTO dosen (no, nama)" + "VALUES('" + next_id + "', '" + nama + "')";
-            stmt.executeUpdate(sql);
-            stmt.close();
+                String sql = "INSERT INTO dosen (no, nama)" + "VALUES('" + next_id + "', '" + nama + "')";
+                stmt.executeUpdate(sql);
+                stmt.close();
 
-            insertDosenMatkul();
+                insertDosenMatkul();
 
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/kelola_dosen.fxml"));
-            kelolaDosenPane.getChildren().setAll(pane);
-        } catch (Exception e) {
-            e.printStackTrace();
+                AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/kelola_dosen.fxml"));
+                kelolaDosenPane.getChildren().setAll(pane);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Dosen sudah ada", ButtonType.OK);
+            alert.setTitle("Gagal menambah");
+            alert.showAndWait();
         }
     }
 
@@ -225,5 +230,23 @@ public class KelolaDosen implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean checkInput(String nama){
+        String sql = "SELECT * FROM dosen WHERE nama='" + nama + "'";
+        boolean result = true;
+
+        try{
+            prs = connec.prepareStatement(sql);
+            ResultSet rs = prs.executeQuery();
+
+            if (rs.next() || nama.equalsIgnoreCase("")){
+                result = false;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

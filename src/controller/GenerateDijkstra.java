@@ -53,6 +53,8 @@ public class GenerateDijkstra implements Initializable {
     public Button btnDashboard;
     public Button btnGenerateDijkstra;
     public Button btnSetManual;
+    public Button btnSetRuanganPerHari;
+    public Button btnToOutput;
 
     private ObservableList<Jadwal> ol;
     private ObservableList<String> ruangan;
@@ -70,6 +72,7 @@ public class GenerateDijkstra implements Initializable {
     private int kelasSize;
     private int sesiSize;
     private int ruanganSize;
+    private String ruangan_unset = null;
 
     /**
      * Initializes the controller class.
@@ -283,7 +286,6 @@ public class GenerateDijkstra implements Initializable {
 
         ruanganCombo.setItems(ruangan);
         hariCombo.setItems(hari);
-//        hariCombo.getSelectionModel().select(0);
         new AutoCompleteBoxHelper(ruanganCombo);
     }
 
@@ -296,7 +298,8 @@ public class GenerateDijkstra implements Initializable {
         clearText();
     }
 
-    private void toDijkstra() {
+    @FXML
+    private void toOutput() {
         try{
             AnchorPane ap = FXMLLoader.load(getClass().getResource("../view/output.fxml"));
             dijkstraPane.getChildren().setAll(ap);
@@ -331,6 +334,9 @@ public class GenerateDijkstra implements Initializable {
             rs_jadwal = prs.executeQuery();
 
             while (rs_jadwal.next()){
+                if (rs_jadwal.getString("nama").equalsIgnoreCase("Belum di-set")){
+                    ruangan_unset = rs_jadwal.getString("no");
+                }
                 ruanganSize++;
             }
         } catch (SQLException e) {
@@ -441,5 +447,74 @@ public class GenerateDijkstra implements Initializable {
 
         if (!ruangan.isEmpty()) return ruangan;
         else ruangan.add("Ruangan tidak tersedia"); return ruangan;
+    }
+
+    public void setRuanganPerHari() {
+        String sql = "UPDATE hari SET status='2' WHERE no=?";
+
+        try {
+            prs = connec.prepareStatement(sql);
+            prs.setInt(1, hari_dipilih);
+            int exec = prs.executeUpdate();
+
+            if(exec == 1){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Berhasil di-set", ButtonType.OK);
+                alert.setTitle("Berhasil");
+                alert.showAndWait();
+                loadDataFromDatabase(onClickHariCombo());
+                fillComboBox();
+                clearText();
+            }
+
+            prs.close();
+        } catch (SQLException ex) {
+            System.out.println("Erorr");
+        }
+
+        refreshHariComboBox();
+        resetRuangan();
+        tblDataJadwal.getItems().clear();
+    }
+
+    private void refreshHariComboBox() {
+        hariCombo.getItems().clear();
+        hariCombo.setItems(checkStatusHari());
+    }
+
+    private ObservableList<String> checkStatusHari(){
+        try {
+            String sql = "SELECT * FROM hari WHERE status='1' ORDER BY no DESC";
+            prs = connec.prepareStatement(sql);
+            rs_jadwal = prs.executeQuery();
+
+            while (rs_jadwal.next()){
+                hari.add(rs_jadwal.getString("nama"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (!hari.isEmpty()) return hari;
+        else {
+            toOutput();
+            return hari;
+        }
+    }
+
+    private void resetRuangan(){
+        for (int i=1; i<ruanganSize; i++){
+            if (i!=Integer.parseInt(ruangan_unset)){
+                String sql_ruangan = "UPDATE ruangan SET status='1' WHERE no=?";
+
+                try {
+                    prs = connec.prepareStatement(sql_ruangan);
+                    prs.setInt(1, i);
+                    prs.executeUpdate();
+                    prs.close();
+                } catch (SQLException ex) {
+                    System.out.println("Erorr");
+                }
+            }
+        }
     }
 }

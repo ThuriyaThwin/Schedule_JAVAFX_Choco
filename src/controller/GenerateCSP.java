@@ -1,7 +1,6 @@
 package controller;
 
 import helper.AutoCompleteBoxHelper;
-import helper.CSPHelper;
 import helper.CSPHelper2;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
@@ -47,10 +46,7 @@ public class GenerateCSP implements Initializable {
     private TableColumn<Jadwal, String> tblKolomKelas;
 
     public Button btnTambah;
-    public Button btnUpdate;
     public Button btnDashboard;
-    public Button btnHapusMatkulKelas;
-    public Button btnHapusDosenMatkul;
     public Button btnHapusDosenMatkulKelas;
     public Button btnGenerateJadwal;
     public Text text;
@@ -66,7 +62,6 @@ public class GenerateCSP implements Initializable {
     private String id_mata_kuliah = null;
     private String id_kelas = null;
     private int ruanganSize=0;
-    private int hariSize=0;
 
     /**
      * Initializes the controller class.
@@ -87,114 +82,71 @@ public class GenerateCSP implements Initializable {
 
     @FXML
     private void tambahJadwalAction() {
+        String dosen_in = dosenCombo.getSelectionModel().getSelectedItem();
+        String matkul_in = matkulCombo.getSelectionModel().getSelectedItem();
+        String kelas_in = kelasCombo.getSelectionModel().getSelectedItem();
 
-        try {
-            String sql = "SELECT * FROM dosen WHERE nama=?";
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
-            rs_jadwal = prs.executeQuery();
-
-            while (rs_jadwal.next()){
-                id_dosen = rs_jadwal.getString("no");
-            }
-        } catch (SQLException e) {
-            System.out.println("Erorr");
+        if (dosenCombo.getSelectionModel().getSelectedItem() == null){
+            dosen_in = "";
         }
 
-        try {
-            String sql = "SELECT * FROM matkul WHERE nama=?";
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, matkulCombo.getSelectionModel().getSelectedItem());
-            rs_jadwal = prs.executeQuery();
-
-            while (rs_jadwal.next()){
-                id_mata_kuliah = rs_jadwal.getString("no");
-            }
-        } catch (SQLException e) {
-            System.out.println("Erorr");
+        if (matkulCombo.getSelectionModel().getSelectedItem() == null){
+            matkul_in = "";
         }
 
-        try {
-            String sql = "SELECT * FROM kelas WHERE nama=?";
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, kelasCombo.getSelectionModel().getSelectedItem());
-            rs_jadwal = prs.executeQuery();
-
-            while (rs_jadwal.next()){
-                id_kelas = rs_jadwal.getString("no");
-            }
-        } catch (SQLException e) {
-            System.out.println("Erorr");
+        if (kelasCombo.getSelectionModel().getSelectedItem() == null){
+            kelas_in = "";
         }
 
-        updateDosenMatkul();
-        updateMatkulKelas();
-        clearText();
-        loadDataFromDatabase();
-    }
+        if (checkInput(dosen_in, matkul_in, kelas_in)) {
+            try {
+                String sql = "SELECT * FROM dosen WHERE nama=?";
+                prs = connec.prepareStatement(sql);
+                prs.setString(1, dosen_in);
+                rs_jadwal = prs.executeQuery();
 
-    @FXML
-    private void updateJadwalAction() {
-//        try {
-//            String sql = "SELECT * FROM dosen WHERE nama=?";
-//            prs = connec.prepareStatement(sql);
-//            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
-//            rs_jadwal = prs.executeQuery();
-//
-//            while (rs_jadwal.next()){
-//                id_dosen = rs_jadwal.getString("nip");
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("Erorr");
-//        }
-//
-//        try {
-//            String sql = "SELECT * FROM mata_kuliah WHERE nama=?";
-//            prs = connec.prepareStatement(sql);
-//            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
-//            rs_jadwal = prs.executeQuery();
-//
-//            while (rs_jadwal.next()){
-//                id_mata_kuliah = rs_jadwal.getString("id_mata_kuliah");
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("Erorr");
-//        }
-//
-//        try {
-//            String sql = "SELECT * FROM kelas WHERE nama=?";
-//            prs = connec.prepareStatement(sql);
-//            prs.setString(1, dosenCombo.getSelectionModel().getSelectedItem());
-//            rs_jadwal = prs.executeQuery();
-//
-//            while (rs_jadwal.next()){
-//                id_kelas = rs_jadwal.getString("id_kelas");
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("Erorr");
-//        }
-//
-//        try {
-//            String sql = "UPDATE jadwal SET dosen=?, mata_kuliah=?, kelas=? WHERE id_jadwal=?";
-//            prs = connec.prepareStatement(sql);
-//            prs.setString(1, id_dosen);
-//            prs.setString(2, id_mata_kuliah);
-//            prs.setString(3, id_kelas);
-////            prs.setString(4, id_jadwal);
-//            int exec = prs.executeUpdate();
-//
-//            if(exec == 1){
-//                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update berhasil", ButtonType.OK);
-//                alert.setTitle("Update");
-//                alert.showAndWait();
-//                loadDataFromDatabase();
-////                clearText();
-//            }
-//
-//            prs.close();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(GenerateCSP.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+                while (rs_jadwal.next()){
+                    id_dosen = rs_jadwal.getString("no");
+                }
+            } catch (SQLException e) {
+                System.out.println("Erorr");
+            }
+
+            try {
+                String sql = "SELECT * FROM matkul WHERE nama=?";
+                prs = connec.prepareStatement(sql);
+                prs.setString(1, matkul_in);
+                rs_jadwal = prs.executeQuery();
+
+                while (rs_jadwal.next()){
+                    id_mata_kuliah = rs_jadwal.getString("no");
+                }
+            } catch (SQLException e) {
+                System.out.println("Erorr");
+            }
+
+            try {
+                String sql = "SELECT * FROM kelas WHERE nama=?";
+                prs = connec.prepareStatement(sql);
+                prs.setString(1, kelas_in);
+                rs_jadwal = prs.executeQuery();
+
+                while (rs_jadwal.next()){
+                    id_kelas = rs_jadwal.getString("no");
+                }
+            } catch (SQLException e) {
+                System.out.println("Erorr");
+            }
+
+            updateDosenMatkul();
+            updateMatkulKelas();
+            clearText();
+            loadDataFromDatabase();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Semua data harus diisi", ButtonType.OK);
+            alert.setTitle("Gagal menambah");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -411,18 +363,6 @@ public class GenerateCSP implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public void hapusMatkulKelasAction() {
-        deleteMatkulKelas();
-        clearText();
-        loadDataFromDatabase();
-    }
-
-    public void hapusDosenMatkulAction() {
-        deleteDosenMatkul();
-        clearText();
-        loadDataFromDatabase();
     }
 
     public void hapusDosenMatkulKelasAction() {
@@ -675,5 +615,17 @@ public class GenerateCSP implements Initializable {
         } catch (SQLException e){
             System.out.println(e.toString());
         }
+    }
+
+    private boolean checkInput(String dosen, String matkul, String kelas){
+        boolean result = true;
+
+        System.out.println(dosen + " " + matkul + " " + kelas);
+
+        if (dosen.equalsIgnoreCase("") || matkul.equalsIgnoreCase("")|| kelas.equalsIgnoreCase("")){
+            result = false;
+        }
+
+        return result;
     }
 }

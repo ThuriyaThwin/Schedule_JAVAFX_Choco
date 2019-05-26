@@ -11,30 +11,27 @@ public class DijkstraHelper {
     private int[] distances;
     private Set<Integer> settled;
     private Set<Integer> unsettled;
-    private int number_of_nodes;
-    private int[][] adjacencyMatrix;
+    private int nodes;
+    private int[][] arrayMatrix;
     private static List<Jarak> output;
-    private static List<Jadwal> listJadwal;
     private static Jarak ruangan;
-    private static Jadwal jadwal;
 
-    private DijkstraHelper(int number_of_nodes) {
-        this.number_of_nodes = number_of_nodes;
-        distances = new int[number_of_nodes + 1];
+    private DijkstraHelper(int nodes) {
+        this.nodes = nodes;
+        distances = new int[nodes + 1];
         settled = new HashSet<>();
         unsettled = new HashSet<>();
-        adjacencyMatrix = new int[number_of_nodes + 1][number_of_nodes + 1];
+        arrayMatrix = new int[nodes + 1][nodes + 1];
         output = new ArrayList<>();
         ruangan = new Jarak(0, 0, 0);
     }
 
-    private void dijkstra_algorithm(int[][] adjacency_matrix, int source) {
-        int evaluationNode;
-        for (int i = 1; i <= number_of_nodes; i++)
-            for (int j = 1; j <= number_of_nodes; j++)
-                adjacencyMatrix[i][j] = adjacency_matrix[i][j];
+    private void generateDijkstra(int[][] matrix, int source) {
+        int node;
+        for (int i = 1; i <= nodes; i++)
+            if (nodes >= 0) System.arraycopy(matrix[i], 1, arrayMatrix[i], 1, nodes);
 
-        for (int i = 1; i <= number_of_nodes; i++)
+        for (int i = 1; i <= nodes; i++)
         {
             distances[i] = Integer.MAX_VALUE;
         }
@@ -43,14 +40,14 @@ public class DijkstraHelper {
         distances[source] = 0;
         while (!unsettled.isEmpty())
         {
-            evaluationNode = getNodeWithMinimumDistanceFromUnsettled();
-            unsettled.remove(evaluationNode);
-            settled.add(evaluationNode);
-            evaluateNeighbours(evaluationNode);
+            node = getMinDisFromUnsettled();
+            unsettled.remove(node);
+            settled.add(node);
+            getMinNode(node);
         }
     }
 
-    private int getNodeWithMinimumDistanceFromUnsettled() {
+    private int getMinDisFromUnsettled() {
         int min ;
         int node;
 
@@ -71,18 +68,15 @@ public class DijkstraHelper {
         return node;
     }
 
-    private void evaluateNeighbours(int evaluationNode) {
-        int edgeDistance;
+    private void getMinNode(int node) {
+        int edge;
         int newDistance;
 
-        for (int destinationNode = 1; destinationNode <= number_of_nodes; destinationNode++)
-        {
-            if (!settled.contains(destinationNode))
-            {
-                if (adjacencyMatrix[evaluationNode][destinationNode] != Integer.MAX_VALUE)
-                {
-                    edgeDistance = adjacencyMatrix[evaluationNode][destinationNode];
-                    newDistance = distances[evaluationNode] + edgeDistance;
+        for (int destinationNode = 1; destinationNode <= nodes; destinationNode++) {
+            if (!settled.contains(destinationNode)) {
+                if (arrayMatrix[node][destinationNode] != Integer.MAX_VALUE) {
+                    edge = arrayMatrix[node][destinationNode];
+                    newDistance = distances[node] + edge;
                     if (newDistance < distances[destinationNode])
                     {
                         distances[destinationNode] = newDistance;
@@ -131,7 +125,7 @@ public class DijkstraHelper {
     private static void checkJadwal(int kelas, int hari) throws SQLException {
         ResultSet rs = SQLHelper.getResultSet("SELECT * FROM jadwal WHERE no_kelas='" + kelas + "' AND no_hari='" + hari + "' ORDER BY no_hari DESC, no_sesi DESC");
 
-        listJadwal = new ArrayList<>();
+        List<Jadwal> listJadwal = new ArrayList<>();
         int no_matkul;
 
         while (rs.next()){
@@ -142,7 +136,7 @@ public class DijkstraHelper {
                     no_matkul == 32 || no_matkul == 33 || no_matkul ==34){
                 System.out.println("Preference Matkul - " + no_matkul);
             } else {
-                jadwal = new Jadwal();
+                Jadwal jadwal = new Jadwal();
                 jadwal.setId(rs.getString("id_jadwal"));
                 jadwal.setRuangan(rs.getString("no_ruangan"));
                 jadwal.setHari(rs.getString("no_hari"));
@@ -154,33 +148,16 @@ public class DijkstraHelper {
 
         System.out.println(listJadwal.toString());
 
-        for (int i=0; i<listJadwal.size(); i++){
-            if (i!=listJadwal.size()-1){
+        for (int i = 0; i< listJadwal.size(); i++){
+            if (i!= listJadwal.size()-1){
                 processDijkstra(Integer.parseInt(listJadwal.get(i).getRuangan()));
                 listJadwal.get(i+1).setRuangan(String.valueOf(ruangan.getDestination()));
                 updateJadwal(Integer.parseInt(listJadwal.get(i+1).getId()), ruangan.getDestination());
             }
-//            if (i != listJadwal.size()-1){
-//                System.out.println("r: " + jadwals.get(i).getRuangan());
-//                processDijkstra(listJadwal.get(i).getRuangan());
-//                listJadwal.get(i+1).setRuangan(ruangan.getDestination());
-//                updateJadwal(jadwals.get(i+1).getId(), ruangan.getDestination());
-//            }
-//            if (i==0){
-//                processDijkstra(jadwals.get(i).getRuangan());
-//                jadwals.get(i+1).setRuangan(ruangan.getDestination());
-//            } else if (i==jadwals.size()-1){
-//                System.out.println("Finish");
-//            } else {
-//                updateJadwal(jadwals.get(i+1).getId(), ruangan.getDestination());
-//                jadwals.get(i+1).setRuangan(ruangan.getDestination());
-//                processDijkstra(jadwals.get(i).getRuangan());
-//            }
         }
     }
 
     private static void updateJadwal(int id, int ruangan){
-        System.out.println("id: " + id + " ruangan: " + ruangan);
         SQLHelper.insertDB("UPDATE ruangan SET status='2' WHERE no='" + ruangan + "'");
         SQLHelper.insertDB("UPDATE jadwal SET no_ruangan='" + ruangan + "' WHERE id_jadwal='" + id + "'");
     }
@@ -216,7 +193,7 @@ public class DijkstraHelper {
             }
 
             DijkstraHelper dijkstrasAlgorithm = new DijkstraHelper(number_of_vertices);
-            dijkstrasAlgorithm.dijkstra_algorithm(adjacency_matrix, source);
+            dijkstrasAlgorithm.generateDijkstra(adjacency_matrix, source);
 
             for (int i = 2; i <= dijkstrasAlgorithm.distances.length - 1; i++){
                 ResultSet resultSet = SQLHelper.getResultSet("SELECT * FROM ruangan WHERE no='" + i + "'");

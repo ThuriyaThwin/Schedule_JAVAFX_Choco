@@ -3,7 +3,6 @@ package controller;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -57,7 +56,7 @@ public class KelolaMatkul implements Initializable {
     private PreparedStatement prs;
     private String id_mata_kuliah = null;
     private int next_id = 0;
-    private int id_kategori;
+    private String id_kategori = null;
 
     /**
      * Initializes the controller class.
@@ -79,19 +78,25 @@ public class KelolaMatkul implements Initializable {
         String jumlah = jumlahField.getText();
         String sks = sksField.getText();
 
-        try {
-            Statement stmt = connec.createStatement();
+        if (checkInput(nama, jumlah, sks, id_kategori)){
+            try {
+                Statement stmt = connec.createStatement();
 
-            String sql = "INSERT INTO matkul (no, nama, sks, jumlah, kategori)"
-                    + "VALUES('" + next_id + "', '" + nama + "', '" + sks + "', '" + jumlah + "', '" + id_kategori + "')";
-            stmt.executeUpdate(sql);
-            stmt.close();
+                String sql = "INSERT INTO matkul (no, nama, sks, jumlah, kategori)"
+                        + "VALUES('" + next_id + "', '" + nama + "', '" + sks + "', '" + jumlah + "', '" + id_kategori + "')";
+                stmt.executeUpdate(sql);
+                stmt.close();
 
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/kelola_matkul.fxml"));
-            kelolaMataKuliahPane.getChildren().setAll(pane);
-            clearText();
-        } catch (Exception e) {
-            e.printStackTrace();
+                AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/kelola_matkul.fxml"));
+                kelolaMataKuliahPane.getChildren().setAll(pane);
+                clearText();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Mata kuliah sudah ada / Data kosong", ButtonType.OK);
+            alert.setTitle("Gagal menambah");
+            alert.showAndWait();
         }
     }
 
@@ -99,27 +104,34 @@ public class KelolaMatkul implements Initializable {
     private void updateMataKuliahAction() {
         String sql = "UPDATE matkul SET nama=?, sks=?, jumlah=?, kategori=? WHERE no=?";
 
-        try {
-            prs = connec.prepareStatement(sql);
-            prs.setString(1, namaField.getText());
-            prs.setString(2, sksField.getText());
-            prs.setString(3, jumlahField.getText());
-            prs.setInt(4, id_kategori);
-            prs.setString(5, id_mata_kuliah);
-            int exec = prs.executeUpdate();
+        if (checkInput(namaField.getText(), jumlahField.getText(), sksField.getText(), id_kategori)){
+            try {
+                prs = connec.prepareStatement(sql);
+                prs.setString(1, namaField.getText());
+                prs.setString(2, sksField.getText());
+                prs.setString(3, jumlahField.getText());
+                prs.setString(4, id_kategori);
+                prs.setString(5, id_mata_kuliah);
+                int exec = prs.executeUpdate();
 
-            if(exec == 1){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update berhasil", ButtonType.OK);
-                alert.setTitle("Update");
-                alert.showAndWait();
-                loadDataFromDatabase();
-                clearText();
+                if(exec == 1){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Berhasil diubah", ButtonType.OK);
+                    alert.setTitle("Mengubah");
+                    alert.showAndWait();
+                    loadDataFromDatabase();
+                    clearText();
+                }
+
+                prs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(KelolaMatkul.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            prs.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(KelolaMatkul.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Semua data harus diisi", ButtonType.OK);
+            alert.setTitle("Gagal mengubah");
+            alert.showAndWait();
         }
+
     }
 
     @FXML
@@ -231,10 +243,28 @@ public class KelolaMatkul implements Initializable {
             ResultSet rs = prs.executeQuery();
 
             while (rs.next()){
-                id_kategori = rs.getInt("no");
+                id_kategori = rs.getString("no");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean checkInput(String nama, String jumlah, String sks, String kategori){
+        String sql = "SELECT * FROM matkul WHERE nama='" + nama + "'";
+        boolean result = true;
+
+        try{
+            prs = connec.prepareStatement(sql);
+            ResultSet rs = prs.executeQuery();
+
+            if (rs.next() || nama.equalsIgnoreCase("") || jumlah.equalsIgnoreCase("") || sks.equalsIgnoreCase("") || kategori == null){
+                result = false;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

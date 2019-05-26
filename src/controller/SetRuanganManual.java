@@ -89,6 +89,8 @@ public class SetRuanganManual implements Initializable {
         hari = FXCollections.observableArrayList();
         sesi = FXCollections.observableArrayList();
 
+        resetHari();
+        resetSesi();
         fillComboBox();
         fillRuangan();
         fromTableToTextField();
@@ -539,6 +541,21 @@ public class SetRuanganManual implements Initializable {
                 prs.close();
 
                 System.out.println("sesi " + i);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erorr");
+        }
+    }
+
+    private void resetHari(){
+        String sql_hari = "UPDATE hari SET status='1' WHERE no=?";
+
+        try {
+            for (int i=1; i<=5; i++){
+                prs = connec.prepareStatement(sql_hari);
+                prs.setInt(1, i);
+                prs.executeUpdate();
+                prs.close();
             }
         } catch (SQLException ex) {
             System.out.println("Erorr");

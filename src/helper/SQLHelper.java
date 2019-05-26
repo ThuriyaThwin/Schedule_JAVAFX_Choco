@@ -45,6 +45,20 @@ public class SQLHelper {
         }
     }
 
+    static ResultSet getResultSetAll(String query) {
+        Connection conn = getConnection();
+        ResultSet rs = null;
+
+        try {
+            Statement state = conn.createStatement();
+            rs = state.executeQuery(query);
+        } catch (SQLException e) {
+            log("Driver loaded, but cannot connect to db " + e.getMessage());
+        }
+
+        return rs;
+    }
+
     private static void log(Object aObject){
         System.out.println(aObject);
     }

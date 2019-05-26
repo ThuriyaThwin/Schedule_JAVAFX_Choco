@@ -37,7 +37,6 @@ public class KelolaKelas implements Initializable {
     @FXML
     private TableColumn<Kelas, String> tblKolomJumlah;
 
-    public AnchorPane pane;
     public Button btnTambah;
     public Button btnUpdate;
     public Button btnHapus;
@@ -73,20 +72,26 @@ public class KelolaKelas implements Initializable {
 
         getMatkulSize();
 
-        try {
-            stmt = connec.createStatement();
+        if (checkInput(nama, jumlah)){
+            try {
+                stmt = connec.createStatement();
 
-            String sql = "INSERT INTO kelas (no, nama, jumlah)"
-                    + "VALUES('" + next_id + "', '" + nama + "', '" + jumlah + "')";
-            stmt.executeUpdate(sql);
-            stmt.close();
+                String sql = "INSERT INTO kelas (no, nama, jumlah)"
+                        + "VALUES('" + next_id + "', '" + nama + "', '" + jumlah + "')";
+                stmt.executeUpdate(sql);
+                stmt.close();
 
-            insertMatkulKelas();
+                insertMatkulKelas();
 
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/kelola_kelas.fxml"));
-            kelolaKelasPane.getChildren().setAll(pane);
-        } catch (Exception e) {
-            e.printStackTrace();
+                AnchorPane pane = FXMLLoader.load(getClass().getResource("/view/kelola_kelas.fxml"));
+                kelolaKelasPane.getChildren().setAll(pane);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Kelas sudah ada / Data kosong", ButtonType.OK);
+            alert.setTitle("Gagal menambah");
+            alert.showAndWait();
         }
     }
 
@@ -237,5 +242,23 @@ public class KelolaKelas implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean checkInput(String nama, String jumlah){
+        String sql = "SELECT * FROM kelas WHERE nama='" + nama + "'";
+        boolean result = true;
+
+        try{
+            prs = connec.prepareStatement(sql);
+            ResultSet rs = prs.executeQuery();
+
+            if (rs.next() || nama.equalsIgnoreCase("") || jumlah.equalsIgnoreCase("")){
+                result = false;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

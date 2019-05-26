@@ -21,7 +21,6 @@ public class CSPHelper2 {
     private String[] sks;
     private String[] jumlah;
     private String[] kapasitas;
-    private String[] kategori;
 
     private Solver problem;
     private IntExp[][][][][] jadwal;
@@ -122,7 +121,7 @@ public class CSPHelper2 {
         matkulLength = matkulArray.length;
         sks = new String[getRowCount(rs)];
         jumlah = new String[getRowCount(rs)];
-        kategori = new String[getRowCount(rs)];
+        String[] kategori = new String[getRowCount(rs)];
         int i = 0;
 
         while (rs.next()) {
