@@ -9,8 +9,10 @@
 4. Open with IntelliJ IDEA
 5. Open **File** > **Project Structure** > **Modules** > **Dependencies**
 6. **Alt** + **Insert** > Choose **JARs or directories...**
-7. Choose the Choco Solver folder
+7. Choose the **Choco Solver library (v2.1.2)** folder
 8. **Alt** + **Insert** > Choose **JARs or directories...**
 9. Choose the **mysql-connector-java** in the **library** folder of project
-10. Apply
-11. Run the project
+10. **Alt** + **Insert** > Choose **JARs or directories...**
+11. Choose the **apache-poi** folder in the **library** folder of project
+12. Apply
+13. Run the project
