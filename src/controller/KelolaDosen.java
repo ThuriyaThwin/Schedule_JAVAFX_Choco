@@ -83,7 +83,7 @@ public class KelolaDosen implements Initializable {
                 e.printStackTrace();
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Dosen sudah ada", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Dosen sudah ada / Data kosong", ButtonType.OK);
             alert.setTitle("Gagal menambah");
             alert.showAndWait();
         }

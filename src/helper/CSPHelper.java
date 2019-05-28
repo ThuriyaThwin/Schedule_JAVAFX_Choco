@@ -5,6 +5,8 @@ import choco.kernel.solver.Solver;
 import choco.kernel.solver.SolverException;
 import choco.kernel.solver.constraints.integer.IntExp;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -19,10 +21,9 @@ public class CSPHelper {
     private String[] sks;
     private String[] jumlah;
     private String[] kapasitas;
-    private String[] kategori;
 
     private Solver problem;
-    private IntExp[][][][][][] jadwal;
+    private IntExp[][][][][] jadwal;
 
     private int dosenLength;
     private int matkulLength;
@@ -37,7 +38,7 @@ public class CSPHelper {
         problem = new CPSolver();
     }
 
-    public static void main() {
+    public static void main() throws SQLException {
         CSPHelper def = new CSPHelper();
 
         try {
@@ -120,7 +121,7 @@ public class CSPHelper {
         matkulLength = matkulArray.length;
         sks = new String[getRowCount(rs)];
         jumlah = new String[getRowCount(rs)];
-        kategori = new String[getRowCount(rs)];
+        String[] kategori = new String[getRowCount(rs)];
         int i = 0;
 
         while (rs.next()) {
@@ -203,7 +204,7 @@ public class CSPHelper {
 
 
     private void setDomain(){
-        jadwal = new IntExp[dosenLength][matkulLength][kelasLength][hariLength][sesiLength][1];
+        jadwal = new IntExp[dosenLength][matkulLength][kelasLength][hariLength][sesiLength];
 
         int count = 0;
         for (int d=0; d<dosenLength; d++){
@@ -211,7 +212,7 @@ public class CSPHelper {
                 for (int k=0; k<kelasLength; k++){
                     for (int h=0; h<hariLength; h++){
                         for (int s=0; s<sesiLength; s++){
-                            jadwal[d][m][k][h][s][0] =
+                            jadwal[d][m][k][h][s] =
                                     problem.createEnumIntVar(
                                             "jadwal[" + d + "]" +
                                                     "[" + m + "]" +
@@ -239,10 +240,10 @@ public class CSPHelper {
                 for (int k=0; k<kelasLength; k++){
                     for (int h=0; h<hariLength; h++){
                         for (int s=0; s<sesiLength; s++){
-                            problem.post(problem.geq(jadwal[d][m][k][h][s][0], 0));
-                            problem.post(problem.leq(jadwal[d][m][k][h][s][0], 1));
-                            problem.post(problem.leq(jadwal[d][m][k][h][s][0], Integer.parseInt(dosen_matkul[d][m])));
-                            problem.post(problem.leq(jadwal[d][m][k][h][s][0], Integer.parseInt(matkul_kelas[m][k])));
+                            problem.post(problem.geq(jadwal[d][m][k][h][s], 0));
+                            problem.post(problem.leq(jadwal[d][m][k][h][s], 1));
+                            problem.post(problem.leq(jadwal[d][m][k][h][s], Integer.parseInt(dosen_matkul[d][m])));
+                            problem.post(problem.leq(jadwal[d][m][k][h][s], Integer.parseInt(matkul_kelas[m][k])));
 
                             System.out.println("Rel-" + count);
                             count++;
@@ -254,10 +255,8 @@ public class CSPHelper {
 
     }
 
-    private void setVarConstraint(){
-        /*
-            Constraint for number 1
-         */
+    private void setVarConstraint() throws SQLException {
+        // Constraint for number 1
         int count = 0;
         IntExp constraint1;
         for (int d=0; d<dosenLength; d++){
@@ -268,12 +267,21 @@ public class CSPHelper {
                     for (int m=0; m<matkulLength; m++){
                         for (int k=0; k<kelasLength; k++) {
                             if (constraint1 == null)
-                                constraint1 = jadwal[d][m][k][h][s][0];
+                                constraint1 = jadwal[d][m][k][h][s];
                             else
-                                constraint1 = problem.plus(constraint1, jadwal[d][m][k][h][s][0]);
+                                constraint1 = problem.plus(constraint1, jadwal[d][m][k][h][s]);
 
                             System.out.println("Var[1]-" + count);
                             count++;
+//                            if (kategori[m].equalsIgnoreCase("1")){
+//                                if (constraint1 == null)
+//                                    constraint1 = jadwal[d][m][k][h][s];
+//                                else
+//                                    constraint1 = problem.plus(constraint1, jadwal[d][m][k][h][s]);
+//
+//                                System.out.println("Var[1]-" + count);
+//                                count++;
+//                             }
                         }
                     }
 
@@ -282,9 +290,32 @@ public class CSPHelper {
             }
         }
 
-        /*
-            Constraint for number 2 & 3
-         */
+//        IntExp con;
+//        for (int d=0; d<dosenLength; d++){
+//            for (int h = 0; h < hariLength; h++) {
+//                for (int s = 0; s < sesiLength; s++) {
+//                    con = null;
+//
+//                    for (int m=0; m<matkulLength; m++){
+//                        for (int k=0; k<kelasLength; k++) {
+//                            if (kategori[m].equalsIgnoreCase("2")){
+//                                if (con == null)
+//                                    con = jadwal[d][m][k][h][s];
+//                                else
+//                                    con = problem.plus(con, jadwal[d][m][k][h][s]);
+//
+//                                System.out.println("Var[1]-" + count);
+//                                count++;
+//                            }
+//                        }
+//                    }
+//
+//                    problem.post(problem.leq(con, 1));
+//                }
+//            }
+//        }
+
+        // Constraint for number 2 & 3
         count = 0 ;
         IntExp constraint2;
         for (int k=0; k<kelasLength; k++) {
@@ -295,9 +326,9 @@ public class CSPHelper {
                     for (int m=0; m<matkulLength; m++){
                         for (int d=0; d<dosenLength; d++){
                             if (constraint2 == null)
-                                constraint2 = jadwal[d][m][k][h][s][0];
+                                constraint2 = jadwal[d][m][k][h][s];
                             else
-                                constraint2 = problem.plus(constraint2, jadwal[d][m][k][h][s][0]);
+                                constraint2 = problem.plus(constraint2, jadwal[d][m][k][h][s]);
 
                             System.out.println("Var[2]-" + count);
                             count++;
@@ -309,9 +340,7 @@ public class CSPHelper {
             }
         }
 
-        /*
-            Constraint SKS for number 5
-         */
+        // Constraint for number 5
         IntExp constraint5;
         count = 0;
         for (int m=0; m<matkulLength; m++){
@@ -322,9 +351,9 @@ public class CSPHelper {
                     for (int h=0; h<hariLength; h++){
                         for (int s=0; s<sesiLength; s++){
                             if (constraint5 == null)
-                                constraint5 = jadwal[d][m][k][h][s][0];
+                                constraint5 = jadwal[d][m][k][h][s];
                             else
-                                constraint5 = problem.plus(constraint5, jadwal[d][m][k][h][s][0]);
+                                constraint5 = problem.plus(constraint5, jadwal[d][m][k][h][s]);
 
                             System.out.println("Var[5]-" + count);
                             count++;
@@ -336,9 +365,7 @@ public class CSPHelper {
             problem.post(problem.eq(constraint5, Integer.parseInt(sks[m])));
         }
 
-        /*
-            Constraint for number 7
-         */
+        // Constraint for number 7
         IntExp constraint7;
         count = 0;
         for (int m=0; m<matkulLength; m++){
@@ -349,69 +376,83 @@ public class CSPHelper {
                     for (int d = 0; d < dosenLength; d++) {
                         for (int s = 0; s < sesiLength; s++) {
                             if (constraint7 == null)
-                                constraint7 = jadwal[d][m][k][h][s][0];
+                                constraint7 = jadwal[d][m][k][h][s];
                             else
-                                constraint7 = problem.plus(constraint7, jadwal[d][m][k][h][s][0]);
+                                constraint7 = problem.plus(constraint7, jadwal[d][m][k][h][s]);
+
+                            System.out.println("Var[7]-" + count);
+                            count++;
                         }
                     }
 
                     problem.post(problem.leq(constraint7, 2));
-//                    if(kategori[m].equalsIgnoreCase("1")){
-//                        constraint7 = null;
-//
-//                        for (int d = 0; d < dosenLength; d++) {
-//                            for (int s = 0; s < sesiLength; s++) {
-//                                if (constraint7 == null)
-//                                    constraint7 = jadwal[d][m][k][h][s][0];
-//                                else
-//                                    constraint7 = problem.plus(constraint7, jadwal[d][m][k][h][s][0]);
-//                            }
-//                        }
-//
-//                        problem.post(problem.geq(constraint7, 0));
-//                        problem.post(problem.leq(constraint7, 1));
-//                    } else {
-//                        constraint7 = null;
-//
-//                        for (int d = 0; d < dosenLength; d++) {
-//                            for (int s = 0; s < sesiLength; s++) {
-//                                if (constraint7 == null)
-//                                    constraint7 = jadwal[d][m][k][h][s][0];
-//                                else
-//                                    constraint7 = problem.plus(constraint7, jadwal[d][m][k][h][s][0]);
-//                            }
-//                        }
-//
-//                        problem.post(problem.geq(constraint7, 0));
-//                        problem.post(problem.leq(constraint7, 2));
-//                    }
                 }
             }
         }
 
-//        IntExp constraint8;
-//        count = 0;
-//        for (int m=0; m<matkulLength; m++){
-//            for (int h = 0; h<hariLength; h++) {
-//
-//                if (kategori[m].equalsIgnoreCase("2")) {
-//                    constraint8 = null;
-//
-//                    for (int d = 0; d < dosenLength; d++) {
-//                        for (int k = 0; k < kelasLength; k++) {
-//                            for (int s = 0; s < sesiLength; s++) {
-//                                if (constraint8 == null)
-//                                    constraint8 = jadwal[d][m][k][h][s][0];
-//                                else
-//                                    constraint8 = problem.plus(constraint8, jadwal[d][m][k][h][s][0]);
-//                            }
-//                        }
-//                    }
-//
-//                    problem.post(problem.geq(constraint8, 2));
-//                }
-//            }
-//        }
+        IntExp constraint8;
+        count = 0;
+        for (int k=0; k<kelasLength; k++) {
+            for (int h = 0; h < hariLength; h++) {
+                constraint8 = null;
+
+                for (int d = 0; d < dosenLength; d++) {
+                    for (int m=0; m<matkulLength; m++) {
+                        for (int s = 0; s < sesiLength; s++) {
+                            if (constraint8 == null)
+                                constraint8 = jadwal[d][m][k][h][s];
+                            else
+                                constraint8 = problem.plus(constraint8, jadwal[d][m][k][h][s]);
+
+                            System.out.println("Var[8]-" + count);
+                            count++;
+                        }
+                    }
+                }
+
+                problem.post(problem.leq(constraint8, 7));
+            }
+        }
+
+        String url;
+
+        Connection connection = SQLHelper.getConnection();
+        DatabaseMetaData databaseMetaData;
+        databaseMetaData = connection.getMetaData();
+        url = databaseMetaData.getURL();
+
+        String[] id = (url.split("/"));
+
+        int length = id.length;
+        url = id[length-1];
+
+        System.out.println("db : " + url);
+
+        IntExp constraint9;
+        count = 0;
+        if (url.equalsIgnoreCase("ftb_temp") || url.equalsIgnoreCase("penjadwalan_ftb") || url.equalsIgnoreCase("penjadwalan_fti")){
+            for (int h = 0; h<hariLength; h++) {
+                for (int s = 0; s<sesiLength; s++) {
+                    constraint9 = null;
+
+                    for (int d = 0; d<dosenLength; d++) {
+                        for (int m=0; m<matkulLength; m++) {
+                            for (int k=0; k<kelasLength; k++) {
+                                if (constraint9 == null)
+                                    constraint9 = jadwal[d][m][k][h][s];
+                                else
+                                    constraint9 = problem.plus(constraint9, jadwal[d][m][k][h][s]);
+
+                                System.out.println("Var[9]-" + count);
+                                count++;
+                            }
+                        }
+                    }
+
+                    problem.post(problem.leq(constraint9, 3));
+                }
+            }
+        }
     }
 
     private void solveConstraint(){
@@ -431,14 +472,14 @@ public class CSPHelper {
                 for (int k=0; k<kelasLength; k++){
                     for (int h=0; h<hariLength; h++) {
                         for (int s=0; s<sesiLength; s++){
-                            if (jadwal[d][m][k][h][s][0].toString().substring(jadwal[d][m][k][h][s][0].toString().length() - 1).equals("1")) {
+                            if (jadwal[d][m][k][h][s].toString().substring(jadwal[d][m][k][h][s].toString().length() - 1).equals("1")) {
                                 System.out.println(
                                         "jadwal[" + dosen[d] + "]" +
                                                 "[" + matkulArray[m] + "]" +
                                                 "[" + kelas[k] + "]" +
                                                 "[" + hari[h] + "]" +
                                                 "[" + sesi[s] + "] " +
-                                                jadwal[d][m][k][h][s][0]
+                                                jadwal[d][m][k][h][s]
                                 );
 
                                 String sql = "INSERT INTO jadwal (no_dosen, no_matkul, no_kelas, no_hari, no_sesi, no_ruangan)"
@@ -484,7 +525,7 @@ public class CSPHelper {
         ResultSet rs = SQLHelper.getResultSet("SELECT * FROM jadwal ORDER BY id_jadwal");
 
         int no_matkul;
-        int kategori = 0;
+        int kategori;
 
         while (rs.next()) {
             no_matkul = rs.getInt("no_matkul");

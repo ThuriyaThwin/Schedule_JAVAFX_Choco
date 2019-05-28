@@ -1062,7 +1062,7 @@ CREATE TABLE `jadwal` (
   CONSTRAINT `fk_jadwalmatkul` FOREIGN KEY (`no_matkul`) REFERENCES `matkul` (`no`),
   CONSTRAINT `fk_jadwalruangan` FOREIGN KEY (`no_ruangan`) REFERENCES `ruangan` (`no`),
   CONSTRAINT `fk_jadwalsesi` FOREIGN KEY (`no_sesi`) REFERENCES `sesi` (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `jadwal` */
 
@@ -1074,13 +1074,14 @@ CREATE TABLE `kategori` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `kategori` */
 
 insert  into `kategori`(`no`,`nama`) values 
 (1,'Teori'),
-(2,'Praktikum');
+(2,'Praktikum'),
+(3,'Teori-Praktikum');
 
 /*Table structure for table `kelas` */
 
@@ -1116,53 +1117,72 @@ CREATE TABLE `matkul` (
   `nama` varchar(225) DEFAULT NULL,
   `sks` int(20) DEFAULT NULL,
   `jumlah` int(20) DEFAULT NULL,
-  PRIMARY KEY (`no`)
+  `kategori` int(11) DEFAULT NULL,
+  PRIMARY KEY (`no`),
+  KEY `fk_matkul_kategri` (`kategori`),
+  CONSTRAINT `fk_matkul_kategri` FOREIGN KEY (`kategori`) REFERENCES `kategori` (`no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 
 /*Data for the table `matkul` */
 
-insert  into `matkul`(`no`,`nama`,`sks`,`jumlah`) values 
-(1,'ING I',2,58),
-(2,'MATDIS 41TI',3,29),
-(3,'OAK',3,58),
-(4,'DASPRO',3,58),
-(5,'PSW',3,58),
-(6,'PTI',2,58),
-(7,'BASDAT',3,30),
-(8,'PABI',4,30),
-(9,'DACOM',2,30),
-(10,'ANJAR I',3,30),
-(11,'MMPE',3,30),
-(12,'ING V',2,27),
-(13,'ADJAR',3,27),
-(14,'PIC',4,27),
-(15,'SISTAN',3,27),
-(16,'ANJAR II',3,27),
-(17,'PSW I',3,60),
-(18,'SISOP',2,60),
-(19,'DEL CHA',2,60),
-(20,'SBD',3,60),
-(21,'KREN',3,60),
-(22,'AOK',3,60),
-(23,'ALU',3,28),
-(24,'PROBSTAT',3,28),
-(25,'IND',2,28),
-(26,'PRPL',3,29),
-(27,'ING III',2,30),
-(28,'OOSD',4,30),
-(29,'PAP',3,30),
-(30,'PG',3,30),
-(31,'KEPAL',3,26),
-(32,'METPEN',3,26),
-(33,'DETING',2,26),
-(34,'APPEL',3,30),
-(35,'MANPRO',3,30),
-(36,'KUPEL',2,30),
-(37,'WIRA',2,30),
-(38,'BPR',2,30),
-(39,'MAIN',2,30),
-(40,'TA I',3,30),
-(41,'MATDIS 31TK',3,60);
+insert  into `matkul`(`no`,`nama`,`sks`,`jumlah`,`kategori`) values 
+(1,'ING I',2,58,1),
+(2,'MATDIS 41TI',3,29,1),
+(3,'OAK',3,58,1),
+(4,'DASPRO',3,58,1),
+(5,'PSW',3,58,1),
+(6,'PTI',2,58,1),
+(7,'BASDAT',3,30,1),
+(8,'PABI',4,30,1),
+(9,'DACOM',2,30,1),
+(10,'ANJAR I',3,30,1),
+(11,'MMPE',3,30,1),
+(12,'ING V',2,27,1),
+(13,'ADJAR',3,27,1),
+(14,'PIC',4,27,1),
+(15,'SISTAN',3,27,1),
+(16,'ANJAR II',3,27,1),
+(17,'PSW I',3,60,1),
+(18,'SISOP',2,60,1),
+(19,'DEL CHA',2,60,1),
+(20,'SBD',3,60,1),
+(21,'KREN',3,60,1),
+(22,'AOK',3,60,1),
+(23,'ALU',3,28,1),
+(24,'PROBSTAT',3,28,1),
+(25,'IND',2,28,1),
+(26,'PRPL',3,29,1),
+(27,'ING III',2,30,1),
+(28,'OOSD',4,30,1),
+(29,'PAP',3,30,1),
+(30,'PG',3,30,1),
+(31,'KEPAL',3,26,1),
+(32,'METPEN',3,26,1),
+(33,'DETING',2,26,1),
+(34,'APPEL',3,90,1),
+(35,'MANPRO',3,30,1),
+(36,'KUPEL',2,30,1),
+(37,'WIRA',2,30,1),
+(38,'BPR',2,30,1),
+(39,'MAIN',2,30,1),
+(40,'TA I',3,30,1),
+(41,'MATDIS 31TK',3,60,1);
+
+/*Table structure for table `matkul_kategori` */
+
+DROP TABLE IF EXISTS `matkul_kategori`;
+
+CREATE TABLE `matkul_kategori` (
+  `no_matkul` int(11) DEFAULT NULL,
+  `no_kategori` int(11) DEFAULT NULL,
+  `nilai` int(1) DEFAULT NULL,
+  KEY `fk_mk1` (`no_matkul`),
+  KEY `fk_mk2` (`no_kategori`),
+  CONSTRAINT `fk_mk1` FOREIGN KEY (`no_matkul`) REFERENCES `matkul` (`no`),
+  CONSTRAINT `fk_mk2` FOREIGN KEY (`no_kategori`) REFERENCES `kategori` (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `matkul_kategori` */
 
 /*Table structure for table `matkul_kelas` */
 
@@ -1600,33 +1620,38 @@ CREATE TABLE `ruangan` (
   `no` int(20) NOT NULL AUTO_INCREMENT,
   `nama` varchar(225) DEFAULT NULL,
   `kapasitas` int(20) DEFAULT NULL,
-  PRIMARY KEY (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+  `status` int(11) DEFAULT NULL,
+  `kategori` int(11) DEFAULT NULL,
+  PRIMARY KEY (`no`),
+  KEY `fk_ruangankategori` (`kategori`),
+  CONSTRAINT `fk_ruangankategori` FOREIGN KEY (`kategori`) REFERENCES `kategori` (`no`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 /*Data for the table `ruangan` */
 
-insert  into `ruangan`(`no`,`nama`,`kapasitas`) values 
-(1,'GD513',30),
-(2,'GD514',30),
-(3,'GD515',30),
-(4,'GD516',60),
-(5,'GD524',30),
-(6,'GD525',30),
-(7,'GD526',30),
-(8,'GD711',60),
-(9,'GD712',30),
-(10,'GD713',30),
-(11,'GD714',60),
-(12,'GD721',60),
-(13,'GD722',120),
-(14,'GD723',60),
-(15,'GD724',30),
-(16,'GD725',30),
-(17,'GD726',30),
-(18,'GD912',60),
-(19,'GD922',60),
-(20,'GD923',60),
-(21,'AUD',200);
+insert  into `ruangan`(`no`,`nama`,`kapasitas`,`status`,`kategori`) values 
+(1,'GD513',30,2,1),
+(2,'GD514',30,2,1),
+(3,'GD515',30,2,1),
+(4,'GD516',60,2,1),
+(5,'GD524',30,2,1),
+(6,'GD525',30,2,1),
+(7,'GD526',30,2,1),
+(8,'GD711',60,2,1),
+(9,'GD712',30,2,1),
+(10,'GD713',30,2,1),
+(11,'GD714',60,2,1),
+(12,'GD721',60,2,1),
+(13,'GD722',120,2,1),
+(14,'GD723',60,2,1),
+(15,'GD724',30,2,1),
+(16,'GD725',30,2,1),
+(17,'GD726',30,2,1),
+(18,'GD912',60,2,1),
+(19,'GD922',60,2,1),
+(20,'GD923',60,2,1),
+(21,'AUD',200,2,1),
+(22,'Belum di-set',0,3,NULL);
 
 /*Table structure for table `sesi` */
 

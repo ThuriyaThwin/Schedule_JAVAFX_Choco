@@ -8,7 +8,7 @@ public class SQLHelper {
 
     public static Connection getConnection(){
         try {
-            String url="jdbc:mysql://localhost/penjadwalan_ftb";
+            String url="jdbc:mysql://localhost/ftb_temp";
             String user="root";
             String pass="";
 

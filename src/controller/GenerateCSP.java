@@ -1,7 +1,7 @@
 package controller;
 
 import helper.AutoCompleteBoxHelper;
-import helper.CSPHelper2;
+import helper.CSPHelper;
 import helper.SQLHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -377,7 +377,7 @@ public class GenerateCSP implements Initializable {
         resetRuangan();
         resetHari();
         resetSesi();
-        CSPHelper2.main();
+        CSPHelper.main();
         setPreference();
         toDijkstra();
     }

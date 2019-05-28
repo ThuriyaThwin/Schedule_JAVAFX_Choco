@@ -27,8 +27,8 @@
         <TableView fx:id="tblDataMataKuliah" layoutX="233.0" layoutY="109.0" prefHeight="386.0" prefWidth="533.0">
             <columns>
                 <TableColumn fx:id="tblKolomNama" prefWidth="152.0" text="Nama" />
-                <TableColumn fx:id="tblKolomSKS" minWidth="3.0" prefWidth="104.0" text="SKS" />
-                <TableColumn fx:id="tblKolomJumlah" prefWidth="150.0" text="Jumlah" />
+                <TableColumn fx:id="tblKolomSKS" minWidth="3.0" prefWidth="104.0" text="Pertemuan" />
+                <TableColumn fx:id="tblKolomJumlah" prefWidth="150.0" text="Mahasiswa" />
                 <TableColumn fx:id="tblKolomKategori" prefWidth="126.0" text="Kategori" />
             </columns>
         </TableView>
